@@ -173,7 +173,12 @@ tr:hover td{background:rgba(255,255,255,.02)}
       </div>
       <div class="wizard-field">
         <label>Ruta del archivo en Dropbox</label>
-        <input type="text" id="wiz-path" placeholder="/MCHA.xlsm" value="/MCHA.xlsm">
+        <input type="text" id="wiz-path" placeholder="/MCHA/02_LAYOUTS_DIARIAS/MCHA.xlsm">
+      </div>
+      <div class="wizard-field" style="border-top:0.5px solid rgba(255,255,255,0.1);padding-top:12px;margin-top:4px">
+        <label>O enlace compartido (si la ruta da error)</label>
+        <input type="text" id="wiz-shared" placeholder="https://www.dropbox.com/scl/fi/...">
+        <span style="font-size:11px;color:var(--muted);margin-top:3px;display:block">Dropbox web → clic derecho archivo → Compartir → Copiar enlace</span>
       </div>
     </div>
     <button class="wizard-btn" onclick="wizardConnect()">Conectar y cargar datos →</button>
@@ -329,28 +334,35 @@ async function syncNow(){
   document.getElementById('sync-btn').disabled=true;
 
   try {
-    const res = await fetch('https://content.dropboxapi.com/2/files/download', {
-      method:'POST',
-      headers:{
-        'Authorization':`Bearer ${tok}`,
-        'Dropbox-API-Arg': JSON.stringify({path: pth})
-      }
-    });
-    if (!res.ok){
-      const e = await res.json().catch(()=>({}));
-      throw new Error(e?.error_summary || `HTTP ${res.status}`);
-    }
-    const buf = await res.arrayBuffer();
-    const wb = XLSX.read(buf, {type:'array', cellDates:true});
-    const parsed = parseWorkbook(wb);
-    renderAll(parsed);
-    setStatus('connected','Sincronizado · ' + new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'}));
-  } catch(err) {
-    console.error(err);
-    setStatus('error','Error: ' + err.message);
-    // Si hay datos previos, los mantenemos
-    if (!DATA) renderAll(FALLBACK);
+    const DURL = 'https://content.dropboxapi.com/2/files/download';
+  const DHDRS = {'Authorization':`Bearer ${tok}`,'Dropbox-API-Arg':JSON.stringify({path:pth})};
+  const sharedLink = localStorage.getItem('mcha_shared_link');
+
+  const strategies = [
+    async () => { const r=await fetch(DURL,{method:'POST',headers:DHDRS}); if(!r.ok)throw new Error((await r.json().catch(()=>({}))).error_summary||`HTTP ${r.status}`); return r.arrayBuffer(); },
+    async () => { const r=await fetch(`https://corsproxy.io/?url=${encodeURIComponent(DURL)}`,{method:'POST',headers:DHDRS}); if(!r.ok)throw new Error(`proxy1 HTTP ${r.status}`); return r.arrayBuffer(); },
+    async () => { const r=await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(DURL)}`,{method:'POST',headers:DHDRS}); if(!r.ok)throw new Error(`proxy2 HTTP ${r.status}`); return r.arrayBuffer(); },
+    sharedLink ? async () => {
+      const dl=sharedLink.replace('www.dropbox.com','dl.dropboxusercontent.com').replace('?dl=0','').replace(/[?&]rlkey/,'?raw=1&rlkey');
+      const r=await fetch(`https://corsproxy.io/?url=${encodeURIComponent(dl)}`);
+      if(!r.ok)throw new Error(`shared HTTP ${r.status}`);
+      return r.arrayBuffer();
+    } : null,
+  ].filter(Boolean);
+
+  let lastErr=null;
+  for(const s of strategies){
+    try{
+      const buf=await s();
+      const wb=XLSX.read(buf,{type:'array',cellDates:true});
+      renderAll(parseWorkbook(wb));
+      setStatus('connected','Sincronizado · '+new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'}));
+      document.getElementById('sync-btn').disabled=false;
+      return;
+    }catch(e){ console.warn('strategy failed:',e.message); lastErr=e; }
   }
+  setStatus('error',lastErr?.message||'Error de conexión');
+  if(!DATA) renderAll(FALLBACK);
   document.getElementById('sync-btn').disabled=false;
 }
 
