@@ -52,11 +52,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 .wiz-field input:focus{border-color:var(--blue)}.wiz-field input::placeholder{color:var(--dim)}
 .wiz-btn{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:10px;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;width:100%}
 .wiz-skip{font-size:12px;color:var(--muted);margin-top:10px;display:block;cursor:pointer;background:none;border:none;width:100%;text-align:center}
-.nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;display:flex;gap:2px}
+.nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;display:flex;gap:2px;position:sticky;top:52px;z-index:90}
 .nav-tab{padding:10px 16px;font-size:12px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;background:none;border-top:none;border-left:none;border-right:none}
 .nav-tab:hover{color:var(--text)}.nav-tab.active{color:var(--blue);border-bottom-color:var(--blue)}
-/* Filtros bar */
-.filter-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:12px 24px;background:var(--surface);border-bottom:1px solid var(--border)}
+.filter-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 24px;background:var(--surface2);border-bottom:1px solid var(--border);position:sticky;top:94px;z-index:80}
 .filter-bar label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
 .f-select{background:var(--surface2);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:inherit;font-size:12px;padding:5px 10px;outline:none;cursor:pointer}
 .f-select:focus{border-color:var(--blue)}
@@ -69,8 +68,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 .kpi-val{font-size:28px;font-weight:700;letter-spacing:-1px;line-height:1}
 .kpi-val.blue{color:var(--blue)}.kpi-val.green{color:var(--green)}.kpi-val.amber{color:var(--amber)}
 .kpi-sub{font-size:11px;color:var(--muted);margin-top:5px}
-/* Gráficos fijos */
-.charts-fixed{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;position:sticky;top:52px;z-index:50;background:var(--bg);padding-top:4px}
+.charts-fixed{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
 .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:14px}
@@ -207,7 +205,14 @@ tr:last-child td{border-bottom:none}tr:hover td{background:rgba(255,255,255,.02)
     <div class="grid3" id="st-mini" style="margin-bottom:0"></div>
   </div>
   <div class="card">
-    <div class="card-hdr"><span class="card-title">Resumen por material</span><input class="search-input" style="width:180px" placeholder="Filtrar..." oninput="filterStock(this.value)"></div>
+    <div class="card-hdr">
+      <span class="card-title">Resumen por material</span>
+      <div style="display:flex;gap:8px;align-items:center">
+        <select class="f-select" id="stock-mat-sel" onchange="filterStockByMat(this.value)"><option value="">Todos los materiales</option></select>
+        <span id="stock-avg-badge" style="display:none;font-size:11px;padding:3px 10px;border-radius:20px;background:var(--blue-dim);color:var(--blue)"></span>
+        <input class="search-input" style="width:160px" placeholder="Buscar..." oninput="filterStock(this.value)">
+      </div>
+    </div>
     <div class="tbl-wrap"><table><thead><tr><th>Material</th><th>Dimensiones</th><th>Stock actual</th><th>Stock mínimo</th><th>Repos.</th></tr></thead><tbody id="tb-stock"></tbody></table></div>
   </div>
 </div>
@@ -411,6 +416,9 @@ function parseData(csvLayouts,csvOF,csvStock){
     var r=lRows[i];
     var id=iId>=0?r[iId]||'':''; if(!id||id==='ID Layout') continue;
     var fechaFin=iFf>=0?excelDateToISO(r[iFf]):'';
+    // Pendiente = no tiene T.real (no se ha cortado aún) aunque tenga fecha inicio
+    var tReal=iTr>=0?r[iTr]||'':'';
+    var esPendiente = !tReal || tReal==='' || parseFloat(String(tReal).replace(',','.'))===0;
     var obj={
       id:id, material:iMat>=0?r[iMat]||'':'',
       capas:iCap>=0?parseInt(r[iCap])||0:0,
@@ -423,7 +431,7 @@ function parseData(csvLayouts,csvOF,csvStock){
       fecha_fin:fechaFin,
       obs:iObs>=0?r[iObs]||'':''
     };
-    if(!fechaFin) pending.push(obj); else finished.push(obj);
+    if(esPendiente) pending.push(obj); else finished.push(obj);
   }
 
   // Tiempo pendiente: suma T. teórico de todos los pendientes
@@ -651,10 +659,20 @@ function renderAll(d){
   updateCharts(d.consumo_material, d.aluminio_dist, d.pvc_dist, d.consumo_mensual);
 
   // Stock
-  var top3=d.stock.filter(function(s){return!s.necesita;}).slice(0,3);
-  document.getElementById('st-kpis').innerHTML=top3.map(function(s,i){
-    return '<div class="kpi"><div class="kpi-lbl">'+s.material+' <span style="color:var(--dim)">'+s.dimensiones+'</span></div>'
-          +'<div class="kpi-val" style="color:'+['#4a9eff','#3dd68c','#a78bfa'][i]+'">'+s.stock_actual+'</div>'
+  // Tarjetas fijas: Pvc 1mm 3000x1500, Pvc 1,5mm 3000x1500, Aluminio 2mm 3000x1500
+  var kpiTargets=[
+    {mat:'Pvc 1mm', dim:'3000x1500', label:'PVC 1', color:'#4a9eff'},
+    {mat:'Pvc 1,5mm', dim:'3000x1500', label:'PVC 1,5', color:'#3dd68c'},
+    {mat:'Aluminio 2mm', dim:'3000x1500', label:'Aluminio 2mm', color:'#a78bfa'}
+  ];
+  document.getElementById('st-kpis').innerHTML=kpiTargets.map(function(t){
+    var found=d.stock.find(function(s){
+      return s.material===t.mat && s.dimensiones===t.dim;
+    });
+    var val=found?found.stock_actual:'—';
+    var needsRep=found?found.necesita:false;
+    return '<div class="kpi"><div class="kpi-lbl">'+t.label+'</div>'
+          +'<div class="kpi-val" style="color:'+(needsRep?'var(--red)':t.color)+'">'+val+'</div>'
           +'<div class="kpi-sub">Stock total actual</div></div>';
   }).join('');
   var crit=d.stock.filter(function(s){return s.necesita;});
@@ -677,6 +695,9 @@ function renderAll(d){
   finData=[].concat(d.layouts_finalizados); renderFin(finData);
   ofData=[].concat(d.of_pendientes); renderOF(ofData);
   stockData=[].concat(d.stock); renderStock(stockData);
+  var smats=[...new Set(d.stock.map(function(s){return s.material;}))].sort();
+  var ssel=document.getElementById('stock-mat-sel');
+  if(ssel){ssel.innerHTML='<option value="">Todos los materiales</option>'+smats.map(function(m){return '<option value="'+m+'">'+m+'</option>';}).join('');}
   filtros={anio:'',mes:'',material:'',operario:''};
 }
 
@@ -723,6 +744,23 @@ function filterPend(q){var l=q.toLowerCase();renderPend(pendData.filter(function
 function filterFin(q){var l=q.toLowerCase();renderFin(finData.filter(function(r){return Object.values(r).join(' ').toLowerCase().includes(l);}));}
 function filterOF(q){var l=q.toLowerCase();renderOF(ofData.filter(function(r){return Object.values(r).join(' ').toLowerCase().includes(l);}));}
 function filterStock(q){var l=q.toLowerCase();renderStock(stockData.filter(function(r){return(r.material+r.dimensiones).toLowerCase().includes(l);}));}
+function filterStockByMat(mat){
+  var badge=document.getElementById('stock-avg-badge');
+  if(!mat){
+    renderStock(stockData);
+    if(badge) badge.style.display='none';
+    return;
+  }
+  var rows=stockData.filter(function(r){return r.material===mat;});
+  renderStock(rows);
+  // Calcular promedio de stock actual para ese material
+  if(rows.length>0 && badge){
+    var sum=rows.reduce(function(s,r){return s+r.stock_actual;},0);
+    var avg=Math.round(sum/rows.length*10)/10;
+    badge.textContent='Promedio: '+avg+' uds';
+    badge.style.display='inline';
+  }
+}
 
 function showSec(id,el){
   document.querySelectorAll('.sec').forEach(function(s){s.classList.remove('active');});
