@@ -202,9 +202,10 @@ tr:last-child td{border-bottom:none}tr:hover td{background:rgba(255,255,255,.025
 
 <!-- STOCK -->
 <div id="sec-stock" class="sec">
+  <div class="kpi-row" id="st-kpis-top" style="grid-template-columns:repeat(3,1fr);margin-bottom:14px"></div>
   <div style="display:grid;grid-template-columns:1fr 2fr;gap:14px;margin-bottom:14px;align-items:start">
-    <div class="grid3" id="st-kpis" style="grid-column:1;display:flex;flex-direction:column;gap:12px"></div>
-    <div class="card" style="margin-bottom:0;grid-column:2">
+    <div id="st-kpis" style="display:flex;flex-direction:column;gap:12px"></div>
+    <div class="card" style="margin-bottom:0">
       <div class="card-hdr">
         <span class="card-title">Corte de planchas completas por mes</span>
         <select class="f-select" id="stock-chart-mat" onchange="setStockChartMat(this.value)"><option value="">Todos</option></select>
@@ -262,6 +263,9 @@ tr:last-child td{border-bottom:none}tr:hover td{background:rgba(255,255,255,.025
       <span class="bdg bdg-green" id="bdg-of-fin">—</span>
       <select class="f-select" id="of-mat-fin" onchange="filterOFFin(this.value)"><option value="">Todos los materiales</option></select>
     </div>
+    <div class="search-bar">
+      <input class="search-input" placeholder="Buscar por OF, referencia, fecha, layout..." oninput="searchOFFin(this.value)">
+    </div>
     <div class="tbl-wrap"><table>
       <thead><tr><th>ID Layout</th><th>Material</th><th>OF</th><th>Referencia</th><th>Uds</th><th>Fecha entrega</th></tr></thead>
       <tbody id="tb-of-fin"></tbody>
@@ -276,6 +280,9 @@ tr:last-child td{border-bottom:none}tr:hover td{background:rgba(255,255,255,.025
       <span class="card-title">OF pendientes de corte</span>
       <span class="bdg bdg-amber" id="bdg-of-pend">—</span>
       <select class="f-select" id="of-mat-pend" onchange="filterOFPend(this.value)"><option value="">Todos los materiales</option></select>
+    </div>
+    <div class="search-bar">
+      <input class="search-input" placeholder="Buscar por OF, referencia, fecha, layout..." oninput="searchOFPend(this.value)">
     </div>
     <div class="tbl-wrap"><table>
       <thead><tr><th>ID Layout</th><th>Material</th><th>OF</th><th>Referencia</th><th>Uds</th><th>Fecha entrega</th></tr></thead>
@@ -623,6 +630,20 @@ function renderStockKpis(){
     return'<select class="f-select" style="font-size:10px;padding:2px 6px;max-width:130px" onchange="changeKpi('+idx+',this.value)">'
       +opts.map(function(o){return'<option value="'+o.key+'"'+(o.mat===selMat&&o.dim===selDim?' selected':'')+'>'+o.mat+' '+o.dim+'</option>';}).join('')+'</select>';
   }
+  // Top KPI row (same data, simpler layout)
+  var topKpisEl=document.getElementById('st-kpis-top');
+  if(topKpisEl){
+    topKpisEl.innerHTML=cfg.map(function(c,i){
+      var found=DATA.stock.find(function(s){return s.material===c.mat&&s.dimensiones===c.dim;});
+      var val=found?found.stock_actual:'—',bad=found?found.necesita:false;
+      var mon=(DATA.mensual_stock||[]).filter(function(x){return x.material===c.mat;});
+      var avg=mon.length?Math.round(mon.reduce(function(s,x){return s+x.capas;},0)/mon.length*10)/10:0;
+      var colors=['#4a9eff','#3dd68c','#a78bfa'];
+      return'<div class="kpi"><div class="kpi-lbl">'+c.mat+' <span style="color:var(--dim)">'+c.dim+'</span></div>'
+        +'<div class="kpi-val" style="color:'+(bad?'var(--red)':colors[i])+'">'+val+'</div>'
+        +'<div class="kpi-sub">Stock actual · Media: <strong style="color:var(--text)">'+avg+'</strong> planchas/mes</div></div>';
+    }).join('');
+  }
   document.getElementById('st-kpis').innerHTML=cfg.map(function(c,i){
     var found=DATA.stock.find(function(s){return s.material===c.mat&&s.dimensiones===c.dim;});
     var val=found?found.stock_actual:'—',bad=found?found.necesita:false;
@@ -808,8 +829,32 @@ function searchFin(q){
   });
   renderFin(rows);document.getElementById('bdg-fin').textContent=rows.length;
 }
-function filterOFPend(mat){renderOFPend(mat?ofPendData.filter(function(r){return r.material===mat;}):ofPendData);}
-function filterOFFin(mat){renderOFFin(mat?ofFinData.filter(function(r){return r.material===mat;}):ofFinData);}
+function filterOFPend(mat){
+  var q=(document.querySelector('#sec-of .search-input')||{value:''}).value.toLowerCase();
+  var rows=mat?ofPendData.filter(function(r){return r.material===mat;}):ofPendData;
+  if(q)rows=rows.filter(function(r){return(cl(r.of)+cl(r.referencia)+dEs(r.fecha_entrega)+cl(r.id_layout)).toLowerCase().includes(q);});
+  renderOFPend(rows);
+}
+function searchOFPend(q){
+  var mat=document.getElementById('of-mat-pend').value;
+  var rows=mat?ofPendData.filter(function(r){return r.material===mat;}):ofPendData;
+  var l=q.toLowerCase();
+  if(l)rows=rows.filter(function(r){return(cl(r.of)+cl(r.referencia)+dEs(r.fecha_entrega)+cl(r.id_layout)+cl(r.material)).toLowerCase().includes(l);});
+  renderOFPend(rows);
+}
+function filterOFFin(mat){
+  var q=(document.querySelector('#sec-finalizados .search-input[oninput*="searchOFFin"]')||{value:''}).value.toLowerCase();
+  var rows=mat?ofFinData.filter(function(r){return r.material===mat;}):ofFinData;
+  if(q)rows=rows.filter(function(r){return(cl(r.of)+cl(r.referencia)+dEs(r.fecha_entrega)+cl(r.id_layout)).toLowerCase().includes(q);});
+  renderOFFin(rows);
+}
+function searchOFFin(q){
+  var mat=document.getElementById('of-mat-fin').value;
+  var rows=mat?ofFinData.filter(function(r){return r.material===mat;}):ofFinData;
+  var l=q.toLowerCase();
+  if(l)rows=rows.filter(function(r){return(cl(r.of)+cl(r.referencia)+dEs(r.fecha_entrega)+cl(r.id_layout)+cl(r.material)).toLowerCase().includes(l);});
+  renderOFFin(rows);
+}
 function filterStock(q){var l=q.toLowerCase();renderStock(stockData.filter(function(r){return(r.material+r.dimensiones).toLowerCase().includes(l);}));}
 function filterStockByMat(mat){
   var b=document.getElementById('stock-avg-badge');
