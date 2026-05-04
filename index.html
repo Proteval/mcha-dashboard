@@ -201,7 +201,7 @@ tr:last-child td{border-bottom:none}tr:hover td{background:rgba(255,255,255,.02)
   <div class="kpi-row" id="st-kpis" style="grid-template-columns:repeat(3,1fr)"></div>
   <div id="st-status"></div>
   <div class="grid2">
-    <div class="card"><div class="card-hdr"><span class="card-title">Control general — capas por mes</span></div><div class="card-body"><div style="height:220px"><canvas id="ch-mon-stock"></canvas></div></div></div>
+    <div class="card"><div class="card-hdr"><span class="card-title">Control general — capas por mes</span><select class="f-select" id="stock-chart-mat" onchange="updateStockChart(this.value)" style="font-size:11px"><option value="">Todos</option></select></div><div class="card-body"><div style="height:220px"><canvas id="ch-mon-stock"></canvas></div></div></div>
     <div class="grid3" id="st-mini" style="margin-bottom:0"></div>
   </div>
   <div class="card">
@@ -214,6 +214,18 @@ tr:last-child td{border-bottom:none}tr:hover td{background:rgba(255,255,255,.02)
       </div>
     </div>
     <div class="tbl-wrap"><table><thead><tr><th>Material</th><th>Dimensiones</th><th>Stock actual</th><th>Stock mínimo</th><th>Repos.</th></tr></thead><tbody id="tb-stock"></tbody></table></div>
+  </div>
+  <!-- Configuración de alertas -->
+  <div class="card" style="margin-top:14px">
+    <div class="card-hdr">
+      <span class="card-title">Configuración de alertas de reposición</span>
+      <button class="f-reset" onclick="toggleAlertCfg()" id="alert-cfg-btn">Editar alertas</button>
+    </div>
+    <div id="alert-cfg-body" style="display:none;padding:14px 16px">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:12px">Selecciona los materiales y dimensiones que quieres monitorizar. Solo estos generarán alertas de reposición.</p>
+      <div id="alert-checkboxes" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px"></div>
+      <button class="cfg-save" style="margin-top:14px" onclick="saveAlertCfg()">Guardar alertas</button>
+    </div>
   </div>
 </div>
 
@@ -403,13 +415,24 @@ function setupAutoSync(){
 function parseData(csvLayouts,csvOF,csvStock){
   var lRows=parseCSV(csvLayouts);
   var hdr=lRows[0];
-  var iId=findCol(hdr,'ID Layout'), iMat=findCol(hdr,'Material');
-  var iCap=findCol(hdr,'capas'), iDim=findCol(hdr,'Dimensiones');
-  var iRet=findCol(hdr,'Retal usado'), iOp=findCol(hdr,'Operario');
-  var iTt=findCol(hdr,'teorico total'), iTr=findCol(hdr,'T. real');
-  if(iTr<0) iTr=findCol(hdr,'T real');
-  var iFi=findCol(hdr,'Fecha inicio'), iFf=findCol(hdr,'Fecha Fin');
-  var iObs=findCol(hdr,'Observaciones');
+  // Indices fijos CSV MCHA: 0=ID Layout,1=Material,2=Nº capas,3=Dimensiones,
+  // 4=Retal usado,5=Operario,6=Fecha inicio,7=Hora Inicio,8=Fecha Fin,
+  // 9=Hora Fin,10=T. real,11=T. teórico total,12=Observaciones
+  var iId=0,iMat=1,iCap=2,iDim=3,iRet=4,iOp=5,iFi=6,iFf=8,iTr=10,iTt=11,iObs=12;
+  // Overwrite with header search in case order changes
+  var _t;
+  _t=findCol(hdr,'ID Layout');    if(_t>=0) iId=_t;
+  _t=findCol(hdr,'Material');     if(_t>=0) iMat=_t;
+  _t=findCol(hdr,'capas');        if(_t>=0) iCap=_t;
+  _t=findCol(hdr,'Dimensiones');  if(_t>=0) iDim=_t;
+  _t=findCol(hdr,'Retal');        if(_t>=0) iRet=_t;
+  _t=findCol(hdr,'Operario');     if(_t>=0) iOp=_t;
+  _t=findCol(hdr,'Fecha inicio'); if(_t>=0) iFi=_t;
+  _t=findCol(hdr,'Fecha Fin');    if(_t>=0) iFf=_t;
+  _t=findCol(hdr,'T. real');      if(_t>=0) iTr=_t;
+  _t=findCol(hdr,'teorico');      if(_t>=0) iTt=_t;
+  _t=findCol(hdr,'Observaciones');if(_t>=0) iObs=_t;
+  console.log('CSV cols -> id:'+iId+' mat:'+iMat+' cap:'+iCap+' tr:'+iTr+' tt:'+iTt+' ff:'+iFf);
 
   var pending=[],finished=[];
   for(var i=1;i<lRows.length;i++){
@@ -774,8 +797,87 @@ function setStatus(state,txt){
 }
 
 
-// Gráfico Stock separado (para no interferir con el de producción)
+// ── Stock chart filterable ──
 var chMonStock=null;
+var stockMonthlyData=[];
+
+function updateStockChart(mat){
+  if(!stockMonthlyData.length) return;
+  var MN=['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  var filtered = mat ? stockMonthlyData.filter(function(x){return x.material===mat;}) : stockMonthlyData;
+  var months=[...new Set(filtered.map(function(x){return x.mes;}))].sort();
+  var mats=[...new Set(filtered.map(function(x){return x.material;}))];
+  if(chMonStock) chMonStock.destroy();
+  if(!months.length) return;
+  chMonStock=new Chart(document.getElementById('ch-mon-stock'),{type:'bar',
+    data:{labels:months.map(function(m){var p=m.split('-');return MN[parseInt(p[1])]+' '+p[0].slice(2);}),
+          datasets:mats.map(function(mat2,i){return{label:mat2,
+            data:months.map(function(m){var r=filtered.find(function(x){return x.mes===m&&x.material===mat2;});return r?r.capas:0;}),
+            backgroundColor:PAL[i%PAL.length],borderRadius:2};})},
+    options:{responsive:true,maintainAspectRatio:false,
+             plugins:{legend:{position:'right',labels:{font:{size:10},boxWidth:10,padding:6}}},
+             scales:{x:{stacked:true,grid:{color:'rgba(255,255,255,.04)'}},
+                     y:{stacked:true,grid:{color:'rgba(255,255,255,.04)'}}}}});
+}
+
+// ── Alert config ──
+function getAlertCfg(){
+  try{ return JSON.parse(localStorage.getItem('mcha_alert_cfg')||'null'); }
+  catch(e){ return null; }
+}
+function saveAlertCfg(){
+  var checks=document.querySelectorAll('#alert-checkboxes input[type=checkbox]');
+  var selected=[];
+  checks.forEach(function(cb){if(cb.checked) selected.push(cb.value);});
+  localStorage.setItem('mcha_alert_cfg',JSON.stringify(selected));
+  document.getElementById('alert-cfg-body').style.display='none';
+  document.getElementById('alert-cfg-btn').textContent='Editar alertas';
+  if(DATA) refreshStockStatus();
+  alert('Alertas guardadas: '+selected.length+' materiales monitorizados');
+}
+function toggleAlertCfg(){
+  var body=document.getElementById('alert-cfg-body');
+  var btn=document.getElementById('alert-cfg-btn');
+  var open=body.style.display==='none';
+  body.style.display=open?'block':'none';
+  btn.textContent=open?'Cerrar':'Editar alertas';
+}
+function buildAlertCheckboxes(){
+  if(!DATA) return;
+  var cfg=getAlertCfg();
+  var container=document.getElementById('alert-checkboxes');
+  if(!container) return;
+  container.innerHTML=DATA.stock.map(function(s){
+    var key=s.material+'|'+s.dimensiones;
+    var checked=!cfg||cfg.indexOf(key)>=0;
+    return '<label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text);background:var(--surface2);padding:8px 10px;border-radius:6px;cursor:pointer">'
+      +'<input type="checkbox" value="'+key+'" '+(checked?'checked':'')
+      +' style="accent-color:var(--blue)"> '+s.material
+      +'<span style="color:var(--dim);font-size:11px">'+s.dimensiones+'</span></label>';
+  }).join('');
+  // Populate stock chart material selector
+  var sch=document.getElementById('stock-chart-mat');
+  if(sch){
+    var smats=[...new Set(DATA.stock.map(function(s){return s.material;}))].sort();
+    sch.innerHTML='<option value="">Todos</option>'+smats.map(function(m){return '<option value="'+m+'">'+m+'</option>';}).join('');
+  }
+}
+function refreshStockStatus(){
+  var cfg=getAlertCfg();
+  var monitored=cfg?DATA.stock.filter(function(s){return cfg.indexOf(s.material+'|'+s.dimensiones)>=0;}):DATA.stock;
+  var crit=monitored.filter(function(s){return s.necesita;});
+  var stockOk=crit.length===0;
+  document.getElementById('st-status').innerHTML=stockOk
+    ?'<div class="stock-ok">✓ Stock OK</div>'
+    :'<div class="stock-fail">⚠ Repos. necesaria: '+crit.map(function(s){return s.material+' '+s.dimensiones;}).join(', ')+'</div>';
+  // Update stock table highlights based on monitored only
+  renderStock(DATA.stock.map(function(s){
+    var isMonitored=!cfg||cfg.indexOf(s.material+'|'+s.dimensiones)>=0;
+    return Object.assign({},s,{necesita:s.necesita&&isMonitored});
+  }));
+}
+
+// Gráfico Stock separado (para no interferir con el de producción)
 var _origRenderAll = renderAll;
 renderAll = function(d){
   _origRenderAll(d);
@@ -783,6 +885,9 @@ renderAll = function(d){
   var MN=['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
   var months=[...new Set(d.consumo_mensual.map(function(x){return x.mes;}))].sort();
   var mats=[...new Set(d.consumo_mensual.map(function(x){return x.material;}))];
+  stockMonthlyData=d.consumo_mensual;
+  buildAlertCheckboxes();
+  refreshStockStatus();
   if(chMonStock) chMonStock.destroy();
   if(months.length){
     chMonStock=new Chart(document.getElementById('ch-mon-stock'),{type:'bar',
