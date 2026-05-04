@@ -203,8 +203,7 @@ tr:last-child td{border-bottom:none}tr:hover td{background:rgba(255,255,255,.025
 <!-- STOCK -->
 <div id="sec-stock" class="sec">
   <div class="kpi-row" id="st-kpis-top" style="grid-template-columns:repeat(3,1fr);margin-bottom:14px"></div>
-  <div style="display:grid;grid-template-columns:1fr 2fr;gap:14px;margin-bottom:14px;align-items:start">
-    <div id="st-kpis" style="display:flex;flex-direction:column;gap:12px"></div>
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:14px;align-items:start">
     <div class="card" style="margin-bottom:0">
       <div class="card-hdr">
         <span class="card-title">Corte de planchas completas por mes</span>
@@ -213,8 +212,9 @@ tr:last-child td{border-bottom:none}tr:hover td{background:rgba(255,255,255,.025
           <input type="checkbox" onchange="toggleStockMedia(this)" style="accent-color:var(--blue)"> Media
         </label>
       </div>
-      <div class="card-body"><div style="height:260px"><canvas id="ch-mon-stock"></canvas></div></div>
+      <div class="card-body"><div style="height:280px"><canvas id="ch-mon-stock"></canvas></div></div>
     </div>
+    <div id="st-kpis" style="display:flex;flex-direction:column;gap:10px"></div>
   </div>
   <div id="st-status"></div>
   <div class="card">
@@ -632,6 +632,12 @@ function renderStockKpis(){
   }
   // Top KPI row (same data, simpler layout)
   var topKpisEl=document.getElementById('st-kpis-top');
+  // Build unique mat+dim options
+  var allOpts=DATA.stock.map(function(s){return{mat:s.material,dim:s.dimensiones,key:s.material+'|'+s.dimensiones};});
+  function mkTopSel(idx,selMat,selDim){
+    return'<select class="f-select" style="font-size:10px;padding:2px 6px;max-width:140px;margin-bottom:6px" onchange="changeTopKpi('+idx+',this.value)">'
+      +allOpts.map(function(o){return'<option value="'+o.key+'"'+(o.mat===selMat&&o.dim===selDim?' selected':'')+'>'+o.mat+' '+o.dim+'</option>';}).join('')+'</select>';
+  }
   if(topKpisEl){
     topKpisEl.innerHTML=cfg.map(function(c,i){
       var found=DATA.stock.find(function(s){return s.material===c.mat&&s.dimensiones===c.dim;});
@@ -639,23 +645,38 @@ function renderStockKpis(){
       var mon=(DATA.mensual_stock||[]).filter(function(x){return x.material===c.mat;});
       var avg=mon.length?Math.round(mon.reduce(function(s,x){return s+x.capas;},0)/mon.length*10)/10:0;
       var colors=['#4a9eff','#3dd68c','#a78bfa'];
-      return'<div class="kpi"><div class="kpi-lbl">'+c.mat+' <span style="color:var(--dim)">'+c.dim+'</span></div>'
+      return'<div class="kpi">'+mkTopSel(i,c.mat,c.dim)
         +'<div class="kpi-val" style="color:'+(bad?'var(--red)':colors[i])+'">'+val+'</div>'
         +'<div class="kpi-sub">Stock actual · Media: <strong style="color:var(--text)">'+avg+'</strong> planchas/mes</div></div>';
     }).join('');
   }
   document.getElementById('st-kpis').innerHTML=cfg.map(function(c,i){
-    var found=DATA.stock.find(function(s){return s.material===c.mat&&s.dimensiones===c.dim;});
-    var val=found?found.stock_actual:'—',bad=found?found.necesita:false;
     var mon=(DATA.mensual_stock||[]).filter(function(x){return x.material===c.mat;});
+    var mx=Math.max.apply(null,mon.map(function(x){return x.capas;}).concat([1]));
     var avg=mon.length?Math.round(mon.reduce(function(s,x){return s+x.capas;},0)/mon.length*10)/10:0;
     var colors=['#4a9eff','#3dd68c','#a78bfa'];
-    return'<div class="kpi"><div style="margin-bottom:5px">'+mkSel(i,c.mat,c.dim)+'</div>'
-      +'<div class="kpi-val" style="color:'+(bad?'var(--red)':colors[i])+'">'+val+'</div>'
-      +'<div class="kpi-sub">Stock actual · Media: <strong style="color:var(--text)">'+avg+'</strong> planchas/mes</div></div>';
+    var bars=mon.slice(-6).map(function(x){
+      var p=x.mes.split('-');
+      var lbl=MN[parseInt(p[1])]+' '+p[0].slice(2);
+      var pct=Math.round(x.capas/mx*100);
+      return'<div class="mini-bar"><span class="mini-lbl">'+lbl+'</span>'
+        +'<div class="mini-track"><div class="mini-fill" style="width:'+pct+'%;background:'+colors[i]+'"></div></div>'
+        +'<span class="mini-val">'+x.capas+'</span></div>';
+    }).join('');
+    return'<div class="card" style="margin-bottom:0;padding:0">'
+      +'<div class="card-hdr" style="padding:8px 12px">'+mkSel(i,c.mat,c.dim)+'</div>'
+      +'<div class="card-body" style="padding:10px 12px">'
+      +(bars||'<div style="font-size:11px;color:var(--muted)">Sin datos de consumo</div>')
+      +'<div style="font-size:11px;color:var(--muted);margin-top:8px;padding-top:6px;border-top:0.5px solid var(--border)">Media: <strong style="color:var(--text)">'+avg+'</strong> planchas/mes</div>'
+      +'</div></div>';
   }).join('');
 }
 
+function changeTopKpi(idx,val){
+  var cfg=getStockKpiCfg()||[{mat:'Pvc 1mm',dim:'3000x1500'},{mat:'Pvc 1,5mm',dim:'3000x1500'},{mat:'Aluminio 2mm',dim:'3000x1500'}];
+  var parts=val.split('|');cfg[idx]={mat:parts[0],dim:parts[1]||''};
+  saveStockKpiCfg(cfg);renderStockKpis();
+}
 function changeKpi(idx,val){
   var cfg=getStockKpiCfg()||[{mat:'Pvc 1mm',dim:'3000x1500'},{mat:'Pvc 1,5mm',dim:'3000x1500'},{mat:'Aluminio 2mm',dim:'3000x1500'}];
   var parts=val.split('|');cfg[idx]={mat:parts[0],dim:parts[1]||''};
