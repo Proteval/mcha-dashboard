@@ -20,7 +20,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 .topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
 .topbar-logo{display:flex;align-items:center;gap:10px}
 .logo-mark{width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;font-weight:700}
-.logo-name{font-size:14px;font-weight:600;letter-spacing:-.3px}.logo-sub{font-size:11px;color:var(--muted);margin-left:2px}
+.logo-name{font-size:14px;font-weight:600;letter-spacing:-.3px}
+.logo-sub{font-size:11px;color:var(--muted);margin-left:2px}
 .topbar-right{display:flex;align-items:center;gap:12px}
 .sync-info{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px}
 .live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green)}
@@ -67,36 +68,51 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 .kpi-val.blue{color:var(--blue)}.kpi-val.green{color:var(--green)}.kpi-val.amber{color:var(--amber)}
 .kpi-sub{font-size:11px;color:var(--muted);margin-top:4px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
-.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:14px}
 .card:last-child{margin-bottom:0}
 .card-hdr{padding:10px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .card-title{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;flex:1;white-space:nowrap}
 .card-body{padding:12px 16px}
-.tbl-wrap{overflow-x:auto;max-height:420px;overflow-y:auto}
+/* Tabla principal */
+.tbl-wrap{overflow-x:auto;max-height:460px;overflow-y:auto}
 table{width:100%;border-collapse:collapse;font-size:12px}
 thead{position:sticky;top:0;z-index:2}
 th{background:var(--surface2);color:var(--muted);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap}
 td{padding:7px 12px;border-bottom:1px solid var(--border);color:var(--text);white-space:nowrap;vertical-align:middle}
-tr:last-child td{border-bottom:none}tr:hover td{background:rgba(255,255,255,.025)}
-.selected-row td{background:rgba(74,158,255,0.08)!important;border-left:2px solid var(--blue)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.025)}
+/* Fila expandible */
+.layout-row{cursor:pointer}
+.layout-row.open td{background:rgba(74,158,255,0.06)}
+.layout-row.open .expand-icon{transform:rotate(90deg)}
+.expand-icon{display:inline-block;font-size:10px;color:var(--muted);transition:transform .15s;margin-right:4px}
+.of-expand-row td{padding:0!important;background:var(--surface2)!important}
+.of-expand-row{display:none}
+.of-expand-row.open{display:table-row}
+.of-inner{padding:8px 16px 10px 40px}
+.of-mini-table{width:100%;border-collapse:collapse;font-size:11px}
+.of-mini-table th{background:transparent;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;padding:4px 10px;border-bottom:0.5px solid var(--border)}
+.of-mini-table td{padding:5px 10px;border-bottom:0.5px solid var(--border);color:var(--text)}
+.of-mini-table tr:last-child td{border-bottom:none}
+.no-of{font-size:11px;color:var(--muted);padding:8px 0}
+/* Badges */
 .bdg{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px}
 .bdg-blue{background:var(--blue-dim);color:var(--blue)}.bdg-green{background:var(--green-dim);color:var(--green)}
 .bdg-amber{background:var(--amber-dim);color:var(--amber)}.bdg-red{background:var(--red-dim);color:var(--red)}
 .bdg-dim{background:rgba(255,255,255,.06);color:var(--muted)}
-.stock-ok{background:var(--green-dim);border:1px solid rgba(61,214,140,.25);border-radius:var(--r);padding:20px;text-align:center;font-size:20px;font-weight:700;color:var(--green);margin-bottom:14px}
+/* Stock */
+.stock-ok{background:var(--green-dim);border:1px solid rgba(61,214,140,.25);border-radius:var(--r);padding:16px 20px;text-align:center;font-size:18px;font-weight:700;color:var(--green);margin-bottom:14px}
 .stock-fail{background:var(--red-dim);border:1px solid rgba(245,101,101,.25);border-radius:var(--r);padding:14px;font-size:13px;font-weight:600;color:var(--red);margin-bottom:14px;line-height:1.6}
 .search-bar{display:flex;gap:8px;padding:8px 14px;border-bottom:1px solid var(--border);flex-wrap:wrap;align-items:center}
 .search-input{flex:1;min-width:140px;background:var(--surface2);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:inherit;font-size:12px;padding:6px 10px;outline:none}
 .search-input:focus{border-color:var(--blue)}.search-input::placeholder{color:var(--muted)}
-.of-inline{border-top:2px solid var(--blue-dim);background:var(--surface2)}
-.sec{display:none}.sec.active{display:block}
 .mini-bar{display:flex;align-items:center;gap:8px;margin-bottom:6px}
-.mini-lbl{font-size:11px;color:var(--muted);width:60px;text-align:right;flex-shrink:0}
+.mini-lbl{font-size:11px;color:var(--muted);width:52px;text-align:right;flex-shrink:0}
 .mini-track{flex:1;height:5px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden}
-.mini-fill{height:5px;border-radius:3px;background:var(--blue)}
-.mini-val{font-size:11px;color:var(--dim);min-width:28px;text-align:right}
-@media(max-width:1000px){.kpi-row{grid-template-columns:1fr 1fr}.grid2,.grid3{grid-template-columns:1fr}}
+.mini-fill{height:5px;border-radius:3px}
+.mini-val{font-size:11px;color:var(--dim);min-width:24px;text-align:right}
+.sec{display:none}.sec.active{display:block}
+@media(max-width:1000px){.kpi-row{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -149,7 +165,6 @@ tr:last-child td{border-bottom:none}tr:hover td{background:rgba(255,255,255,.025
   <button class="nav-tab active" onclick="showSec('produccion',this)">Producción</button>
   <button class="nav-tab" onclick="showSec('stock',this)">Stock</button>
   <button class="nav-tab" onclick="showSec('finalizados',this)">Layouts finalizados</button>
-  <button class="nav-tab" onclick="showSec('of',this)">OF por Layout</button>
 </nav>
 
 <div class="filter-bar" id="filter-bar">
@@ -159,64 +174,75 @@ tr:last-child td{border-bottom:none}tr:hover td{background:rgba(255,255,255,.025
   <select class="f-select" id="f-material" onchange="setFiltro('material',this.value)"><option value="">Material</option></select>
   <select class="f-select" id="f-operario" onchange="setFiltro('operario',this.value)"><option value="">Operario</option></select>
   <button class="f-reset" onclick="resetFiltros()">✕ Limpiar</button>
-  <div style="flex:1"></div>
-  <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Gráficos:</span>
-  <button class="mode-btn active" onclick="setProdMode(false,this)">Todos</button>
-  <button class="mode-btn" onclick="setProdMode(true,this)">Solo planchas completas</button>
 </div>
 
 <div class="main">
 
-<!-- PRODUCCIÓN -->
+<!-- ══ PRODUCCIÓN ══ -->
 <div id="sec-produccion" class="sec active">
   <div class="kpi-row">
-    <div class="kpi"><div class="kpi-lbl">Layouts pendientes de corte</div><div class="kpi-val blue" id="k-pend">—</div><div class="kpi-sub">layouts en cola</div></div>
-    <div class="kpi"><div class="kpi-lbl">Tiempo pendiente de corte</div><div class="kpi-val amber" id="k-time">—</div><div class="kpi-sub">suma T. teórico pendientes</div></div>
-    <div class="kpi"><div class="kpi-lbl">Layouts finalizados hoy</div><div class="kpi-val green" id="k-hoy">—</div><div class="kpi-sub" id="k-hoy-sub">—</div></div>
-    <div class="kpi"><div class="kpi-lbl">Total finalizados (año)</div><div class="kpi-val" id="k-total">—</div><div class="kpi-sub">desde inicio</div></div>
+    <div class="kpi"><div class="kpi-lbl">Layouts pendientes</div><div class="kpi-val blue" id="k-pend">—</div><div class="kpi-sub">en cola de corte</div></div>
+    <div class="kpi"><div class="kpi-lbl">Tiempo pendiente</div><div class="kpi-val amber" id="k-time">—</div><div class="kpi-sub">suma T. teórico</div></div>
+    <div class="kpi"><div class="kpi-lbl">Finalizados hoy</div><div class="kpi-val green" id="k-hoy">—</div><div class="kpi-sub" id="k-hoy-sub">—</div></div>
+    <div class="kpi"><div class="kpi-lbl">Total finalizados</div><div class="kpi-val" id="k-total">—</div><div class="kpi-sub">desde inicio de año</div></div>
   </div>
-  <div class="grid2">
-    <div class="card" style="margin-bottom:0"><div class="card-hdr"><span class="card-title">% Aluminio cortado</span></div><div class="card-body"><div style="height:195px"><canvas id="ch-alu"></canvas></div></div></div>
-    <div class="card" style="margin-bottom:0"><div class="card-hdr"><span class="card-title">% PVC cortado</span></div><div class="card-body"><div style="height:195px"><canvas id="ch-pvc"></canvas></div></div></div>
-  </div>
-  <div class="grid2" style="margin-top:14px">
-    <div class="card" style="margin-bottom:0"><div class="card-hdr"><span class="card-title">Consumo por material</span></div><div class="card-body"><div style="height:210px"><canvas id="ch-bar"></canvas></div></div></div>
-    <div class="card" style="margin-bottom:0"><div class="card-hdr"><span class="card-title">Evolución mensual</span></div><div class="card-body"><div style="height:210px"><canvas id="ch-mon"></canvas></div></div></div>
-  </div>
-  <div class="card" style="margin-top:14px">
+
+  <!-- Tabla pendientes con OF expandible -->
+  <div class="card">
     <div class="card-hdr">
-      <span class="card-title">Layouts pendientes</span>
+      <span class="card-title">Layouts pendientes de corte</span>
       <span class="bdg bdg-amber" id="bdg-pend">—</span>
-      <span style="font-size:11px;color:var(--muted)">· Haz clic para ver OF · Campo # = orden de corte</span>
+      <span style="font-size:11px;color:var(--muted)">· ▶ para ver OF · # = orden de corte</span>
     </div>
     <div class="search-bar">
-      <input class="search-input" placeholder="Buscar por ID, material, OF, referencia, fecha..." oninput="searchPend(this.value)">
+      <input class="search-input" placeholder="Buscar por ID, material, OF, referencia..." oninput="searchPend(this.value)">
     </div>
     <div class="tbl-wrap">
-      <table><thead><tr><th title="Orden de corte">#</th><th>ID Layout</th><th>Material</th><th>Capas</th><th>Dim.</th><th>Retal</th><th>Operario</th><th>T. teórico</th><th>Obs.</th></tr></thead>
-      <tbody id="tb-pend"></tbody></table>
+      <table>
+        <thead><tr>
+          <th title="Orden de corte">#</th>
+          <th>ID Layout</th><th>Material</th><th>Capas</th>
+          <th>Dim.</th><th>Retal</th><th>Operario</th>
+          <th>T. teórico</th><th>Obs.</th>
+        </tr></thead>
+        <tbody id="tb-pend"></tbody>
+      </table>
     </div>
-    <div class="of-inline" id="of-inline" style="display:none"></div>
   </div>
 </div>
 
-<!-- STOCK -->
+<!-- ══ STOCK ══ -->
 <div id="sec-stock" class="sec">
+  <!-- 3 tarjetas superiores configurables -->
   <div class="kpi-row" id="st-kpis-top" style="grid-template-columns:repeat(3,1fr);margin-bottom:14px"></div>
-  <div style="display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:14px;align-items:start">
+  <div id="st-status"></div>
+
+  <!-- Gráfico mensual + 2 donas -->
+  <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:14px;margin-bottom:14px;align-items:start">
     <div class="card" style="margin-bottom:0">
       <div class="card-hdr">
-        <span class="card-title">Corte de planchas completas por mes</span>
+        <span class="card-title">Corte planchas completas / mes</span>
         <select class="f-select" id="stock-chart-mat" onchange="setStockChartMat(this.value)"><option value="">Todos</option></select>
         <label style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);cursor:pointer">
           <input type="checkbox" onchange="toggleStockMedia(this)" style="accent-color:var(--blue)"> Media
         </label>
       </div>
-      <div class="card-body"><div style="height:280px"><canvas id="ch-mon-stock"></canvas></div></div>
+      <div class="card-body"><div style="height:240px"><canvas id="ch-mon-stock"></canvas></div></div>
     </div>
-    <div id="st-kpis" style="display:flex;flex-direction:column;gap:10px"></div>
+    <div class="card" style="margin-bottom:0">
+      <div class="card-hdr"><span class="card-title">% Aluminio cortado</span></div>
+      <div class="card-body"><div style="height:220px"><canvas id="ch-alu"></canvas></div></div>
+    </div>
+    <div class="card" style="margin-bottom:0">
+      <div class="card-hdr"><span class="card-title">% PVC cortado</span></div>
+      <div class="card-body"><div style="height:220px"><canvas id="ch-pvc"></canvas></div></div>
+    </div>
   </div>
-  <div id="st-status"></div>
+
+  <!-- Tarjetas laterales consumo mensual -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:14px" id="st-kpis"></div>
+
+  <!-- Tabla stock + alertas -->
   <div class="card">
     <div class="card-hdr">
       <span class="card-title">Resumen por material</span>
@@ -229,6 +255,7 @@ tr:last-child td{border-bottom:none}tr:hover td{background:rgba(255,255,255,.025
       <tbody id="tb-stock"></tbody>
     </table></div>
   </div>
+
   <div class="card">
     <div class="card-hdr">
       <span class="card-title">Configuración de alertas</span>
@@ -242,7 +269,7 @@ tr:last-child td{border-bottom:none}tr:hover td{background:rgba(255,255,255,.025
   </div>
 </div>
 
-<!-- FINALIZADOS -->
+<!-- ══ FINALIZADOS ══ -->
 <div id="sec-finalizados" class="sec">
   <div class="card">
     <div class="card-hdr">
@@ -269,24 +296,6 @@ tr:last-child td{border-bottom:none}tr:hover td{background:rgba(255,255,255,.025
     <div class="tbl-wrap"><table>
       <thead><tr><th>ID Layout</th><th>Material</th><th>OF</th><th>Referencia</th><th>Uds</th><th>Fecha entrega</th></tr></thead>
       <tbody id="tb-of-fin"></tbody>
-    </table></div>
-  </div>
-</div>
-
-<!-- OF POR LAYOUT -->
-<div id="sec-of" class="sec">
-  <div class="card">
-    <div class="card-hdr">
-      <span class="card-title">OF pendientes de corte</span>
-      <span class="bdg bdg-amber" id="bdg-of-pend">—</span>
-      <select class="f-select" id="of-mat-pend" onchange="filterOFPend(this.value)"><option value="">Todos los materiales</option></select>
-    </div>
-    <div class="search-bar">
-      <input class="search-input" placeholder="Buscar por OF, referencia, fecha, layout..." oninput="searchOFPend(this.value)">
-    </div>
-    <div class="tbl-wrap"><table>
-      <thead><tr><th>ID Layout</th><th>Material</th><th>OF</th><th>Referencia</th><th>Uds</th><th>Fecha entrega</th></tr></thead>
-      <tbody id="tb-of-pend"></tbody>
     </table></div>
   </div>
 </div>
@@ -897,6 +906,96 @@ function setStatus(state,txt){
   var d=document.getElementById('live-dot');
   d.className='live-dot'+(state==='connected'?'':(state==='loading'?' loading':' error'));
 }
+
+// ── Override renderPend para filas expandibles con OF ──
+function renderPend(rows){
+  var o=getPendOrder();
+  var tbody=document.getElementById('tb-pend');
+  var html='';
+  rows.forEach(function(r){
+    var ord=o[r.id]!==undefined?o[r.id]:'';
+    var ofs=(DATA&&DATA.of_by_layout&&DATA.of_by_layout[r.id])||[];
+    var hasOf=ofs.length>0;
+    // Layout row
+    html+='<tr class="layout-row" onclick="toggleOFRow(\'of-'+r.id.replace(/[^a-z0-9]/gi,'-')+'\')">'
+      +'<td style="width:52px"><input type="number" min="1" value="'+ord+'" placeholder="—"'
+      +' style="width:44px;background:var(--surface3);border:1px solid var(--border2);border-radius:4px;color:var(--text);padding:3px 4px;font-size:11px;text-align:center"'
+      +' onclick="event.stopPropagation()" onchange="savePendOrder(\''+r.id+'\',this.value)"></td>'
+      +'<td><span class="expand-icon">'+(hasOf?'▶':'·')+'</span><span class="bdg bdg-blue">'+cl(r.id)+'</span></td>'
+      +'<td>'+cl(r.material)+'</td>'
+      +'<td style="text-align:center">'+r.capas+'</td>'
+      +'<td>'+cl(r.dimensiones)+'</td>'
+      +'<td style="color:var(--muted)">'+cl(r.retal)+'</td>'
+      +'<td>'+cl(r.operario)+'</td>'
+      +'<td><span class="bdg bdg-amber">'+cl(r.t_teorico)+'</span></td>'
+      +'<td style="color:var(--muted);max-width:160px;overflow:hidden;text-overflow:ellipsis">'+cl(r.obs)+'</td>'
+      +'</tr>';
+    // OF expand row
+    html+='<tr class="of-expand-row" id="of-'+r.id.replace(/[^a-z0-9]/gi,'-')+'">'
+      +'<td colspan="9"><div class="of-inner">';
+    if(!hasOf){
+      html+='<p class="no-of">Sin órdenes de fabricación registradas.</p>';
+    } else {
+      html+='<table class="of-mini-table"><thead><tr><th>OF</th><th>Referencia</th><th>Uds</th><th>Fecha entrega</th><th>Material</th></tr></thead><tbody>'
+        +ofs.map(function(o2){
+          return'<tr><td style="font-weight:500">'+cl(o2.of)+'</td>'
+            +'<td>'+cl(o2.referencia)+'</td>'
+            +'<td><span class="bdg bdg-dim">'+o2.uds+'</span></td>'
+            +'<td>'+dEs(o2.fecha_entrega)+'</td>'
+            +'<td style="color:var(--muted)">'+cl(o2.material)+'</td></tr>';
+        }).join('')
+        +'</tbody></table>';
+    }
+    html+='</div></td></tr>';
+  });
+  tbody.innerHTML=html||'<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:2rem">Sin layouts pendientes</td></tr>';
+}
+
+function toggleOFRow(id){
+  var row=document.getElementById(id);
+  if(!row)return;
+  var layoutRow=row.previousElementSibling;
+  var isOpen=row.classList.contains('open');
+  // Close all others first
+  document.querySelectorAll('.of-expand-row.open').forEach(function(r){
+    r.classList.remove('open');
+    if(r.previousElementSibling)r.previousElementSibling.classList.remove('open');
+  });
+  if(!isOpen){
+    row.classList.add('open');
+    if(layoutRow)layoutRow.classList.add('open');
+  }
+}
+
+// ── Override showSec — solo 3 pestañas ──
+function showSec(id,el){
+  document.querySelectorAll('.sec').forEach(function(s){s.classList.remove('active');});
+  document.querySelectorAll('.nav-tab').forEach(function(t){t.classList.remove('active');});
+  document.getElementById('sec-'+id).classList.add('active');
+  el.classList.add('active');
+  var fb=document.getElementById('filter-bar');
+  if(fb)fb.style.display=(id==='produccion'||id==='finalizados')?'flex':'none';
+}
+
+
+// ── Patch renderAll: update stock donas ──
+var _v10_origRenderAll = renderAll;
+renderAll = function(d) {
+  _v10_origRenderAll(d);
+  // Donas en stock (planchas completas)
+  if(d.alu_full) {
+    if(chAlu) { chAlu.data.labels=d.alu_full.map(function(x){return x.material;}); chAlu.data.datasets[0].data=d.alu_full.map(function(x){return x.capas;}); chAlu.update(); }
+    else if(d.alu_full.length) { chAlu=new Chart(document.getElementById('ch-alu'),{type:'doughnut',data:{labels:d.alu_full.map(function(x){return x.material;}),datasets:[{data:d.alu_full.map(function(x){return x.capas;}),backgroundColor:PAL,borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:10,padding:6}}}}}); }
+  }
+  if(d.pvc_full) {
+    if(chPvc) { chPvc.data.labels=d.pvc_full.map(function(x){return x.material;}); chPvc.data.datasets[0].data=d.pvc_full.map(function(x){return x.capas;}); chPvc.update(); }
+    else if(d.pvc_full.length) { chPvc=new Chart(document.getElementById('ch-pvc'),{type:'doughnut',data:{labels:d.pvc_full.map(function(x){return x.material;}),datasets:[{data:d.pvc_full.map(function(x){return x.capas;}),backgroundColor:PAL,borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:10,padding:6}}}}}); }
+  }
+  // Remove badges not needed
+  var bop=document.getElementById('bdg-of-pend');
+  if(bop&&d.of_pendientes) bop.textContent=d.of_pendientes.length;
+};
+
 </script>
 </body>
 </html>
