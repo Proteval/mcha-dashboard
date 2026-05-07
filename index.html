@@ -6,6 +6,7 @@
 <title>MCHA — Control de Producción</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <style>
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0d0f14;--surface:#161920;--surface2:#1e2130;--surface3:#252a3a;
@@ -113,9 +114,11 @@ tr:hover td{background:rgba(255,255,255,.025)}
 .mini-val{font-size:11px;color:var(--dim);min-width:24px;text-align:right}
 .sec{display:none}.sec.active{display:block}
 @media(max-width:1000px){.kpi-row{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
+
 
 <div class="topbar">
   <div class="topbar-logo">
@@ -300,10 +303,11 @@ tr:hover td{background:rgba(255,255,255,.025)}
 </div></div>
 
 <script>
+
 const FALLBACK={"resumen": {"layouts_pendientes": 15, "tiempo_pendiente": "32:35", "layouts_finalizados_hoy": 2, "total_finalizados": 225}, "stock": [{"material": "Pvc 0,5mm", "dimensiones": "1000x700", "stock_min": 60, "stock_actual": 120, "necesita": false}, {"material": "Pvc 0,5mm", "dimensiones": "1400x1000", "stock_min": 60, "stock_actual": 0, "necesita": true}, {"material": "Pvc 0,7mm", "dimensiones": "1000x700", "stock_min": 40, "stock_actual": 170, "necesita": false}, {"material": "Pvc 1mm", "dimensiones": "2000x1000", "stock_min": 300, "stock_actual": 0, "necesita": true}, {"material": "Pvc 1mm", "dimensiones": "3000x1500", "stock_min": 200, "stock_actual": 490, "necesita": false}, {"material": "Pvc 1,5mm", "dimensiones": "2000x1000", "stock_min": 100, "stock_actual": 0, "necesita": true}, {"material": "Pvc 1,5mm", "dimensiones": "3000x1500", "stock_min": 80, "stock_actual": 202, "necesita": false}, {"material": "Pvc 2mm", "dimensiones": "2000x1000", "stock_min": 1, "stock_actual": 1, "necesita": true}, {"material": "Pvc 3mm", "dimensiones": "2000x1000", "stock_min": 1, "stock_actual": 30, "necesita": false}, {"material": "Aluminio 1mm", "dimensiones": "3000x1500", "stock_min": 1, "stock_actual": 4, "necesita": false}, {"material": "Aluminio 2mm", "dimensiones": "3000x1500", "stock_min": 4, "stock_actual": 17, "necesita": false}, {"material": "Aluminio 3mm", "dimensiones": "3000x1500", "stock_min": 1, "stock_actual": 3, "necesita": false}, {"material": "Aluminio 4mm", "dimensiones": "2000x1000", "stock_min": 1, "stock_actual": 3, "necesita": false}, {"material": "Hierro 1mm", "dimensiones": "2000x1000", "stock_min": 1, "stock_actual": 4, "necesita": false}, {"material": "Hierro 2mm", "dimensiones": "2000x1000", "stock_min": 1, "stock_actual": 3, "necesita": false}, {"material": "Hierro 3mm", "dimensiones": "2000x1000", "stock_min": 0, "stock_actual": 0, "necesita": true}, {"material": "Hierro 4mm", "dimensiones": "2000x1000", "stock_min": 1, "stock_actual": 4, "necesita": false}, {"material": "Hierro 5mm", "dimensiones": "2000x1000", "stock_min": 0, "stock_actual": 3, "necesita": false}, {"material": "Inoxidable 1,5mm", "dimensiones": "3000x1500", "stock_min": 1, "stock_actual": 2, "necesita": false}, {"material": "Galvanizado 1,5mm", "dimensiones": "3000x1500", "stock_min": 0, "stock_actual": 6, "necesita": false}], "stock_ok": false, "consumo_material": [{"material": "Pvc 1mm", "capas": 558}, {"material": "Pvc 0,5mm", "capas": 510}, {"material": "Pvc 1,5mm", "capas": 161}, {"material": "Aluminio 2mm", "capas": 62}, {"material": "PVC/PES/PVC 0,6", "capas": 35}, {"material": "Carbonaramida 0,4mm", "capas": 24}, {"material": "Pvc 2mm", "capas": 20}, {"material": "Hierro 2mm", "capas": 16}, {"material": "Pvc 0,7mm", "capas": 15}, {"material": "Inoxidable 1,5mm", "capas": 11}], "aluminio_dist": [{"material": "Aluminio 2mm", "capas": 62}], "pvc_dist": [{"material": "Pvc 1mm", "capas": 558}, {"material": "Pvc 0,5mm", "capas": 510}, {"material": "Pvc 1,5mm", "capas": 161}, {"material": "PVC/PES/PVC 0,6", "capas": 35}, {"material": "Pvc 2mm", "capas": 20}, {"material": "Pvc 0,7mm", "capas": 15}], "layouts_pendientes": [{"id": "T2026-0322", "material": "Pvc 1mm", "capas": 10, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "4:10", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "nan"}, {"id": "T2026-0325", "material": "Aluminio 3mm", "capas": 1, "dimensiones": "nan", "retal": "T2026-0225", "operario": "Samuel", "t_teorico": "0:20", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "nan"}, {"id": "T2026-0293", "material": "Pvc 10mm", "capas": 1, "dimensiones": "2000x1000", "retal": "nan", "operario": "Samuel", "t_teorico": "0:35", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "CORTAR CON EL FILM, NO QUIERE MARCAS"}, {"id": "T2025-0677", "material": "Pvc 10mm", "capas": 1, "dimensiones": "2000x1000", "retal": "nan", "operario": "Samuel", "t_teorico": "0:35", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "CORTAR CON EL FILM, NO QUIERE MARCAS"}, {"id": "T2025-0677", "material": "Pvc 10mm", "capas": 1, "dimensiones": "2000x1000", "retal": "nan", "operario": "Samuel", "t_teorico": "0:35", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "CORTAR CON EL FILM, NO QUIERE MARCAS"}, {"id": "T2026-0299", "material": "PVC/PES/PVC 0,6", "capas": 16, "dimensiones": "nan", "retal": "1300x800", "operario": "Samuel", "t_teorico": "0:45", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "nan"}, {"id": "T2026-0304", "material": "PVC/PES/PVC 0,6", "capas": 8, "dimensiones": "nan", "retal": "1300x800", "operario": "Samuel", "t_teorico": "0:50", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "nan"}, {"id": "T2026-0311", "material": "PU/PES/PU 0,35", "capas": 16, "dimensiones": "nan", "retal": "1500X1000", "operario": "Samuel", "t_teorico": "0:35", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "nan"}, {"id": "T2026-0312", "material": "PU/PES/PU 0,35", "capas": 16, "dimensiones": "nan", "retal": "1500X1000", "operario": "Samuel", "t_teorico": "0:40", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "nan"}, {"id": "T2026-0235", "material": "Aluminio 20mm", "capas": 1, "dimensiones": "nan", "retal": "Plancha 3000x1500", "operario": "Samuel", "t_teorico": "15:30", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "nan"}, {"id": "T2026-0320", "material": "Hierro 2mm", "capas": 1, "dimensiones": "nan", "retal": "T0008653", "operario": "Samuel", "t_teorico": "1:40", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "nan"}, {"id": "T2026-0326", "material": "Hierro 3mm", "capas": 1, "dimensiones": "nan", "retal": "T2025-1095", "operario": "Samuel", "t_teorico": "2:20", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "nan"}, {"id": "Castañuelas Nº 8 - 1 columna (Formato 1040x1060)", "material": "1 Plancha de Fibra negra", "capas": 1, "dimensiones": "nan", "retal": "nan", "operario": "Samuel", "t_teorico": "1:20", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "nan"}, {"id": "Castañuelas Nº 3 Mallorquinas - 1 columna", "material": "1 Plancha de fibra madera", "capas": 1, "dimensiones": "nan", "retal": "nan", "operario": "Samuel", "t_teorico": "1:20", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "nan"}, {"id": "Castañuelas Nº 5 Mallorquinas - 1 columna", "material": "1 Plancha de fibra madera 17mm", "capas": 1, "dimensiones": "nan", "retal": "nan", "operario": "Samuel", "t_teorico": "1:20", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "CORTAR EN LA PLANCHA DE FIBRA MADERA MÁS GRUESA (17mm)"}], "layouts_finalizados": [{"id": "Castañuelas Nº 7 - 1 columna (Formato 1040x1060)", "material": "1 Plancha de Fibra negra", "capas": 1, "dimensiones": "nan", "retal": "nan", "operario": "Samuel", "t_teorico": "1:20", "t_real": "2:00", "fecha_ini": "2026-03-23", "fecha_fin": "2026-03-23", "obs": "nan"}, {"id": "Castañuelas Nº 7 - 1 Columna", "material": "1 Plancha de veta blanca", "capas": 1, "dimensiones": "nan", "retal": "nan", "operario": "Samuel", "t_teorico": "1:20", "t_real": "1:50", "fecha_ini": "2026-03-23", "fecha_fin": "2026-03-23", "obs": "ALMUERZO"}, {"id": "T2026-0230", "material": "Pvc 0,5mm", "capas": 10, "dimensiones": "1000x700", "retal": "nan", "operario": "Samuel", "t_teorico": "0:10", "t_real": "0:15", "fecha_ini": "2026-03-23", "fecha_fin": "2026-03-23", "obs": "nan"}, {"id": "T2026-0228", "material": "Pvc 1mm", "capas": 10, "dimensiones": "nan", "retal": "T2026-0215", "operario": "Samuel", "t_teorico": "3:55", "t_real": "7:40", "fecha_ini": "2026-03-23", "fecha_fin": "2026-03-24", "obs": "nan"}, {"id": "T2026-0237", "material": "Pvc 0,5mm", "capas": 10, "dimensiones": "nan", "retal": "T2026-0230", "operario": "Samuel", "t_teorico": "0:25", "t_real": "0:20", "fecha_ini": "2026-03-24", "fecha_fin": "2026-03-24", "obs": "nan"}, {"id": "T2026-0238", "material": "Pvc 0,5mm", "capas": 10, "dimensiones": "1000x700", "retal": "nan", "operario": "Samuel", "t_teorico": "0:10", "t_real": "0:10", "fecha_ini": "2026-03-25", "fecha_fin": "2026-03-25", "obs": "nan"}, {"id": "T2026-0242", "material": "Aluminio 1mm", "capas": 2, "dimensiones": "nan", "retal": "T2025-1108", "operario": "Samuel", "t_teorico": "0:10", "t_real": "0:05", "fecha_ini": "2026-03-26", "fecha_fin": "2026-03-26", "obs": "nan"}, {"id": "T2026-0243", "material": "Pvc 1mm", "capas": 10, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "2:10", "t_real": "2:00", "fecha_ini": "2026-03-26", "fecha_fin": "2026-03-26", "obs": "nan"}, {"id": "T2026-0246", "material": "Pvc 1mm", "capas": 10, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "2:45", "t_real": "2:30", "fecha_ini": "2026-03-26", "fecha_fin": "2026-03-27", "obs": "nan"}, {"id": "T2026-0247", "material": "Pvc 1mm", "capas": 10, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "2:25", "t_real": "2:30", "fecha_ini": "2026-03-25", "fecha_fin": "2026-03-25", "obs": "nan"}, {"id": "T2026-0249", "material": "Pvc 3mm", "capas": 3, "dimensiones": "nan", "retal": "T2025-0507", "operario": "Samuel", "t_teorico": "0:10", "t_real": "0:10", "fecha_ini": "2026-03-26", "fecha_fin": "2026-03-26", "obs": "nan"}, {"id": "T2026-0250", "material": "Pvc 1,5mm", "capas": 7, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "1:45", "t_real": "1:30", "fecha_ini": "2026-03-27", "fecha_fin": "2026-03-27", "obs": "nan"}, {"id": "T2026-0239", "material": "Aluminio 2mm", "capas": 2, "dimensiones": "nan", "retal": "T2026-0189", "operario": "Samuel", "t_teorico": "7:30", "t_real": "4:00", "fecha_ini": "2026-03-27", "fecha_fin": "2026-03-30", "obs": "nan"}, {"id": "T2026-0240", "material": "Aluminio 2mm", "capas": 2, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "3:35", "t_real": "2:55", "fecha_ini": "2026-03-30", "fecha_fin": "2026-03-30", "obs": "nan"}, {"id": "T2026-0234", "material": "XC2-P 15", "capas": 1, "dimensiones": "nan", "retal": "Retal Ø208", "operario": "Samuel", "t_teorico": "0:05", "t_real": "0:05", "fecha_ini": "2026-03-31", "fecha_fin": "2026-03-31", "obs": "nan"}, {"id": "T2025-0677", "material": "Pvc 10mm", "capas": 1, "dimensiones": "2000x1000", "retal": "nan", "operario": "Samuel", "t_teorico": "0:35", "t_real": "0:50", "fecha_ini": "2026-03-31", "fecha_fin": "2026-03-31", "obs": "PROBLEMAS CON ABRASIVO"}, {"id": "T2026-0256", "material": "Pvc 0,5mm", "capas": 20, "dimensiones": "1000x700", "retal": "nan", "operario": "Samuel", "t_teorico": "1:30", "t_real": "1:45", "fecha_ini": "2026-03-31", "fecha_fin": "2026-03-31", "obs": "ALMUERZO"}, {"id": "T2026-0257", "material": "Pvc 0,5mm", "capas": 10, "dimensiones": "nan", "retal": "T2026-0238", "operario": "Samuel", "t_teorico": "0:15", "t_real": "0:10", "fecha_ini": "2026-03-31", "fecha_fin": "2026-03-31", "obs": "nan"}, {"id": "T2026-0255", "material": "Pvc 2mm", "capas": 5, "dimensiones": "nan", "retal": "T2025-1140", "operario": "Samuel", "t_teorico": "0:15", "t_real": "0:20", "fecha_ini": "2026-03-31", "fecha_fin": "2026-03-31", "obs": "nan"}, {"id": "T2026-0258", "material": "Pvc 1mm", "capas": 10, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "3:20", "t_real": "3:00", "fecha_ini": "2026-03-31", "fecha_fin": "2026-04-01", "obs": "nan"}, {"id": "T2026-0259", "material": "Pvc 1mm", "capas": 10, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "1:20", "t_real": "1:30", "fecha_ini": "2026-04-01", "fecha_fin": "2026-04-01", "obs": "nan"}, {"id": "T2026-0268", "material": "Pvc 1mm", "capas": 10, "dimensiones": "nan", "retal": "T2026-0259", "operario": "Samuel", "t_teorico": "0:45", "t_real": "0:40", "fecha_ini": "2026-04-01", "fecha_fin": "2026-04-01", "obs": "nan"}, {"id": "T2026-0269", "material": "Pvc 1mm", "capas": 10, "dimensiones": "nan", "retal": "T2026-0247", "operario": "Samuel", "t_teorico": "0:30", "t_real": "0:30", "fecha_ini": "2026-04-01", "fecha_fin": "2026-04-01", "obs": "nan"}, {"id": "T2026-0241", "material": "Aluminio 2mm", "capas": 2, "dimensiones": "nan", "retal": "T2026-0227", "operario": "Samuel", "t_teorico": "3:20", "t_real": "1:35", "fecha_ini": "2026-04-01", "fecha_fin": "2026-04-07", "obs": "nan"}, {"id": "T2026-0263", "material": "Aluminio 3mm", "capas": 2, "dimensiones": "nan", "retal": "T2025-0774", "operario": "Samuel", "t_teorico": "0:20", "t_real": "0:15", "fecha_ini": "2026-04-07", "fecha_fin": "2026-04-07", "obs": "nan"}, {"id": "T2026-0264", "material": "Aluminio 4mm", "capas": 1, "dimensiones": "nan", "retal": "T2026-0226", "operario": "Samuel", "t_teorico": "0:10", "t_real": "0:05", "fecha_ini": "2026-04-07", "fecha_fin": "2026-04-07", "obs": "nan"}, {"id": "T2026-0260", "material": "Pvc 1,5mm", "capas": 7, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "1:30", "t_real": "1:10", "fecha_ini": "2026-04-07", "fecha_fin": "2026-04-07", "obs": "nan"}, {"id": "T2026-0261", "material": "Pvc 1,5mm", "capas": 7, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "1:50", "t_real": "2:05", "fecha_ini": "2026-04-07", "fecha_fin": "2026-04-07", "obs": "ALMUERZO"}, {"id": "T2026-0262", "material": "Pvc 1,5mm", "capas": 7, "dimensiones": "nan", "retal": "T2026-0250", "operario": "Samuel", "t_teorico": "0:20", "t_real": "0:15", "fecha_ini": "2026-04-07", "fecha_fin": "2026-04-07", "obs": "nan"}, {"id": "T2026-0236", "material": "Aluminio 20mm", "capas": 1, "dimensiones": "nan", "retal": "Plancha 3000x1500", "operario": "Samuel", "t_teorico": "11:30", "t_real": "2:55", "fecha_ini": "2026-04-07", "fecha_fin": "2026-04-09", "obs": "nan"}, {"id": "T2026-0287", "material": "Pvc 0,5mm", "capas": 20, "dimensiones": "1000x700", "retal": "nan", "operario": "Samuel", "t_teorico": "0:10", "t_real": "0:10", "fecha_ini": "2026-04-09", "fecha_fin": "2026-04-09", "obs": "nan"}, {"id": "T2026-0280", "material": "Pvc 1mm", "capas": 10, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "3:45", "t_real": "3:30", "fecha_ini": "2026-04-09", "fecha_fin": "2026-04-10", "obs": "nan"}, {"id": "T2026-0282", "material": "Pvc 1mm", "capas": 10, "dimensiones": "nan", "retal": "T2026-0269", "operario": "Samuel", "t_teorico": "0:25", "t_real": "0:20", "fecha_ini": "2026-04-10", "fecha_fin": "2026-04-10", "obs": "nan"}, {"id": "T2026-0291", "material": "Hierro 2mm", "capas": 1, "dimensiones": "nan", "retal": "T2026-0142", "operario": "Samuel", "t_teorico": "0:10", "t_real": "0:05", "fecha_ini": "2026-04-10", "fecha_fin": "2026-04-10", "obs": "nan"}, {"id": "T2026-0292", "material": "Hierro 2mm", "capas": 2, "dimensiones": "nan", "retal": "T2025-1145", "operario": "Samuel", "t_teorico": "0:10", "t_real": "0:10", "fecha_ini": "2026-04-10", "fecha_fin": "2026-04-10", "obs": "nan"}, {"id": "T2026-0284", "material": "Pvc 1,5mm", "capas": 7, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "2:40", "t_real": "2:25", "fecha_ini": "2026-04-10", "fecha_fin": "2026-04-10", "obs": "nan"}, {"id": "T2026-0285", "material": "Inoxidable 1,5mm", "capas": 1, "dimensiones": "nan", "retal": "T2026-0181-B", "operario": "Samuel", "t_teorico": "0:10", "t_real": "0:10", "fecha_ini": "2026-04-14", "fecha_fin": "2026-04-14", "obs": "nan"}, {"id": "T2026-0286", "material": "Galvanizado 1,5mm", "capas": 1, "dimensiones": "nan", "retal": "T2025-0242-B", "operario": "Samuel", "t_teorico": "1:15", "t_real": "1:00", "fecha_ini": "2026-04-14", "fecha_fin": "2026-04-14", "obs": "nan"}, {"id": "T2026-0289", "material": "Aluminio 3mm", "capas": 2, "dimensiones": "nan", "retal": "T2026-0263", "operario": "Samuel", "t_teorico": "0:15", "t_real": "0:40", "fecha_ini": "2026-04-14", "fecha_fin": "2026-04-14", "obs": "REPASAR TERMINALES"}, {"id": "T2026-0283", "material": "Aluminio 2mm", "capas": 2, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "6:30", "t_real": "3:30", "fecha_ini": "2026-04-14", "fecha_fin": "2026-04-14", "obs": "DESCARGAR MAQUINA 30`"}, {"id": "T2025-0677", "material": "Pvc 10mm", "capas": 1, "dimensiones": "2000x1000", "retal": "nan", "operario": "Samuel", "t_teorico": "0:35", "t_real": "0:35", "fecha_ini": "2026-04-15", "fecha_fin": "2026-04-15", "obs": "REPETIR 4 TERMINALES 6:40--6:45"}, {"id": "Castañuelas Nº 3 Mallorquinas - 1 columna", "material": "1 Plancha de fibra madera", "capas": 1, "dimensiones": "nan", "retal": "nan", "operario": "Samuel", "t_teorico": "1:20", "t_real": "1:45", "fecha_ini": "2026-04-15", "fecha_fin": "2026-04-15", "obs": "nan"}, {"id": "T2026-0303", "material": "Aluminio 2mm", "capas": 1, "dimensiones": "nan", "retal": "Retal 330x230", "operario": "Samuel", "t_teorico": "0:10", "t_real": "0:05", "fecha_ini": "2026-04-15", "fecha_fin": "2026-04-15", "obs": "nan"}, {"id": "T2026-0302", "material": "Pvc 0,5mm", "capas": 20, "dimensiones": "nan", "retal": "T2026-0287", "operario": "Samuel", "t_teorico": "0:40", "t_real": "0:40", "fecha_ini": "2026-04-15", "fecha_fin": "2026-04-15", "obs": "nan"}, {"id": "T2026-0294", "material": "Da igual", "capas": 1, "dimensiones": "nan", "retal": "Baldosas 200x200", "operario": "Samuel", "t_teorico": "0:05", "t_real": "0:05", "fecha_ini": "2026-04-15", "fecha_fin": "2026-04-15", "obs": "Plantilla de corte"}, {"id": "T2026-0295", "material": "Porcelánico 5mm", "capas": 1, "dimensiones": "nan", "retal": "Baldosas 200x200", "operario": "Samuel", "t_teorico": "0:15", "t_real": "1:05", "fecha_ini": "2026-04-15", "fecha_fin": "2026-04-15", "obs": "Cuidado con el color de las baldosas. "}, {"id": "T2026-0307", "material": "Pvc 1mm", "capas": 10, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "5:20", "t_real": "6:20", "fecha_ini": "2026-04-15", "fecha_fin": "2026-04-16", "obs": "nan"}, {"id": "T2026-0316", "material": "Pvc 2mm", "capas": 5, "dimensiones": "nan", "retal": "T2026-0169", "operario": "Samuel", "t_teorico": "0:05", "t_real": "0:05", "fecha_ini": "2026-04-16", "fecha_fin": "2026-04-16", "obs": "nan"}, {"id": "Castañuelas Nº 7 - 1 Columna", "material": "1 Plancha de tela", "capas": 1, "dimensiones": "nan", "retal": "nan", "operario": "Samuel", "t_teorico": "1:20", "t_real": "1:20", "fecha_ini": "2026-04-17", "fecha_fin": "2026-04-17", "obs": "nan"}, {"id": "T2026-0281", "material": "Pvc 1mm", "capas": 10, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "2:50", "t_real": "3:20", "fecha_ini": "2026-04-17", "fecha_fin": "2026-04-17", "obs": "nan"}, {"id": "T2026-0310", "material": "Aluminio 4mm", "capas": 1, "dimensiones": "nan", "retal": "T2026-0264", "operario": "Samuel", "t_teorico": "0:30", "t_real": "0:20", "fecha_ini": "2026-04-17", "fecha_fin": "2026-04-17", "obs": "nan"}, {"id": "T2026-0305", "material": "Pvc 1mm", "capas": 10, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "3:15", "t_real": "3:10", "fecha_ini": "2026-04-20", "fecha_fin": "2026-04-20", "obs": "nan"}, {"id": "T2026-0253", "material": "Inoxidable 1,5mm", "capas": 1, "dimensiones": "nan", "retal": "Plancha 2000x1000", "operario": "Samuel", "t_teorico": "0:15", "t_real": "0:10", "fecha_ini": "2026-04-20", "fecha_fin": "2026-04-20", "obs": "nan"}, {"id": "T2026-0313", "material": "Inoxidable 1,5mm", "capas": 2, "dimensiones": "nan", "retal": "Retal 540x1000 ", "operario": "Samuel", "t_teorico": "4:40", "t_real": "5:15", "fecha_ini": "2026-04-20", "fecha_fin": "2026-04-21", "obs": "nan"}, {"id": "T2026-0306", "material": "Pvc 1mm", "capas": 10, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "3:30", "t_real": "3:45", "fecha_ini": "2026-04-21", "fecha_fin": "2026-04-21", "obs": "ALMUERZO"}, {"id": "T2026-0308", "material": "Aluminio 2mm", "capas": 2, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "6:30", "t_real": "5:35", "fecha_ini": "2026-04-22", "fecha_fin": "2026-04-22", "obs": "nan"}, {"id": "Castañuelas Nº 8 - 1 Columna", "material": "1 Plancha de tela", "capas": 1, "dimensiones": "nan", "retal": "nan", "operario": "Samuel", "t_teorico": "1:20", "t_real": "1:35", "fecha_ini": "2026-04-22", "fecha_fin": "2026-04-23", "obs": "REPASAR TERMINALES MAL CORTADOS 7:40--8:00"}, {"id": "T2026-0321", "material": "Pvc 1mm", "capas": 10, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "3:55", "t_real": "4:40", "fecha_ini": "2026-04-23", "fecha_fin": "2026-04-23", "obs": "ALMUERZO"}, {"id": "T2026-0323", "material": "Pvc 0,5mm", "capas": 20, "dimensiones": "1000x700", "retal": "nan", "operario": "Samuel", "t_teorico": "1:10", "t_real": "0:55", "fecha_ini": "2026-04-24", "fecha_fin": "2026-04-24", "obs": "nan"}, {"id": "T2026-0324", "material": "Pvc 1,5mm", "capas": 7, "dimensiones": "nan", "retal": "T2026-0094", "operario": "Samuel", "t_teorico": "0:50", "t_real": "1:10", "fecha_ini": "2026-04-24", "fecha_fin": "2026-04-24", "obs": "REPASAR LA MITAD DEL LAYOUT FALLO DE ABRASIVO"}], "of_pendientes": [{"id_layout": "T2026-0235", "of": "nan", "referencia": "MCH4992", "uds": 36, "fecha_entrega": "2026-03-30", "obs": "nan"}, {"id_layout": "T2026-0293", "of": "nan", "referencia": "MCH5144", "uds": 15, "fecha_entrega": NaN, "obs": "nan"}, {"id_layout": "T2026-0293", "of": "nan", "referencia": "MCH5142", "uds": 10, "fecha_entrega": NaN, "obs": "nan"}, {"id_layout": "T2026-0299", "of": "24769", "referencia": "10985-RC515-TELAS", "uds": 304, "fecha_entrega": "2026-05-15", "obs": "nan"}, {"id_layout": "T2026-0299", "of": "24760", "referencia": "11177-RC592-TELAS", "uds": 240, "fecha_entrega": "2026-05-06", "obs": "nan"}, {"id_layout": "T2026-0304", "of": "24769", "referencia": "10985-RC515-TELAS", "uds": 80, "fecha_entrega": "2026-05-15", "obs": "nan"}, {"id_layout": "T2026-0304", "of": "24760", "referencia": "11177-RC592-TELAS", "uds": 80, "fecha_entrega": "2026-05-06", "obs": "nan"}, {"id_layout": "T2026-0304", "of": "24760", "referencia": "11177-RC592-MANGUITO A", "uds": 16, "fecha_entrega": "2026-05-06", "obs": "nan"}, {"id_layout": "T2026-0304", "of": "24760", "referencia": "11177-RC592-TIRA A", "uds": 8, "fecha_entrega": "2026-05-06", "obs": "nan"}, {"id_layout": "T2026-0304", "of": "24775", "referencia": "10844-RC799 Telas", "uds": 32, "fecha_entrega": "2026-04-29", "obs": "nan"}, {"id_layout": "T2026-0304", "of": "24775", "referencia": "10844-RC799 Tira manguito A", "uds": 8, "fecha_entrega": "2026-04-29", "obs": "nan"}, {"id_layout": "T2026-0304", "of": "24775", "referencia": "10844-RC799 Manguito B", "uds": 8, "fecha_entrega": "2026-04-29", "obs": "nan"}, {"id_layout": "T2026-0304", "of": "24775", "referencia": "10844-RC799 Manguito A", "uds": 8, "fecha_entrega": "2026-04-29", "obs": "nan"}, {"id_layout": "T2026-0304", "of": "24775", "referencia": "10844-RC799 Tira manguito B", "uds": 8, "fecha_entrega": "2026-04-29", "obs": "nan"}, {"id_layout": "T2026-0304", "of": "24760", "referencia": "11177-RC592-MANGUITO B", "uds": 16, "fecha_entrega": "2026-05-06", "obs": "nan"}, {"id_layout": "T2026-0304", "of": "24760", "referencia": "11177-RC592-TIRA B", "uds": 8, "fecha_entrega": "2026-05-06", "obs": "nan"}, {"id_layout": "T2026-0311", "of": "24773", "referencia": "11641-RC798-TELAS", "uds": 240, "fecha_entrega": "2026-05-06", "obs": "nan"}, {"id_layout": "T2026-0311", "of": "24773", "referencia": "11641-RC798-TELAS TA", "uds": 16, "fecha_entrega": "2026-05-06", "obs": "nan"}, {"id_layout": "T2026-0312", "of": "24772", "referencia": "11641-RC796-TELAS", "uds": 224, "fecha_entrega": "2026-05-06", "obs": "nan"}, {"id_layout": "T2026-0312", "of": "24772", "referencia": "11641-RC796-TIRA ", "uds": 16, "fecha_entrega": "2026-05-06", "obs": "nan"}, {"id_layout": "T2026-0312", "of": "24776", "referencia": "10144-RC781 Manguito", "uds": 16, "fecha_entrega": "2026-05-08", "obs": "nan"}, {"id_layout": "T2026-0312", "of": "24776", "referencia": "10144-RC781 Telas", "uds": 32, "fecha_entrega": "2026-05-08", "obs": "nan"}, {"id_layout": "T2026-0312", "of": "24776", "referencia": "10144-RC781 Tira manguito", "uds": 16, "fecha_entrega": "2026-05-08", "obs": "nan"}, {"id_layout": "T2026-0312", "of": "24773", "referencia": "11641-RC798-TELAS TB", "uds": 16, "fecha_entrega": "2026-05-06", "obs": "nan"}, {"id_layout": "T2026-0312", "of": "24776", "referencia": "11641-RC796-MANGUITO", "uds": 16, "fecha_entrega": "2026-05-08", "obs": "nan"}, {"id_layout": "T2026-0320", "of": "24777", "referencia": "9649-FK4237-T", "uds": 8, "fecha_entrega": "2026-05-15", "obs": "nan"}, {"id_layout": "T2026-0320", "of": "24778", "referencia": "9649-FK5114-T", "uds": 12, "fecha_entrega": "2026-05-15", "obs": "nan"}, {"id_layout": "T2026-0322", "of": "24778", "referencia": "9649-FK5114-P", "uds": 100, "fecha_entrega": "2026-05-15", "obs": "nan"}, {"id_layout": "T2026-0322", "of": "24777", "referencia": "9649-FK4237-P", "uds": 20, "fecha_entrega": "2026-05-15", "obs": "nan"}, {"id_layout": "T2026-0322", "of": "24781", "referencia": "9839-FK3600-M-P", "uds": 120, "fecha_entrega": "2026-06-23", "obs": "nan"}, {"id_layout": "T2026-0322", "of": "24783", "referencia": "10183-FK3583-P", "uds": 20, "fecha_entrega": "2026-05-15", "obs": "nan"}, {"id_layout": "T2026-0322", "of": "24794", "referencia": "11346-FK4802-P", "uds": 290, "fecha_entrega": "2026-05-08", "obs": "nan"}, {"id_layout": "T2026-0322", "of": "24784", "referencia": "881-FK2392-P", "uds": 220, "fecha_entrega": "2026-05-15", "obs": "nan"}, {"id_layout": "T2026-0322", "of": "24785", "referencia": "881-FK2392-P", "uds": 250, "fecha_entrega": "2026-05-15", "obs": "nan"}, {"id_layout": "T2026-0322", "of": "24798", "referencia": "11220-FK5273-P", "uds": 30, "fecha_entrega": "2026-05-20", "obs": "nan"}, {"id_layout": "T2026-0322", "of": "24788", "referencia": "10657-FK4596-P", "uds": 60, "fecha_entrega": "2026-05-20", "obs": "nan"}, {"id_layout": "T2026-0322", "of": "24789", "referencia": "10657-FK4596-P", "uds": 50, "fecha_entrega": "2026-05-20", "obs": "nan"}, {"id_layout": "T2026-0322", "of": "24787", "referencia": "10657-FK4596-P", "uds": 160, "fecha_entrega": "2026-05-20", "obs": "nan"}, {"id_layout": "T2026-0322", "of": "24793", "referencia": "11645-FK5285-P", "uds": 100, "fecha_entrega": "2026-05-15", "obs": "nan"}, {"id_layout": "T2026-0322", "of": "24790", "referencia": "10180-FK4290-P", "uds": 80, "fecha_entrega": "2026-04-30", "obs": "nan"}, {"id_layout": "T2026-0325", "of": "24768", "referencia": "9751-FK5269-T", "uds": 8, "fecha_entrega": "2026-05-05", "obs": "nan"}, {"id_layout": "T2026-0326", "of": "24692", "referencia": "10114-FK4098-TB", "uds": 10, "fecha_entrega": "2026-05-30", "obs": "nan"}, {"id_layout": "T2026-0326", "of": "24692", "referencia": "10114-FK4098-TA", "uds": 10, "fecha_entrega": "2026-05-30", "obs": "nan"}], "consumo_mensual": [{"mes": "2026-01", "material": "Aluminio 2mm", "capas": 15}, {"mes": "2026-01", "material": "Carbonaramida 0,4mm", "capas": 16}, {"mes": "2026-01", "material": "Pvc 0,5mm", "capas": 130}, {"mes": "2026-01", "material": "Pvc 1,5mm", "capas": 42}, {"mes": "2026-01", "material": "Pvc 1mm", "capas": 178}, {"mes": "2026-02", "material": "Aluminio 2mm", "capas": 30}, {"mes": "2026-02", "material": "Carbonaramida 0,4mm", "capas": 8}, {"mes": "2026-02", "material": "Pvc 0,5mm", "capas": 140}, {"mes": "2026-02", "material": "Pvc 1,5mm", "capas": 28}, {"mes": "2026-02", "material": "Pvc 1mm", "capas": 160}, {"mes": "2026-03", "material": "Aluminio 2mm", "capas": 10}, {"mes": "2026-03", "material": "PVC/PES/PVC 0,6", "capas": 35}, {"mes": "2026-03", "material": "Pvc 0,5mm", "capas": 170}, {"mes": "2026-03", "material": "Pvc 1,5mm", "capas": 56}, {"mes": "2026-03", "material": "Pvc 1mm", "capas": 110}, {"mes": "2026-04", "material": "Aluminio 2mm", "capas": 7}, {"mes": "2026-04", "material": "Pvc 0,5mm", "capas": 60}, {"mes": "2026-04", "material": "Pvc 1,5mm", "capas": 35}, {"mes": "2026-04", "material": "Pvc 1mm", "capas": 110}, {"mes": "2026-12", "material": "Pvc 0,5mm", "capas": 10}]};
 const PAL=['#4a9eff','#3dd68c','#f5a623','#a78bfa','#f56565','#38bdf8','#fb923c','#e879f9','#34d399','#facc15'];
 let DATA=null,autoTimer=null;
-let chAlu=null,chPvc=null,chBar=null,chMon=null,chMonStock=null;
+// chart vars declared below
 Chart.defaults.color='#7b8099';Chart.defaults.font.family="'Inter',sans-serif";Chart.defaults.font.size=11;
 const MN=['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 
@@ -537,197 +541,176 @@ function renderAll(d){
 }
 
 // ── PROD CHARTS ──
+// ═══ RENDER FUNCTIONS ═══
+var chAlu=null,chPvc=null,chBar=null,chMon=null,chMonStock=null;
+Chart.defaults.color='#7b8099';
+Chart.defaults.font.family="'Inter',sans-serif";
+Chart.defaults.font.size=11;
+
+
 function updateProdCharts(){
-  if(!DATA)return;
+  if(!DATA) return;
   var fin=DATA.layouts_finalizados.filter(applyFiltrosFn);
   var cAll={},cFull={};
-  fin.forEach(function(r){var m=r.material;if(!m)return;
-    cAll[m]=(cAll[m]||0)+r.capas;if(!r.retal)cFull[m]=(cFull[m]||0)+r.capas;});
-  function toArr(o){return Object.entries(o).sort(function(a,b){return b[1]-a[1];}).slice(0,12).map(function(e){return{material:e[0],capas:e[1]};});}
-  var consumo=showFull?toArr(cFull):toArr(cAll);
-  function filt(arr,kw){return arr.filter(function(d){return d.material.toLowerCase().includes(kw);});}
-  var aluDist=showFull?filt(toArr(cFull),'aluminio'):filt(toArr(cAll),'aluminio');
-  var pvcDist=showFull?filt(toArr(cFull),'pvc'):filt(toArr(cAll),'pvc');
-  var mMap={};var top6=consumo.slice(0,6).map(function(d){return d.material;});
-  fin.forEach(function(r){if(!r.fecha_fin||!top6.includes(r.material))return;
-    if(showFull&&r.retal)return;
-    var k=r.fecha_fin.slice(0,7)+'|'+r.material;mMap[k]=(mMap[k]||0)+r.capas;});
+  fin.forEach(function(r){
+    var m=r.material; if(!m) return;
+    cAll[m]=(cAll[m]||0)+r.capas;
+    if(!r.retal) cFull[m]=(cFull[m]||0)+r.capas;
+  });
+  var src=showFull?cFull:cAll;
+  var consumo=Object.entries(src).sort(function(a,b){return b[1]-a[1];}).slice(0,12).map(function(e){return{material:e[0],capas:e[1]};});
+  function filt(kw){return consumo.filter(function(d){return d.material.toLowerCase().includes(kw);});}
+  var aluDist=filt('aluminio'), pvcDist=filt('pvc');
+  var top6=consumo.slice(0,6).map(function(d){return d.material;});
+  var mMap={};
+  fin.forEach(function(r){
+    if(!r.fecha_fin||!top6.includes(r.material)) return;
+    if(showFull&&r.retal) return;
+    var k=r.fecha_fin.slice(0,7)+'|'+r.material;
+    mMap[k]=(mMap[k]||0)+r.capas;
+  });
   var mensual=Object.entries(mMap).map(function(e){var p=e[0].split('|');return{mes:p[0],material:p[1],capas:e[1]};});
   var months=[...new Set(mensual.map(function(x){return x.mes;}))].sort();
   var mats=[...new Set(mensual.map(function(x){return x.material;}))];
 
-  function updDoughnut(ch,id,data){
+  function updDona(ch,id,data){
+    var el=document.getElementById(id); if(!el) return ch;
     if(ch){ch.data.labels=data.map(function(x){return x.material;});ch.data.datasets[0].data=data.map(function(x){return x.capas;});ch.update();return ch;}
-    if(!data.length)return ch;
-    return new Chart(document.getElementById(id),{type:'doughnut',
-      data:{labels:data.map(function(x){return x.material;}),datasets:[{data:data.map(function(x){return x.capas;}),backgroundColor:PAL,borderWidth:0,hoverOffset:4}]},
-      options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'right',labels:{font:{size:10},boxWidth:10,padding:7}}}}});
+    if(!data.length) return ch;
+    return new Chart(el,{type:'doughnut',data:{labels:data.map(function(x){return x.material;}),datasets:[{data:data.map(function(x){return x.capas;}),backgroundColor:PAL,borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:10,padding:6}}}}});
   }
-  chAlu=updDoughnut(chAlu,'ch-alu',aluDist);
-  chPvc=updDoughnut(chPvc,'ch-pvc',pvcDist);
+  chAlu=updDona(chAlu,'ch-alu',aluDist);
+  chPvc=updDona(chPvc,'ch-pvc',pvcDist);
 
-  if(chBar&&document.getElementById('ch-bar')){chBar.data.labels=consumo.map(function(x){return x.material;});chBar.data.datasets[0].data=consumo.map(function(x){return x.capas;});chBar.data.datasets[0].backgroundColor=consumo.map(function(d,i){return PAL[i%PAL.length];});chBar.update();}
-  else if(consumo.length){var _chBarEl=document.getElementById('ch-bar');if(_chBarEl)chBar=new Chart(_chBarEl,{type:'bar',
-    data:{labels:consumo.map(function(x){return x.material;}),datasets:[{data:consumo.map(function(x){return x.capas;}),backgroundColor:consumo.map(function(d,i){return PAL[i%PAL.length];}),borderRadius:4}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{maxRotation:35,font:{size:10}}},y:{grid:{color:'rgba(255,255,255,.04)'}}}}});}
+  var barEl=document.getElementById('ch-bar');
+  if(barEl&&consumo.length){
+    if(chBar){chBar.data.labels=consumo.map(function(x){return x.material;});chBar.data.datasets[0].data=consumo.map(function(x){return x.capas;});chBar.data.datasets[0].backgroundColor=consumo.map(function(d,i){return PAL[i%PAL.length];});chBar.update();}
+    else{chBar=new Chart(barEl,{type:'bar',data:{labels:consumo.map(function(x){return x.material;}),datasets:[{data:consumo.map(function(x){return x.capas;}),backgroundColor:consumo.map(function(d,i){return PAL[i%PAL.length];}),borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{maxRotation:35,font:{size:10}}},y:{grid:{color:'rgba(255,255,255,.04)'}}}}});}
+  }
 
-  function mkDS(mats,months,data){return mats.map(function(mat,i){return{label:mat,data:months.map(function(m){var r=data.find(function(x){return x.mes===m&&x.material===mat;});return r?r.capas:0;}),backgroundColor:PAL[i%PAL.length],borderRadius:2};});}
-  var stackOpts={responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{size:10},boxWidth:10,padding:6}}},scales:{x:{stacked:true,grid:{color:'rgba(255,255,255,.04)'}},y:{stacked:true,grid:{color:'rgba(255,255,255,.04)'}}}};
-  if(chMon&&document.getElementById('ch-mon')&&months.length){chMon.data.labels=months.map(mLabel);chMon.data.datasets=mkDS(mats,months,mensual);chMon.update();}
-  else if(months.length){var _chMonEl=document.getElementById('ch-mon');if(_chMonEl)chMon=new Chart(_chMonEl,{type:'bar',data:{labels:months.map(mLabel),datasets:mkDS(mats,months,mensual)},options:stackOpts});}
+  var monEl=document.getElementById('ch-mon');
+  if(monEl&&months.length){
+    var ds=mats.map(function(mat,i){return{label:mat,data:months.map(function(m){var r=mensual.find(function(x){return x.mes===m&&x.material===mat;});return r?r.capas:0;}),backgroundColor:PAL[i%PAL.length],borderRadius:2};});
+    if(chMon){chMon.data.labels=months.map(mLabel);chMon.data.datasets=ds;chMon.update();}
+    else{chMon=new Chart(monEl,{type:'bar',data:{labels:months.map(mLabel),datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{size:10},boxWidth:10,padding:6}}},scales:{x:{stacked:true,grid:{color:'rgba(255,255,255,.04)'}},y:{stacked:true,grid:{color:'rgba(255,255,255,.04)'}}}}});}
+  }
 }
 
-function setProdMode(full,btn){showFull=full;document.querySelectorAll('.mode-btn').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');updateProdCharts();}
-
-// ── FILTROS ──
-function applyFiltrosFn(r){
-  if(filtros.anio&&(!r.fecha_fin||r.fecha_fin.slice(0,4)!==filtros.anio))return false;
-  if(filtros.mes&&(!r.fecha_fin||r.fecha_fin.slice(5,7)!==filtros.mes))return false;
-  if(filtros.material&&r.material!==filtros.material)return false;
-  if(filtros.operario&&r.operario!==filtros.operario)return false;
-  return true;
+function setProdMode(full,btn){
+  showFull=full;
+  document.querySelectorAll('.mode-btn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  updateProdCharts();
 }
-function buildFiltros(){
-  if(!DATA||!DATA.meta)return;
-  var m=DATA.meta;
-  function opts(arr,fn){return arr.map(function(v){return'<option value="'+v+'">'+fn(v)+'</option>';}).join('');}
-  document.getElementById('f-anio').innerHTML='<option value="">Año</option>'+opts(m.anios,function(v){return v;});
-  document.getElementById('f-mes').innerHTML='<option value="">Mes</option>'+opts(m.meses,function(v){return MN[parseInt(v)];});
-  document.getElementById('f-material').innerHTML='<option value="">Material</option>'+opts(m.mats,function(v){return v;});
-  document.getElementById('f-operario').innerHTML='<option value="">Operario</option>'+opts(m.ops,function(v){return v;});
-}
-function buildFiltrosMats(){
-  if(!DATA)return;
-  var mats=[...new Set(DATA.of_pendientes.concat(DATA.of_finalizados).map(function(r){return r.material;}).filter(Boolean))].sort();
-  function optsM(id){document.getElementById(id).innerHTML='<option value="">Todos los materiales</option>'+mats.map(function(m){return'<option value="'+m+'">'+m+'</option>';}).join('');}
-  var _omp=document.getElementById('of-mat-pend');if(_omp)optsM('of-mat-pend');optsM('of-mat-fin');
-  // Stock chart material selector
-  var sMats=[...new Set((DATA.mensual_stock||[]).map(function(x){return x.material;}))].sort();
-  document.getElementById('stock-chart-mat').innerHTML='<option value="">Todos</option>'+sMats.map(function(m){return'<option value="'+m+'">'+m+'</option>';}).join('');
-  // Stock table mat selector
-  var stMats=[...new Set(DATA.stock.map(function(s){return s.material;}))].sort();
-  document.getElementById('stock-mat-sel').innerHTML='<option value="">Todos los materiales</option>'+stMats.map(function(m){return'<option value="'+m+'">'+m+'</option>';}).join('');
-}
-function setFiltro(k,v){filtros[k]=v;updateProdCharts();var rows=DATA.layouts_finalizados.filter(applyFiltrosFn);renderFin(rows);document.getElementById('bdg-fin').textContent=rows.length;}
-function resetFiltros(){filtros={anio:'',mes:'',material:'',operario:''};['f-anio','f-mes','f-material','f-operario'].forEach(function(id){document.getElementById(id).value='';});updateProdCharts();renderFin(DATA.layouts_finalizados);document.getElementById('bdg-fin').textContent=DATA.resumen.total_finalizados;}
 
-// ── STOCK SECTION ──
-var stockChartMat='',stockShowFull=false,stockShowMedia=false;
-
-function getStockKpiCfg(){try{return JSON.parse(localStorage.getItem('mcha_kpi_cfg')||'null');}catch(e){return null;}}
-function saveStockKpiCfg(cfg){localStorage.setItem('mcha_kpi_cfg',JSON.stringify(cfg));}
-
+// ── STOCK ──
 function updateStockSection(){
-  if(!DATA)return;
+  if(!DATA) return;
   renderStockKpis();
   refreshStockStatus();
   updateStockChart();
+  var sMats=[...new Set((DATA.mensual_stock||[]).map(function(x){return x.material;}))].sort();
+  var sch=document.getElementById('stock-chart-mat');
+  if(sch) sch.innerHTML='<option value="">Todos</option>'+sMats.map(function(m){return '<option value="'+m+'">'+m+'</option>';}).join('');
+  var stMats=[...new Set(DATA.stock.map(function(s){return s.material;}))].sort();
+  var ss=document.getElementById('stock-mat-sel');
+  if(ss) ss.innerHTML='<option value="">Todos</option>'+stMats.map(function(m){return '<option value="'+m+'">'+m+'</option>';}).join('');
 }
+
+function getStockKpiCfg(){try{return JSON.parse(localStorage.getItem('mcha_kpi_cfg')||'null');}catch(e){return null;}}
+function saveStockKpiCfg(c){localStorage.setItem('mcha_kpi_cfg',JSON.stringify(c));}
 
 function renderStockKpis(){
-  var cfg=getStockKpiCfg()||[
-    {mat:'Pvc 1mm',dim:'3000x1500'},
-    {mat:'Pvc 1,5mm',dim:'3000x1500'},
-    {mat:'Aluminio 2mm',dim:'3000x1500'}
-  ];
-  // Build unique mat+dim options from stock
-  var opts=DATA.stock.map(function(s){return{mat:s.material,dim:s.dimensiones,key:s.material+'|'+s.dimensiones};});
+  if(!DATA) return;
+  var cfg=getStockKpiCfg()||[{mat:'Pvc 1mm',dim:'3000x1500'},{mat:'Pvc 1,5mm',dim:'3000x1500'},{mat:'Aluminio 2mm',dim:'3000x1500'}];
+  var allOpts=DATA.stock.map(function(s){return {mat:s.material,dim:s.dimensiones,key:s.material+'|'+s.dimensiones};});
   function mkSel(idx,selMat,selDim){
-    return'<select class="f-select" style="font-size:10px;padding:2px 6px;max-width:130px" onchange="changeKpi('+idx+',this.value)">'
-      +opts.map(function(o){return'<option value="'+o.key+'"'+(o.mat===selMat&&o.dim===selDim?' selected':'')+'>'+o.mat+' '+o.dim+'</option>';}).join('')+'</select>';
+    return '<select class="f-select" style="font-size:10px;padding:2px 6px;max-width:140px;margin-bottom:6px" onchange="changeKpi('+idx+',this.value)">'
+      +allOpts.map(function(o){return '<option value="'+o.key+'"'+(o.mat===selMat&&o.dim===selDim?' selected':'')+'>'+o.mat+' '+o.dim+'</option>';}).join('')+'</select>';
   }
-  // Top KPI row (same data, simpler layout)
-  var topKpisEl=document.getElementById('st-kpis-top');
-  // Build unique mat+dim options
-  var allOpts=DATA.stock.map(function(s){return{mat:s.material,dim:s.dimensiones,key:s.material+'|'+s.dimensiones};});
-  function mkTopSel(idx,selMat,selDim){
-    return'<select class="f-select" style="font-size:10px;padding:2px 6px;max-width:140px;margin-bottom:6px" onchange="changeTopKpi('+idx+',this.value)">'
-      +allOpts.map(function(o){return'<option value="'+o.key+'"'+(o.mat===selMat&&o.dim===selDim?' selected':'')+'>'+o.mat+' '+o.dim+'</option>';}).join('')+'</select>';
-  }
-  if(topKpisEl){
-    topKpisEl.innerHTML=cfg.map(function(c,i){
-      var found=DATA.stock.find(function(s){return s.material===c.mat&&s.dimensiones===c.dim;});
-      var val=found?found.stock_actual:'—',bad=found?found.necesita:false;
-      var mon=(DATA.mensual_stock||[]).filter(function(x){return x.material===c.mat;});
-      var avg=mon.length?Math.round(mon.reduce(function(s,x){return s+x.capas;},0)/mon.length*10)/10:0;
-      var colors=['#4a9eff','#3dd68c','#a78bfa'];
-      return'<div class="kpi">'+mkTopSel(i,c.mat,c.dim)
-        +'<div class="kpi-val" style="color:'+(bad?'var(--red)':colors[i])+'">'+val+'</div>'
-        +'<div class="kpi-sub">Stock actual · Media: <strong style="color:var(--text)">'+avg+'</strong> planchas/mes</div></div>';
-    }).join('');
-  }
-  document.getElementById('st-kpis').innerHTML=cfg.map(function(c,i){
+  var colors=['#4a9eff','#3dd68c','#a78bfa'];
+  var topEl=document.getElementById('st-kpis-top');
+  var sideEl=document.getElementById('st-kpis');
+  var topHtml='', sideHtml='';
+  cfg.forEach(function(c,i){
+    var found=DATA.stock.find(function(s){return s.material===c.mat&&s.dimensiones===c.dim;});
+    var val=found?found.stock_actual:'\u2014', bad=found?found.necesita:false;
     var mon=(DATA.mensual_stock||[]).filter(function(x){return x.material===c.mat;});
-    var mx=Math.max.apply(null,mon.map(function(x){return x.capas;}).concat([1]));
     var avg=mon.length?Math.round(mon.reduce(function(s,x){return s+x.capas;},0)/mon.length*10)/10:0;
-    var colors=['#4a9eff','#3dd68c','#a78bfa'];
-    var bars=mon.slice(-6).map(function(x){
+    var mx=Math.max.apply(null,mon.map(function(x){return x.capas;}).concat([1]));
+    // Top card
+    topHtml+='<div class="kpi">'+mkSel(i,c.mat,c.dim)
+      +'<div class="kpi-val" style="color:'+(bad?'var(--red)':colors[i])+'">'+val+'</div>'
+      +'<div class="kpi-sub">Stock actual \u00b7 Media: <strong style="color:var(--text)">'+avg+'</strong> / mes</div></div>';
+    // Side card (mini bars)
+    var bars=mon.slice(-5).map(function(x){
       var p=x.mes.split('-');
-      var lbl=MN[parseInt(p[1])]+' '+p[0].slice(2);
-      var pct=Math.round(x.capas/mx*100);
-      return'<div class="mini-bar"><span class="mini-lbl">'+lbl+'</span>'
-        +'<div class="mini-track"><div class="mini-fill" style="width:'+pct+'%;background:'+colors[i]+'"></div></div>'
+      return '<div class="mini-bar"><span class="mini-lbl">'+MN[parseInt(p[1])]+' '+p[0].slice(2)+'</span>'
+        +'<div class="mini-track"><div class="mini-fill" style="width:'+Math.round(x.capas/mx*100)+'%;background:'+colors[i]+'"></div></div>'
         +'<span class="mini-val">'+x.capas+'</span></div>';
     }).join('');
-    return'<div class="card" style="margin-bottom:0;padding:0">'
-      +'<div class="card-hdr" style="padding:8px 12px">'+mkSel(i,c.mat,c.dim)+'</div>'
-      +'<div class="card-body" style="padding:10px 12px">'
-      +(bars||'<div style="font-size:11px;color:var(--muted)">Sin datos de consumo</div>')
-      +'<div style="font-size:11px;color:var(--muted);margin-top:8px;padding-top:6px;border-top:0.5px solid var(--border)">Media: <strong style="color:var(--text)">'+avg+'</strong> planchas/mes</div>'
+    sideHtml+='<div class="card" style="margin-bottom:0"><div class="card-hdr" style="padding:8px 12px">'+mkSel(i,c.mat,c.dim)+'</div>'
+      +'<div class="card-body" style="padding:10px 12px">'+(bars||'<div style="font-size:11px;color:var(--muted)">Sin datos</div>')
+      +'<div style="font-size:11px;color:var(--muted);margin-top:6px;padding-top:6px;border-top:0.5px solid var(--border)">Media: <strong style="color:var(--text)">'+avg+'</strong> planchas/mes</div>'
       +'</div></div>';
-  }).join('');
+  });
+  if(topEl) topEl.innerHTML=topHtml;
+  if(sideEl) sideEl.innerHTML=sideHtml;
 }
 
-function changeTopKpi(idx,val){
-  var cfg=getStockKpiCfg()||[{mat:'Pvc 1mm',dim:'3000x1500'},{mat:'Pvc 1,5mm',dim:'3000x1500'},{mat:'Aluminio 2mm',dim:'3000x1500'}];
-  var parts=val.split('|');cfg[idx]={mat:parts[0],dim:parts[1]||''};
-  saveStockKpiCfg(cfg);renderStockKpis();
-}
 function changeKpi(idx,val){
   var cfg=getStockKpiCfg()||[{mat:'Pvc 1mm',dim:'3000x1500'},{mat:'Pvc 1,5mm',dim:'3000x1500'},{mat:'Aluminio 2mm',dim:'3000x1500'}];
-  var parts=val.split('|');cfg[idx]={mat:parts[0],dim:parts[1]||''};
-  saveStockKpiCfg(cfg);renderStockKpis();
+  var p=val.split('|'); cfg[idx]={mat:p[0],dim:p[1]||''};
+  saveStockKpiCfg(cfg); renderStockKpis();
 }
 
+var stockChartMat='',stockShowMedia=false;
 function updateStockChart(){
-  if(!DATA)return;
+  if(!DATA) return;
   var src=DATA.mensual_stock||[];
-  var filtered=stockChartMat?src.filter(function(x){return x.material===stockChartMat;}):src;
-  var months=[...new Set(filtered.map(function(x){return x.mes;}))].sort();
-  var mats=[...new Set(filtered.map(function(x){return x.material;}))];
-  if(chMonStock)chMonStock.destroy();
-  if(!months.length)return;
-  function mkDS2(mts,mos,data){return mts.map(function(mat,i){return{label:mat,data:mos.map(function(m){var r=data.find(function(x){return x.mes===m&&x.material===mat;});return r?r.capas:0;}),backgroundColor:PAL[i%PAL.length],borderRadius:2};});}
-  var datasets=mkDS2(mats,months,filtered);
+  var f=stockChartMat?src.filter(function(x){return x.material===stockChartMat;}):src;
+  var months=[...new Set(f.map(function(x){return x.mes;}))].sort();
+  var mats=[...new Set(f.map(function(x){return x.material;}))];
+  var el=document.getElementById('ch-mon-stock'); if(!el) return;
+  if(chMonStock) chMonStock.destroy();
+  if(!months.length) return;
+  var ds=mats.map(function(mat,i){return{label:mat,data:months.map(function(m){var r=f.find(function(x){return x.mes===m&&x.material===mat;});return r?r.capas:0;}),backgroundColor:PAL[i%PAL.length],borderRadius:2};});
   if(stockShowMedia&&mats.length===1){
-    var vals=months.map(function(m){var r=filtered.find(function(x){return x.mes===m;});return r?r.capas:0;});
-    var avg2=vals.reduce(function(a,b){return a+b;},0)/vals.length;
-    datasets.push({type:'line',label:'Media',data:months.map(function(){return Math.round(avg2*10)/10;}),borderColor:'#f5a623',borderDash:[4,3],borderWidth:2,pointRadius:0,fill:false,order:-1});
+    var vals=months.map(function(m){var r=f.find(function(x){return x.mes===m;});return r?r.capas:0;});
+    var avg=vals.reduce(function(a,b){return a+b;},0)/vals.length;
+    ds.push({type:'line',label:'Media',data:months.map(function(){return Math.round(avg*10)/10;}),borderColor:'#f5a623',borderDash:[4,3],borderWidth:2,pointRadius:0,fill:false,order:-1});
   }
-  chMonStock=new Chart(document.getElementById('ch-mon-stock'),{type:'bar',
-    data:{labels:months.map(mLabel),datasets:datasets},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{position:'right',labels:{font:{size:10},boxWidth:10,padding:6}}},
-      scales:{x:{stacked:true,grid:{color:'rgba(255,255,255,.04)'}},y:{stacked:true,grid:{color:'rgba(255,255,255,.04)'}}}}});
+  chMonStock=new Chart(el,{type:'bar',data:{labels:months.map(mLabel),datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{size:10},boxWidth:10,padding:6}}},scales:{x:{stacked:true,grid:{color:'rgba(255,255,255,.04)'}},y:{stacked:true,grid:{color:'rgba(255,255,255,.04)'}}}}});
 }
 function setStockChartMat(v){stockChartMat=v;updateStockChart();}
 function toggleStockMedia(cb){stockShowMedia=cb.checked;updateStockChart();}
 
-// ── ALERT CFG ──
 function getAlertCfg(){try{return JSON.parse(localStorage.getItem('mcha_alert_cfg')||'null');}catch(e){return null;}}
-function buildAlertCheckboxes(){
-  if(!DATA)return;
+function refreshStockStatus(){
+  if(!DATA) return;
   var cfg=getAlertCfg();
-  var c=document.getElementById('alert-checkboxes');if(!c)return;
+  var mon=cfg?DATA.stock.filter(function(s){return cfg.indexOf(s.material+'|'+s.dimensiones)>=0;}):DATA.stock;
+  var crit=mon.filter(function(s){return s.necesita;});
+  var el=document.getElementById('st-status'); if(!el) return;
+  el.innerHTML=crit.length===0
+    ?'<div class="stock-ok">\u2713 Stock OK</div>'
+    :'<div class="stock-fail">\u26a0 Repos. necesaria: '+crit.map(function(s){return s.material+' '+s.dimensiones;}).join(', ')+'</div>';
+}
+function buildAlertCheckboxes(){
+  if(!DATA) return;
+  var cfg=getAlertCfg();
+  var c=document.getElementById('alert-checkboxes'); if(!c) return;
   c.innerHTML=DATA.stock.map(function(s){
-    var k=s.material+'|'+s.dimensiones,chk=!cfg||cfg.indexOf(k)>=0;
-    return'<label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text);background:var(--surface2);padding:8px 10px;border-radius:6px;cursor:pointer">'
+    var k=s.material+'|'+s.dimensiones, chk=!cfg||cfg.indexOf(k)>=0;
+    return '<label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text);background:var(--surface2);padding:8px 10px;border-radius:6px;cursor:pointer">'
       +'<input type="checkbox" value="'+k+'"'+(chk?' checked':'')
-      +' style="accent-color:var(--blue)"> '+s.material+' <span style="color:var(--dim);font-size:11px">'+s.dimensiones+'</span></label>';
+      +' style="accent-color:var(--blue)"> '+s.material
+      +' <span style="color:var(--dim);font-size:11px">'+s.dimensiones+'</span></label>';
   }).join('');
 }
 function saveAlertCfg(){
-  var sel=[];document.querySelectorAll('#alert-checkboxes input:checked').forEach(function(cb){sel.push(cb.value);});
+  var sel=[];
+  document.querySelectorAll('#alert-checkboxes input:checked').forEach(function(cb){sel.push(cb.value);});
   localStorage.setItem('mcha_alert_cfg',JSON.stringify(sel));
   document.getElementById('alert-cfg-body').style.display='none';
   document.getElementById('alert-cfg-btn').textContent='Editar alertas';
@@ -735,53 +718,138 @@ function saveAlertCfg(){
 }
 function toggleAlertCfg(){
   var b=document.getElementById('alert-cfg-body'),btn=document.getElementById('alert-cfg-btn');
-  var open=b.style.display==='none';b.style.display=open?'block':'none';
+  var open=b.style.display==='none'; b.style.display=open?'block':'none';
   btn.textContent=open?'Cerrar':'Editar alertas';
 }
-function refreshStockStatus(){
-  if(!DATA)return;
-  var cfg=getAlertCfg();
-  var mon=cfg?DATA.stock.filter(function(s){return cfg.indexOf(s.material+'|'+s.dimensiones)>=0;}):DATA.stock;
-  var crit=mon.filter(function(s){return s.necesita;});
-  document.getElementById('st-status').innerHTML=crit.length===0
-    ?'<div class="stock-ok">✓ Stock OK</div>'
-    :'<div class="stock-fail">⚠ Repos. necesaria: '+crit.map(function(s){return s.material+' '+s.dimensiones;}).join(', ')+'</div>';
+
+// ── RENDER ALL ──
+function renderAll(d){
+  DATA=d;
+  // KPIs
+  document.getElementById('k-pend').textContent=d.resumen.layouts_pendientes;
+  document.getElementById('k-time').textContent=d.resumen.tiempo_pendiente;
+  document.getElementById('k-hoy').textContent=d.resumen.layouts_finalizados_hoy||'0';
+  document.getElementById('k-hoy-sub').textContent=new Date().toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'numeric'});
+  document.getElementById('k-total').textContent=d.resumen.total_finalizados;
+  var bp=document.getElementById('bdg-pend'); if(bp) bp.textContent=d.resumen.layouts_pendientes+' pendientes';
+  var bf=document.getElementById('bdg-fin'); if(bf) bf.textContent=d.resumen.total_finalizados+' finalizados';
+  // Data arrays
+  pendData=[].concat(d.layouts_pendientes);
+  finData=[].concat(d.layouts_finalizados);
+  ofFinData=[].concat(d.of_finalizados||[]);
+  stockData=[].concat(d.stock);
+  filtros={anio:'',mes:'',material:'',operario:''};
+  // Build selectors
+  buildFiltros();
+  buildFiltrosMats();
+  // Charts
+  updateProdCharts();
+  updateStockSection();
+  buildAlertCheckboxes();
+  // Tables
+  renderPend(pendData);
+  renderFin(finData);
+  renderOFFin(ofFinData);
+  renderStock(stockData);
 }
 
-// ── PEND ORDER ──
-function getPendOrder(){try{return JSON.parse(localStorage.getItem('mcha_pend_order')||'{}');}catch(e){return{};}}
-function savePendOrder(id,val){var o=getPendOrder();if(val==='')delete o[id];else o[id]=parseInt(val)||0;localStorage.setItem('mcha_pend_order',JSON.stringify(o));sortAndRenderPend();}
-function sortAndRenderPend(){
-  var o=getPendOrder();
-  var sorted=[].concat(pendData).sort(function(a,b){var oa=o[a.id]!==undefined?o[a.id]:9999,ob=o[b.id]!==undefined?o[b.id]:9999;return oa-ob;});
-  renderPend(sorted);
-}
-
-// ── SELECTED LAYOUT ──
-var selectedLayout=null;
-function selectLayout(id){
-  selectedLayout=id;
-  document.querySelectorAll('#tb-pend tr').forEach(function(tr){tr.classList.remove('selected-row');});
-  var rows=document.querySelectorAll('#tb-pend tr');
-  rows.forEach(function(tr){if(tr.querySelector('.layout-id')&&tr.querySelector('.layout-id').textContent===id)tr.classList.add('selected-row');});
-  var panel=document.getElementById('of-inline');if(!panel)return;
-  if(!DATA||!id){panel.style.display='none';return;}
-  var ofs=(DATA.of_by_layout||{})[id]||[];
-  if(!ofs.length){panel.innerHTML='<div style="padding:12px 16px;font-size:12px;color:var(--muted)">Sin órdenes de fabricación para este layout.</div>';panel.style.display='block';return;}
-  panel.style.display='block';
-  panel.innerHTML='<div style="padding:10px 16px;background:var(--surface2);border-bottom:1px solid var(--border);font-size:11px;font-weight:600;color:var(--blue);text-transform:uppercase;letter-spacing:.06em">OF del layout '+id+'</div>'
-    +'<div style="overflow-x:auto"><table><thead><tr><th>OF</th><th>Referencia</th><th>Uds</th><th>Fecha entrega</th><th>Material</th></tr></thead><tbody>'
-    +ofs.map(function(o){return'<tr><td style="font-weight:500">'+cl(o.of)+'</td><td>'+cl(o.referencia)+'</td><td><span class="bdg bdg-dim">'+o.uds+'</span></td><td>'+dEs(o.fecha_entrega)+'</td><td style="color:var(--muted)">'+cl(o.material)+'</td></tr>';}).join('')
-    +'</tbody></table></div>';
-}
-
-// ── TABLES ──
-
-function renderFin(rows){
-  var el=document.getElementById('tb-fin');
+// ── PENDING TABLE with expandable OF ──
+function renderPend(rows){
+  var el=document.getElementById('tb-pend');
   if(!el) return;
+  if(!rows||!rows.length){
+    el.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:2rem">Sin layouts pendientes</td></tr>';
+    return;
+  }
+  var o=getPendOrder();
+  var frag=document.createDocumentFragment();
+  rows.forEach(function(r){
+    var ord=o[r.id]!==undefined?o[r.id]:'';
+    var ofs=(DATA&&DATA.of_by_layout&&DATA.of_by_layout[r.id])||[];
+    var safeId=r.id.replace(/[^a-zA-Z0-9]/g,'_');
+    var ofRowId='ofrow_'+safeId;
+    // Main row
+    var tr=document.createElement('tr');
+    tr.className='layout-row';
+    tr.style.cursor='pointer';
+    tr.innerHTML=[
+      '<td style="width:48px"><input type="number" min="1" value="'+ord+'" placeholder="\u2014"',
+      ' style="width:42px;background:var(--surface3);border:1px solid var(--border2);border-radius:4px;color:var(--text);padding:3px 4px;font-size:11px;text-align:center"></td>',
+      '<td><span class="exp-icon" style="font-size:9px;color:var(--muted);margin-right:3px">'+(ofs.length?'\u25B6':'\u00B7')+'</span>',
+      '<span class="bdg bdg-red">'+cl(r.id)+'</span></td>',
+      '<td>'+cl(r.material)+'</td>',
+      '<td style="text-align:center">'+r.capas+'</td>',
+      '<td>'+cl(r.dimensiones)+'</td>',
+      '<td>'+cl(r.operario)+'</td>',
+      '<td><span class="bdg bdg-amber">'+cl(r.t_teorico)+'</span></td>'
+    ].join('');
+    // Click to expand
+    (function(rowEl, rowId, rowOfs){
+      rowEl.addEventListener('click', function(e){
+        if(e.target.tagName==='INPUT') return;
+        toggleExpand(rowId, rowEl);
+      });
+      // Order input change
+      var inp=rowEl.querySelector('input[type=number]');
+      if(inp){ inp.addEventListener('change',function(){savePendOrder(r.id,inp.value);}); }
+    })(tr, ofRowId, ofs);
+    frag.appendChild(tr);
+    // OF expand row
+    var ofTr=document.createElement('tr');
+    ofTr.id=ofRowId;
+    ofTr.style.display='none';
+    var td=document.createElement('td');
+    td.colSpan=7;
+    td.style.cssText='padding:0;background:var(--surface2);border-left:2px solid var(--blue)';
+    if(!ofs.length){
+      td.innerHTML='<div style="padding:8px 16px;font-size:11px;color:var(--muted)">Sin OF registradas.</div>';
+    } else {
+      var rows2=ofs.map(function(o2){
+        return '<tr>'
+          +'<td style="padding:5px 12px;border-bottom:0.5px solid var(--border);font-weight:500;color:var(--text)">'+cl(o2.of)+'</td>'
+          +'<td style="padding:5px 12px;border-bottom:0.5px solid var(--border);color:var(--text)">'+cl(o2.referencia)+'</td>'
+          +'<td style="padding:5px 12px;border-bottom:0.5px solid var(--border)"><span class="bdg bdg-dim">'+o2.uds+'</span></td>'
+          +'<td style="padding:5px 12px;border-bottom:0.5px solid var(--border);color:var(--muted)">'+dEs(o2.fecha_entrega)+'</td>'
+          +'</tr>';
+      }).join('');
+      td.innerHTML='<div style="padding:6px 0 8px 32px">'
+        +'<table style="width:100%;border-collapse:collapse;font-size:11px">'
+        +'<thead><tr>'
+        +'<th style="padding:5px 12px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">OF</th>'
+        +'<th style="padding:5px 12px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Referencia</th>'
+        +'<th style="padding:5px 12px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Uds</th>'
+        +'<th style="padding:5px 12px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">F. entrega</th>'
+        +'</tr></thead><tbody>'+rows2+'</tbody></table></div>';
+    }
+    ofTr.appendChild(td);
+    frag.appendChild(ofTr);
+  });
+  el.innerHTML='';
+  el.appendChild(frag);
+}
+
+function toggleExpand(ofRowId, layoutRow){
+  var ofRow=document.getElementById(ofRowId);
+  if(!ofRow) return;
+  var isOpen=ofRow.style.display!=='none';
+  // Close all
+  document.querySelectorAll('[id^="ofrow_"]').forEach(function(r){r.style.display='none';});
+  document.querySelectorAll('.layout-row .exp-icon').forEach(function(ic){ic.textContent='\u25B6';});
+  document.querySelectorAll('.layout-row').forEach(function(r){r.style.background='';});
+  if(!isOpen){
+    ofRow.style.display='table-row';
+    var ic=layoutRow.querySelector('.exp-icon');
+    if(ic) ic.textContent='\u25BC';
+    layoutRow.style.background='rgba(74,158,255,0.06)';
+  }
+}
+
+// ── FINALIZADOS TABLE ──
+function renderFin(rows){
+  var el=document.getElementById('tb-fin'); if(!el) return;
+  if(!rows||!rows.length){el.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:2rem">Sin datos</td></tr>';return;}
   el.innerHTML=rows.map(function(r){
-    return'<tr>'
+    return '<tr>'
       +'<td><span class="bdg bdg-green">'+cl(r.id)+'</span></td>'
       +'<td>'+cl(r.material)+'</td>'
       +'<td style="text-align:center">'+r.capas+'</td>'
@@ -789,206 +857,89 @@ function renderFin(rows){
       +'<td><span class="bdg bdg-blue">'+cl(r.t_real)+'</span></td>'
       +'<td>'+cl(r.operario)+'</td>'
       +'</tr>';
-  }).join('')||'<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:2rem">Sin datos</td></tr>';
-}
-function renderOFPend(rows){
-  var _tbop=document.getElementById('tb-of-pend');if(_tbop)_tbop.innerHTML=rows.map(function(r){
-    return'<tr><td><span class="bdg bdg-blue">'+cl(r.id_layout)+'</span></td>'
-      +'<td style="color:var(--muted)">'+cl(r.material)+'</td>'
-      +'<td style="font-weight:500">'+cl(r.of)+'</td><td>'+cl(r.referencia)+'</td>'
-      +'<td style="text-align:center"><span class="bdg bdg-dim">'+r.uds+'</span></td>'
-      +'<td>'+dEs(r.fecha_entrega)+'</td></tr>';
-  }).join('')||'<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:2rem">Sin datos</td></tr>';
-}
-function renderOFFin(rows){
-  document.getElementById('tb-of-fin').innerHTML=rows.map(function(r){
-    return'<tr><td><span class="bdg bdg-green">'+cl(r.id_layout)+'</span></td>'
-      +'<td style="color:var(--muted)">'+cl(r.material)+'</td>'
-      +'<td style="font-weight:500">'+cl(r.of)+'</td><td>'+cl(r.referencia)+'</td>'
-      +'<td style="text-align:center"><span class="bdg bdg-dim">'+r.uds+'</span></td>'
-      +'<td>'+dEs(r.fecha_entrega)+'</td></tr>';
-  }).join('')||'<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:2rem">Sin datos</td></tr>';
-}
-function renderStock(rows){
-  var cfg=getAlertCfg();
-  document.getElementById('tb-stock').innerHTML=rows.map(function(r){
-    var isM=!cfg||cfg.indexOf(r.material+'|'+r.dimensiones)>=0;
-    var col=r.necesita&&isM?'var(--red)':r.stock_actual<=r.stock_min*1.2?'var(--amber)':'var(--green)';
-    return'<tr style="'+(r.necesita&&isM?'background:rgba(245,101,101,0.04)':'')+'"><td style="font-weight:500">'+r.material+'</td>'
-      +'<td>'+r.dimensiones+'</td>'
-      +'<td style="text-align:center;font-weight:600;color:'+col+'">'+r.stock_actual+'</td>'
-      +'<td style="text-align:center;color:var(--muted)">'+r.stock_min+'</td>'
-      +'<td style="text-align:center"><span class="bdg '+(r.necesita&&isM?'bdg-red':'bdg-green')+'">'+(r.necesita&&isM?'Sí':'No')+'</span></td></tr>';
   }).join('');
 }
 
-// ── SEARCH / FILTER ──
+function renderOFFin(rows){
+  var el=document.getElementById('tb-of-fin'); if(!el) return;
+  if(!rows||!rows.length){el.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:2rem">Sin datos</td></tr>';return;}
+  el.innerHTML=rows.map(function(r){
+    return '<tr>'
+      +'<td><span class="bdg bdg-green">'+cl(r.id_layout)+'</span></td>'
+      +'<td style="color:var(--muted)">'+cl(r.material)+'</td>'
+      +'<td style="font-weight:500">'+cl(r.of)+'</td>'
+      +'<td>'+cl(r.referencia)+'</td>'
+      +'<td><span class="bdg bdg-dim">'+r.uds+'</span></td>'
+      +'<td>'+dEs(r.fecha_entrega)+'</td>'
+      +'</tr>';
+  }).join('');
+}
+
+function renderStock(rows){
+  var el=document.getElementById('tb-stock'); if(!el) return;
+  var cfg=getAlertCfg();
+  el.innerHTML=rows.map(function(r){
+    var isM=!cfg||cfg.indexOf(r.material+'|'+r.dimensiones)>=0;
+    var col=r.necesita&&isM?'var(--red)':r.stock_actual<=r.stock_min*1.2?'var(--amber)':'var(--green)';
+    return '<tr style="'+(r.necesita&&isM?'background:rgba(245,101,101,0.04)':'')+'"><td style="font-weight:500">'+r.material+'</td>'
+      +'<td>'+r.dimensiones+'</td>'
+      +'<td style="text-align:center;font-weight:600;color:'+col+'">'+r.stock_actual+'</td>'
+      +'<td style="text-align:center;color:var(--muted)">'+r.stock_min+'</td>'
+      +'<td style="text-align:center"><span class="bdg '+(r.necesita&&isM?'bdg-red':'bdg-green')+'">'+(r.necesita&&isM?'S\u00ed':'No')+'</span></td></tr>';
+  }).join('');
+}
+
+// ── SEARCH ──
 function searchBoth(q){
-  searchPend(q);
-  // Finalizados
-  if(!DATA) return;
   var l=q.toLowerCase();
-  var rows=l ? DATA.layouts_finalizados.filter(function(r){
-    var ofMatch=DATA.of_by_layout&&(DATA.of_by_layout[r.id]||[]).some(function(o){
-      return(cl(o.of)+cl(o.referencia)+dEs(o.fecha_entrega)).toLowerCase().includes(l);
+  var pRows=l?pendData.filter(function(r){
+    var ofMatch=DATA&&DATA.of_by_layout&&(DATA.of_by_layout[r.id]||[]).some(function(o){
+      return (cl(o.of)+cl(o.referencia)+dEs(o.fecha_entrega)).toLowerCase().includes(l);
     });
     return Object.values(r).join(' ').toLowerCase().includes(l)||ofMatch;
-  }) : DATA.layouts_finalizados;
-  renderFin(rows);
-  document.getElementById('bdg-fin').textContent=rows.length+' finalizados';
+  }):pendData;
+  var fRows=l?finData.filter(function(r){
+    return Object.values(r).join(' ').toLowerCase().includes(l);
+  }):finData;
+  renderPend(pRows);
+  renderFin(fRows);
+  var bp=document.getElementById('bdg-pend'); if(bp) bp.textContent=pRows.length+' pendientes';
+  var bf=document.getElementById('bdg-fin'); if(bf) bf.textContent=fRows.length+' finalizados';
 }
-function searchPend(q){
-  var l=q.toLowerCase();
-  if(!l){sortAndRenderPend();return;}
-  renderPend(pendData.filter(function(r){
-    var ofMatch=DATA&&DATA.of_by_layout&&(DATA.of_by_layout[r.id]||[]).some(function(o){return(cl(o.of)+cl(o.referencia)+dEs(o.fecha_entrega)).toLowerCase().includes(l);});
-    return Object.values(r).join(' ').toLowerCase().includes(l)||ofMatch;
-  }));
-}
-function searchFin(q){
-  var l=q.toLowerCase();
-  var base=DATA.layouts_finalizados.filter(applyFiltrosFn);
-  if(!l){renderFin(base);document.getElementById('bdg-fin').textContent=base.length;return;}
-  var rows=base.filter(function(r){
-    var ofMatch=DATA&&DATA.of_by_layout&&(DATA.of_by_layout[r.id]||[]).some(function(o){return(cl(o.of)+cl(o.referencia)+dEs(o.fecha_entrega)).toLowerCase().includes(l);});
-    return Object.values(r).join(' ').toLowerCase().includes(l)||ofMatch;
-  });
-  renderFin(rows);document.getElementById('bdg-fin').textContent=rows.length;
-}
-function filterOFPend(mat){
-  var q=(document.querySelector('#sec-of .search-input')||{value:''}).value.toLowerCase();
-  var rows=mat?ofPendData.filter(function(r){return r.material===mat;}):ofPendData;
-  if(q)rows=rows.filter(function(r){return(cl(r.of)+cl(r.referencia)+dEs(r.fecha_entrega)+cl(r.id_layout)).toLowerCase().includes(q);});
-  renderOFPend(rows);
-}
-function searchOFPend(q){
-  var mat=(document.getElementById('of-mat-pend')||{}).value;
-  var rows=mat?ofPendData.filter(function(r){return r.material===mat;}):ofPendData;
-  var l=q.toLowerCase();
-  if(l)rows=rows.filter(function(r){return(cl(r.of)+cl(r.referencia)+dEs(r.fecha_entrega)+cl(r.id_layout)+cl(r.material)).toLowerCase().includes(l);});
-  renderOFPend(rows);
-}
-function filterOFFin(mat){
-  var q=(document.querySelector('#sec-finalizados .search-input[oninput*="searchOFFin"]')||{value:''}).value.toLowerCase();
-  var rows=mat?ofFinData.filter(function(r){return r.material===mat;}):ofFinData;
-  if(q)rows=rows.filter(function(r){return(cl(r.of)+cl(r.referencia)+dEs(r.fecha_entrega)+cl(r.id_layout)).toLowerCase().includes(q);});
-  renderOFFin(rows);
-}
-function searchOFFin(q){
-  var mat=document.getElementById('of-mat-fin').value;
-  var rows=mat?ofFinData.filter(function(r){return r.material===mat;}):ofFinData;
-  var l=q.toLowerCase();
-  if(l)rows=rows.filter(function(r){return(cl(r.of)+cl(r.referencia)+dEs(r.fecha_entrega)+cl(r.id_layout)+cl(r.material)).toLowerCase().includes(l);});
-  renderOFFin(rows);
-}
+
 function filterStock(q){var l=q.toLowerCase();renderStock(stockData.filter(function(r){return(r.material+r.dimensiones).toLowerCase().includes(l);}));}
 function filterStockByMat(mat){
   var b=document.getElementById('stock-avg-badge');
   var rows=mat?stockData.filter(function(r){return r.material===mat;}):stockData;
   renderStock(rows);
-  if(mat&&rows.length&&b){var avg=Math.round(rows.reduce(function(s,r){return s+r.stock_actual;},0)/rows.length*10)/10;b.textContent='Promedio stock: '+avg+' uds';b.style.display='inline';}
-  else if(b)b.style.display='none';
+  if(mat&&rows.length&&b){var avg=Math.round(rows.reduce(function(s,r){return s+r.stock_actual;},0)/rows.length*10)/10;b.textContent='Promedio: '+avg+' uds';b.style.display='inline';}
+  else if(b) b.style.display='none';
+}
+function filterOFFin(mat){renderOFFin(mat?ofFinData.filter(function(r){return r.material===mat;}):ofFinData);}
+function searchOFFin(q){var l=q.toLowerCase();renderOFFin(ofFinData.filter(function(r){return(cl(r.of)+cl(r.referencia)+dEs(r.fecha_entrega)+cl(r.id_layout)).toLowerCase().includes(l);}));}
+
+function setFiltro(k,v){filtros[k]=v;updateProdCharts();var rows=DATA.layouts_finalizados.filter(applyFiltrosFn);renderFin(rows);var bf=document.getElementById('bdg-fin');if(bf)bf.textContent=rows.length+' finalizados';}
+function resetFiltros(){filtros={anio:'',mes:'',material:'',operario:''};['f-anio','f-mes','f-material','f-operario'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});updateProdCharts();renderFin(DATA.layouts_finalizados);var bf=document.getElementById('bdg-fin');if(bf)bf.textContent=DATA.resumen.total_finalizados+' finalizados';}
+
+function buildFiltrosMats(){
+  if(!DATA) return;
+  var mats=[...new Set((DATA.of_finalizados||[]).map(function(r){return r.material;}).filter(Boolean))].sort();
+  var om=document.getElementById('of-mat-fin');
+  if(om) om.innerHTML='<option value="">Todos los materiales</option>'+mats.map(function(m){return '<option value="'+m+'">'+m+'</option>';}).join('');
 }
 
 function showSec(id,el){
   document.querySelectorAll('.sec').forEach(function(s){s.classList.remove('active');});
   document.querySelectorAll('.nav-tab').forEach(function(t){t.classList.remove('active');});
-  document.getElementById('sec-'+id).classList.add('active');el.classList.add('active');
-  var fb=document.getElementById('filter-bar');
-  fb.style.display='none';
+  document.getElementById('sec-'+id).classList.add('active'); el.classList.add('active');
+  var fb=document.getElementById('filter-bar'); if(fb) fb.style.display='none';
 }
+
 function setStatus(state,txt){
   document.getElementById('sync-lbl').textContent=txt;
   var d=document.getElementById('live-dot');
   d.className='live-dot'+(state==='connected'?'':(state==='loading'?' loading':' error'));
 }
-
-// ── Override renderPend para filas expandibles con OF ──
-function renderPend(rows){
-  var tbody=document.getElementById('tb-pend');
-  if(!tbody) return;
-  if(!rows||!rows.length){
-    tbody.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:2rem">Sin layouts pendientes</td></tr>';
-    return;
-  }
-  var o=getPendOrder();
-  var parts=[];
-  rows.forEach(function(r){
-    var ord=o[r.id]!==undefined?o[r.id]:'';
-    var ofs=(DATA&&DATA.of_by_layout&&DATA.of_by_layout[r.id])||[];
-    var hasOf=ofs.length>0;
-    var safeId=r.id.replace(/[^a-zA-Z0-9]/g,'_');
-    var ofId='ofrow_'+safeId;
-    var icon=hasOf?'▶':'·';
-    // Main row — use data attribute instead of inline onclick param
-    parts.push('<tr class="layout-row prow" data-ofid="'+ofId+'" style="cursor:pointer">');
-    parts.push('<td style="width:48px"><input type="number" min="1" value="'+ord+'" placeholder="—"');
-    parts.push(' data-lid="'+r.id+'"');
-    parts.push(' style="width:42px;background:var(--surface3);border:1px solid var(--border2);border-radius:4px;color:var(--text);padding:3px 4px;font-size:11px;text-align:center"');
-    parts.push(' onclick="event.stopPropagation()"></td>');
-    parts.push('<td><span class="exp-icon" style="font-size:9px;color:var(--muted);margin-right:3px">'+icon+'</span>');
-    parts.push('<span class="bdg bdg-red">'+cl(r.id)+'</span></td>');
-    parts.push('<td>'+cl(r.material)+'</td>');
-    parts.push('<td style="text-align:center">'+r.capas+'</td>');
-    parts.push('<td>'+cl(r.dimensiones)+'</td>');
-    parts.push('<td>'+cl(r.operario)+'</td>');
-    parts.push('<td><span class="bdg bdg-amber">'+cl(r.t_teorico)+'</span></td>');
-    parts.push('</tr>');
-    // OF expand row
-    parts.push('<tr id="'+ofId+'" style="display:none">');
-    parts.push('<td colspan="7" style="padding:0;background:var(--surface2);border-left:2px solid var(--blue)">');
-    if(!hasOf){
-      parts.push('<div style="padding:8px 16px;font-size:11px;color:var(--muted)">Sin OF registradas.</div>');
-    } else {
-      parts.push('<div style="padding:6px 12px 10px 32px">');
-      parts.push('<table style="width:100%;border-collapse:collapse;font-size:11px">');
-      parts.push('<thead><tr>');
-      ['OF','Referencia','Uds','F. entrega'].forEach(function(h){
-        parts.push('<th style="padding:5px 10px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">'+h+'</th>');
-      });
-      parts.push('</tr></thead><tbody>');
-      ofs.forEach(function(of2){
-        parts.push('<tr>');
-        parts.push('<td style="padding:5px 10px;border-bottom:0.5px solid var(--border);font-weight:500">'+cl(of2.of)+'</td>');
-        parts.push('<td style="padding:5px 10px;border-bottom:0.5px solid var(--border)">'+cl(of2.referencia)+'</td>');
-        parts.push('<td style="padding:5px 10px;border-bottom:0.5px solid var(--border)"><span class="bdg bdg-dim">'+of2.uds+'</span></td>');
-        parts.push('<td style="padding:5px 10px;border-bottom:0.5px solid var(--border);color:var(--muted)">'+dEs(of2.fecha_entrega)+'</td>');
-        parts.push('</tr>');
-      });
-      parts.push('</tbody></table></div>');
-    }
-    parts.push('</td></tr>');
-  });
-  tbody.innerHTML=parts.join('');
-  // Attach click handlers after render (no inline onclick)
-  tbody.querySelectorAll('tr.prow').forEach(function(tr){
-    tr.addEventListener('click',function(){
-      var id=tr.getAttribute('data-ofid');
-      toggleExpandRow(id,tr);
-    });
-    var inp=tr.querySelector('input[data-lid]');
-    if(inp) inp.addEventListener('change',function(){
-      savePendOrder(inp.getAttribute('data-lid'),inp.value);
-    });
-  });
-}
-
-
-function toggleExpandRow(id){
-  var row=document.getElementById(id);
-  if(!row) return;
-  var isOpen=row.style.display!=='none';
-  document.querySelectorAll('[id^="ofrow-"]').forEach(function(r){r.style.display='none';});
-  document.querySelectorAll('.layout-row .exp-icon').forEach(function(ic){
-    if(ic.textContent==='\u25BC') ic.textContent='\u25B6';
-  });
-  if(!isOpen){
-    row.style.display='table-row';
-    var prev=row.previousElementSibling;
-    if(prev){var ic=prev.querySelector('.exp-icon');if(ic)ic.textContent='\u25BC';}
-  }
-}
-
 
 </script>
 </body>
