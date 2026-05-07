@@ -776,23 +776,7 @@ function selectLayout(id){
 }
 
 // ── TABLES ──
-function renderPend(rows){
-  var o=getPendOrder();
-  document.getElementById('tb-pend').innerHTML=rows.map(function(r){
-    var ord=o[r.id]!==undefined?o[r.id]:'';
-    return'<tr onclick="selectLayout(\''+r.id+'\')" style="cursor:pointer">'
-      +'<td style="width:52px"><input type="number" min="1" value="'+ord+'" placeholder="—"'
-      +' style="width:44px;background:var(--surface3);border:1px solid var(--border2);border-radius:4px;color:var(--text);padding:3px 4px;font-size:11px;text-align:center"'
-      +' onclick="event.stopPropagation()" onchange="savePendOrder(\''+r.id+'\',this.value)"></td>'
-      +'<td><span class="bdg bdg-blue layout-id">'+cl(r.id)+'</span></td>'
-      +'<td>'+cl(r.material)+'</td><td style="text-align:center">'+r.capas+'</td>'
-      +'<td>'+cl(r.dimensiones)+'</td><td style="color:var(--muted)">'+cl(r.retal)+'</td>'
-      +'<td>'+cl(r.operario)+'</td>'
-      +'<td><span class="bdg bdg-amber">'+cl(r.t_teorico)+'</span></td>'
-      +'<td style="color:var(--muted)">'+cl(r.obs)+'</td>'
-      +'</tr>';
-  }).join('')||'<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:2rem">Sin datos</td></tr>';
-}
+
 function renderFin(rows){
   var el=document.getElementById('tb-fin');
   if(!el) return;
@@ -923,93 +907,70 @@ function setStatus(state,txt){
 function renderPend(rows){
   var o=getPendOrder();
   var tbody=document.getElementById('tb-pend');
-  var html='';
+  if(!tbody) return;
+  if(!rows||!rows.length){
+    tbody.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:2rem">Sin layouts pendientes</td></tr>';
+    return;
+  }
+  var out='';
   rows.forEach(function(r){
     var ord=o[r.id]!==undefined?o[r.id]:'';
     var ofs=(DATA&&DATA.of_by_layout&&DATA.of_by_layout[r.id])||[];
     var hasOf=ofs.length>0;
-    // Layout row
-    html+='<tr class="layout-row" onclick="toggleOFRow(\'of-'+r.id.replace(/[^a-z0-9]/gi,'-')+'\')">'
-      +'<td style="width:52px"><input type="number" min="1" value="'+ord+'" placeholder="—"'
-      +' style="width:44px;background:var(--surface3);border:1px solid var(--border2);border-radius:4px;color:var(--text);padding:3px 4px;font-size:11px;text-align:center"'
-      +' onclick="event.stopPropagation()" onchange="savePendOrder(\''+r.id+'\',this.value)"></td>'
-      +'<td><span class="expand-icon">'+(hasOf?'▶':'·')+'</span><span class="bdg bdg-blue">'+cl(r.id)+'</span></td>'
-      +'<td>'+cl(r.material)+'</td>'
-      +'<td style="text-align:center">'+r.capas+'</td>'
-      +'<td>'+cl(r.dimensiones)+'</td>'
-      +'<td>'+cl(r.operario)+'</td>'
-      +'<td><span class="bdg bdg-amber">'+cl(r.t_teorico)+'</span></td>'
-      +'</tr>';
-    // OF expand row
-    html+='<tr class="of-expand-row" id="of-'+r.id.replace(/[^a-z0-9]/gi,'-')+'">'
-      +'<td colspan="9"><div class="of-inner">';
+    var ofId='ofrow-'+r.id.replace(/[^a-zA-Z0-9]/g,'_');
+    out+='<tr class="layout-row" onclick="toggleExpandRow(\''+ofId+'\')"
+';
+    out+=' style="cursor:pointer">';
+    out+='<td style="width:48px"><input type="number" min="1" value="'+ord+'" placeholder="\u2014"';
+    out+=' style="width:42px;background:var(--surface3);border:1px solid var(--border2);border-radius:4px;color:var(--text);padding:3px 4px;font-size:11px;text-align:center"';
+    out+=' onclick="event.stopPropagation()" onchange="savePendOrder(\''+r.id+'\',this.value)"></td>';
+    out+='<td><span class="exp-icon" style="font-size:9px;color:var(--muted);margin-right:3px">'+(hasOf?'\u25B6':'\u00B7')+'</span>';
+    out+='<span class="bdg bdg-red">'+cl(r.id)+'</span></td>';
+    out+='<td>'+cl(r.material)+'</td>';
+    out+='<td style="text-align:center">'+r.capas+'</td>';
+    out+='<td>'+cl(r.dimensiones)+'</td>';
+    out+='<td>'+cl(r.operario)+'</td>';
+    out+='<td><span class="bdg bdg-amber">'+cl(r.t_teorico)+'</span></td>';
+    out+='</tr>';
+    out+='<tr id="'+ofId+'" style="display:none">';
+    out+='<td colspan="7" style="padding:0;background:var(--surface2);border-left:2px solid var(--blue)">';
     if(!hasOf){
-      html+='<p class="no-of">Sin órdenes de fabricación registradas.</p>';
+      out+='<div style="padding:8px 16px;font-size:11px;color:var(--muted)">Sin OF registradas.</div>';
     } else {
-      html+='<table class="of-mini-table"><thead><tr><th>OF</th><th>Referencia</th><th>Uds</th><th>Fecha entrega</th><th>Material</th></tr></thead><tbody>'
-        +ofs.map(function(o2){
-          return'<tr><td style="font-weight:500">'+cl(o2.of)+'</td>'
-            +'<td>'+cl(o2.referencia)+'</td>'
-            +'<td><span class="bdg bdg-dim">'+o2.uds+'</span></td>'
-            +'<td>'+dEs(o2.fecha_entrega)+'</td>'
-            +'<td style="color:var(--muted)">'+cl(o2.material)+'</td></tr>';
-        }).join('')
-        +'</tbody></table>';
+      out+='<div style="padding:6px 12px 10px 32px"><table style="width:100%;border-collapse:collapse;font-size:11px"><thead><tr>';
+      out+='<th style="padding:5px 10px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">OF</th>';
+      out+='<th style="padding:5px 10px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Referencia</th>';
+      out+='<th style="padding:5px 10px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Uds</th>';
+      out+='<th style="padding:5px 10px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">F. entrega</th>';
+      out+='</tr></thead><tbody>';
+      ofs.forEach(function(of2){
+        out+='<tr>';
+        out+='<td style="padding:5px 10px;border-bottom:0.5px solid var(--border);font-weight:500">'+cl(of2.of)+'</td>';
+        out+='<td style="padding:5px 10px;border-bottom:0.5px solid var(--border)">'+cl(of2.referencia)+'</td>';
+        out+='<td style="padding:5px 10px;border-bottom:0.5px solid var(--border)"><span class="bdg bdg-dim">'+of2.uds+'</span></td>';
+        out+='<td style="padding:5px 10px;border-bottom:0.5px solid var(--border);color:var(--muted)">'+dEs(of2.fecha_entrega)+'</td>';
+        out+='</tr>';
+      });
+      out+='</tbody></table></div>';
     }
-    html+='</div></td></tr>';
+    out+='</td></tr>';
   });
-  tbody.innerHTML=html||'<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:2rem">Sin layouts pendientes</td></tr>';
+  tbody.innerHTML=out;
 }
 
-function toggleOFRow(id){
+function toggleExpandRow(id){
   var row=document.getElementById(id);
-  if(!row)return;
-  var layoutRow=row.previousElementSibling;
-  var isOpen=row.classList.contains('open');
-  // Close all others first
-  document.querySelectorAll('.of-expand-row.open').forEach(function(r){
-    r.classList.remove('open');
-    if(r.previousElementSibling)r.previousElementSibling.classList.remove('open');
+  if(!row) return;
+  var isOpen=row.style.display!=='none';
+  document.querySelectorAll('[id^="ofrow-"]').forEach(function(r){r.style.display='none';});
+  document.querySelectorAll('.layout-row .exp-icon').forEach(function(ic){
+    if(ic.textContent==='\u25BC') ic.textContent='\u25B6';
   });
   if(!isOpen){
-    row.classList.add('open');
-    if(layoutRow)layoutRow.classList.add('open');
+    row.style.display='table-row';
+    var prev=row.previousElementSibling;
+    if(prev){var ic=prev.querySelector('.exp-icon');if(ic)ic.textContent='\u25BC';}
   }
 }
 
-// ── Override showSec — solo 3 pestañas ──
-function showSec(id,el){
-  document.querySelectorAll('.sec').forEach(function(s){s.classList.remove('active');});
-  document.querySelectorAll('.nav-tab').forEach(function(t){t.classList.remove('active');});
-  document.getElementById('sec-'+id).classList.add('active');
-  el.classList.add('active');
-  var fb=document.getElementById('filter-bar');
-  if(fb)fb.style.display='none';
-}
-
-
-// ── Patch renderAll: update stock donas safely ──
-var _v10_origRenderAll = renderAll;
-renderAll = function(d) {
-  try { _v10_origRenderAll(d); } catch(e){ console.error('renderAll base error:',e); }
-  try {
-    // Donas en stock (planchas completas)
-    var aluEl=document.getElementById('ch-alu');
-    var pvcEl=document.getElementById('ch-pvc');
-    if(aluEl && d.alu_full && d.alu_full.length){
-      if(chAlu){chAlu.data.labels=d.alu_full.map(function(x){return x.material;});chAlu.data.datasets[0].data=d.alu_full.map(function(x){return x.capas;});chAlu.update();}
-      else{chAlu=new Chart(aluEl,{type:'doughnut',data:{labels:d.alu_full.map(function(x){return x.material;}),datasets:[{data:d.alu_full.map(function(x){return x.capas;}),backgroundColor:PAL,borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:10,padding:6}}}}});}
-    }
-    if(pvcEl && d.pvc_full && d.pvc_full.length){
-      if(chPvc){chPvc.data.labels=d.pvc_full.map(function(x){return x.material;});chPvc.data.datasets[0].data=d.pvc_full.map(function(x){return x.capas;});chPvc.update();}
-      else{chPvc=new Chart(pvcEl,{type:'doughnut',data:{labels:d.pvc_full.map(function(x){return x.material;}),datasets:[{data:d.pvc_full.map(function(x){return x.capas;}),backgroundColor:PAL,borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:10,padding:6}}}}});}
-    }
-  } catch(e){ console.error('dona patch error:',e); }
-};
-
-
-// ── Null-safe wrappers for removed elements ──
-function safeEl(id){ return document.getElementById(id) || {style:{},textContent:'',innerHTML:'',value:''}; }
-</script>
-</body>
-</html>
+>
