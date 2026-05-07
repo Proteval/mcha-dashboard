@@ -905,58 +905,74 @@ function setStatus(state,txt){
 
 // ── Override renderPend para filas expandibles con OF ──
 function renderPend(rows){
-  var o=getPendOrder();
   var tbody=document.getElementById('tb-pend');
   if(!tbody) return;
   if(!rows||!rows.length){
     tbody.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:2rem">Sin layouts pendientes</td></tr>';
     return;
   }
-  var out='';
+  var o=getPendOrder();
+  var parts=[];
   rows.forEach(function(r){
     var ord=o[r.id]!==undefined?o[r.id]:'';
     var ofs=(DATA&&DATA.of_by_layout&&DATA.of_by_layout[r.id])||[];
     var hasOf=ofs.length>0;
-    var ofId='ofrow-'+r.id.replace(/[^a-zA-Z0-9]/g,'_');
-    out+='<tr class="layout-row" onclick="toggleExpandRow(\''+ofId+'\')"
-';
-    out+=' style="cursor:pointer">';
-    out+='<td style="width:48px"><input type="number" min="1" value="'+ord+'" placeholder="\u2014"';
-    out+=' style="width:42px;background:var(--surface3);border:1px solid var(--border2);border-radius:4px;color:var(--text);padding:3px 4px;font-size:11px;text-align:center"';
-    out+=' onclick="event.stopPropagation()" onchange="savePendOrder(\''+r.id+'\',this.value)"></td>';
-    out+='<td><span class="exp-icon" style="font-size:9px;color:var(--muted);margin-right:3px">'+(hasOf?'\u25B6':'\u00B7')+'</span>';
-    out+='<span class="bdg bdg-red">'+cl(r.id)+'</span></td>';
-    out+='<td>'+cl(r.material)+'</td>';
-    out+='<td style="text-align:center">'+r.capas+'</td>';
-    out+='<td>'+cl(r.dimensiones)+'</td>';
-    out+='<td>'+cl(r.operario)+'</td>';
-    out+='<td><span class="bdg bdg-amber">'+cl(r.t_teorico)+'</span></td>';
-    out+='</tr>';
-    out+='<tr id="'+ofId+'" style="display:none">';
-    out+='<td colspan="7" style="padding:0;background:var(--surface2);border-left:2px solid var(--blue)">';
+    var safeId=r.id.replace(/[^a-zA-Z0-9]/g,'_');
+    var ofId='ofrow_'+safeId;
+    var icon=hasOf?'▶':'·';
+    // Main row — use data attribute instead of inline onclick param
+    parts.push('<tr class="layout-row prow" data-ofid="'+ofId+'" style="cursor:pointer">');
+    parts.push('<td style="width:48px"><input type="number" min="1" value="'+ord+'" placeholder="—"');
+    parts.push(' data-lid="'+r.id+'"');
+    parts.push(' style="width:42px;background:var(--surface3);border:1px solid var(--border2);border-radius:4px;color:var(--text);padding:3px 4px;font-size:11px;text-align:center"');
+    parts.push(' onclick="event.stopPropagation()"></td>');
+    parts.push('<td><span class="exp-icon" style="font-size:9px;color:var(--muted);margin-right:3px">'+icon+'</span>');
+    parts.push('<span class="bdg bdg-red">'+cl(r.id)+'</span></td>');
+    parts.push('<td>'+cl(r.material)+'</td>');
+    parts.push('<td style="text-align:center">'+r.capas+'</td>');
+    parts.push('<td>'+cl(r.dimensiones)+'</td>');
+    parts.push('<td>'+cl(r.operario)+'</td>');
+    parts.push('<td><span class="bdg bdg-amber">'+cl(r.t_teorico)+'</span></td>');
+    parts.push('</tr>');
+    // OF expand row
+    parts.push('<tr id="'+ofId+'" style="display:none">');
+    parts.push('<td colspan="7" style="padding:0;background:var(--surface2);border-left:2px solid var(--blue)">');
     if(!hasOf){
-      out+='<div style="padding:8px 16px;font-size:11px;color:var(--muted)">Sin OF registradas.</div>';
+      parts.push('<div style="padding:8px 16px;font-size:11px;color:var(--muted)">Sin OF registradas.</div>');
     } else {
-      out+='<div style="padding:6px 12px 10px 32px"><table style="width:100%;border-collapse:collapse;font-size:11px"><thead><tr>';
-      out+='<th style="padding:5px 10px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">OF</th>';
-      out+='<th style="padding:5px 10px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Referencia</th>';
-      out+='<th style="padding:5px 10px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Uds</th>';
-      out+='<th style="padding:5px 10px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">F. entrega</th>';
-      out+='</tr></thead><tbody>';
-      ofs.forEach(function(of2){
-        out+='<tr>';
-        out+='<td style="padding:5px 10px;border-bottom:0.5px solid var(--border);font-weight:500">'+cl(of2.of)+'</td>';
-        out+='<td style="padding:5px 10px;border-bottom:0.5px solid var(--border)">'+cl(of2.referencia)+'</td>';
-        out+='<td style="padding:5px 10px;border-bottom:0.5px solid var(--border)"><span class="bdg bdg-dim">'+of2.uds+'</span></td>';
-        out+='<td style="padding:5px 10px;border-bottom:0.5px solid var(--border);color:var(--muted)">'+dEs(of2.fecha_entrega)+'</td>';
-        out+='</tr>';
+      parts.push('<div style="padding:6px 12px 10px 32px">');
+      parts.push('<table style="width:100%;border-collapse:collapse;font-size:11px">');
+      parts.push('<thead><tr>');
+      ['OF','Referencia','Uds','F. entrega'].forEach(function(h){
+        parts.push('<th style="padding:5px 10px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">'+h+'</th>');
       });
-      out+='</tbody></table></div>';
+      parts.push('</tr></thead><tbody>');
+      ofs.forEach(function(of2){
+        parts.push('<tr>');
+        parts.push('<td style="padding:5px 10px;border-bottom:0.5px solid var(--border);font-weight:500">'+cl(of2.of)+'</td>');
+        parts.push('<td style="padding:5px 10px;border-bottom:0.5px solid var(--border)">'+cl(of2.referencia)+'</td>');
+        parts.push('<td style="padding:5px 10px;border-bottom:0.5px solid var(--border)"><span class="bdg bdg-dim">'+of2.uds+'</span></td>');
+        parts.push('<td style="padding:5px 10px;border-bottom:0.5px solid var(--border);color:var(--muted)">'+dEs(of2.fecha_entrega)+'</td>');
+        parts.push('</tr>');
+      });
+      parts.push('</tbody></table></div>');
     }
-    out+='</td></tr>';
+    parts.push('</td></tr>');
   });
-  tbody.innerHTML=out;
+  tbody.innerHTML=parts.join('');
+  // Attach click handlers after render (no inline onclick)
+  tbody.querySelectorAll('tr.prow').forEach(function(tr){
+    tr.addEventListener('click',function(){
+      var id=tr.getAttribute('data-ofid');
+      toggleExpandRow(id,tr);
+    });
+    var inp=tr.querySelector('input[data-lid]');
+    if(inp) inp.addEventListener('change',function(){
+      savePendOrder(inp.getAttribute('data-lid'),inp.value);
+    });
+  });
 }
+
 
 function toggleExpandRow(id){
   var row=document.getElementById(id);
@@ -973,4 +989,7 @@ function toggleExpandRow(id){
   }
 }
 
->
+
+</script>
+</body>
+</html>
