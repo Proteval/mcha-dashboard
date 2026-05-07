@@ -164,7 +164,6 @@ tr:hover td{background:rgba(255,255,255,.025)}
 <nav class="nav">
   <button class="nav-tab active" onclick="showSec('produccion',this)">Producción</button>
   <button class="nav-tab" onclick="showSec('stock',this)">Stock</button>
-  <button class="nav-tab" onclick="showSec('finalizados',this)">Layouts finalizados</button>
 </nav>
 
 <div class="filter-bar" id="filter-bar">
@@ -187,27 +186,54 @@ tr:hover td{background:rgba(255,255,255,.025)}
     <div class="kpi"><div class="kpi-lbl">Total finalizados</div><div class="kpi-val" id="k-total">—</div><div class="kpi-sub">desde inicio de año</div></div>
   </div>
 
-  <!-- Tabla pendientes con OF expandible -->
-  <div class="card">
-    <div class="card-hdr">
-      <span class="card-title">Layouts pendientes de corte</span>
-      <span class="bdg bdg-amber" id="bdg-pend">—</span>
-      <span style="font-size:11px;color:var(--muted)">· ▶ para ver OF · # = orden de corte</span>
+  <!-- Buscador compartido -->
+  <div class="card" style="margin-bottom:10px">
+    <div class="search-bar" style="border:none;padding:10px 14px">
+      <span style="font-size:11px;color:var(--muted);white-space:nowrap">Buscar:</span>
+      <input class="search-input" id="shared-search" placeholder="Buscar por ID, material, OF, referencia, operario..." oninput="searchBoth(this.value)">
+      <span class="bdg bdg-red" id="bdg-pend" style="white-space:nowrap">— pendientes</span>
+      <span class="bdg bdg-green" id="bdg-fin" style="white-space:nowrap">— finalizados</span>
     </div>
-    <div class="search-bar">
-      <input class="search-input" placeholder="Buscar por ID, material, OF, referencia..." oninput="searchPend(this.value)">
+  </div>
+
+  <!-- Tablas lado a lado -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+
+    <!-- Pendientes -->
+    <div class="card" style="margin-bottom:0">
+      <div class="card-hdr" style="background:rgba(245,101,101,0.06);border-bottom-color:rgba(245,101,101,0.2)">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 5px var(--red);flex-shrink:0;display:inline-block"></span>
+        <span class="card-title">Pendientes de corte</span>
+        <span style="font-size:11px;color:var(--muted)">▶ OF · # orden</span>
+      </div>
+      <div class="tbl-wrap" style="max-height:520px">
+        <table>
+          <thead><tr>
+            <th>#</th><th>ID Layout</th><th>Material</th><th>Capas</th>
+            <th>Dim.</th><th>Operario</th><th>T. teórico</th>
+          </tr></thead>
+          <tbody id="tb-pend"></tbody>
+        </table>
+      </div>
     </div>
-    <div class="tbl-wrap">
-      <table>
-        <thead><tr>
-          <th title="Orden de corte">#</th>
-          <th>ID Layout</th><th>Material</th><th>Capas</th>
-          <th>Dim.</th><th>Retal</th><th>Operario</th>
-          <th>T. teórico</th><th>Obs.</th>
-        </tr></thead>
-        <tbody id="tb-pend"></tbody>
-      </table>
+
+    <!-- Finalizados -->
+    <div class="card" style="margin-bottom:0">
+      <div class="card-hdr" style="background:rgba(61,214,140,0.06);border-bottom-color:rgba(61,214,140,0.2)">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 5px var(--green);flex-shrink:0;display:inline-block"></span>
+        <span class="card-title">Layouts finalizados</span>
+      </div>
+      <div class="tbl-wrap" style="max-height:520px">
+        <table>
+          <thead><tr>
+            <th>ID Layout</th><th>Material</th><th>Capas</th>
+            <th>Fecha fin</th><th>T. real</th><th>Operario</th>
+          </tr></thead>
+          <tbody id="tb-fin"></tbody>
+        </table>
+      </div>
     </div>
+
   </div>
 </div>
 
@@ -269,36 +295,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
   </div>
 </div>
 
-<!-- ══ FINALIZADOS ══ -->
-<div id="sec-finalizados" class="sec">
-  <div class="card">
-    <div class="card-hdr">
-      <span class="card-title">Layouts finalizados</span>
-      <span class="bdg bdg-green" id="bdg-fin">—</span>
-    </div>
-    <div class="search-bar">
-      <input class="search-input" placeholder="Buscar por ID, material, OF, referencia, fecha, operario..." oninput="searchFin(this.value)">
-    </div>
-    <div class="tbl-wrap"><table>
-      <thead><tr><th>ID Layout</th><th>Material</th><th>Capas</th><th>Fecha inicio</th><th>Fecha fin</th><th>T. real</th><th>T. teórico</th><th>Operario</th></tr></thead>
-      <tbody id="tb-fin"></tbody>
-    </table></div>
-  </div>
-  <div class="card">
-    <div class="card-hdr">
-      <span class="card-title">OF de layouts finalizados</span>
-      <span class="bdg bdg-green" id="bdg-of-fin">—</span>
-      <select class="f-select" id="of-mat-fin" onchange="filterOFFin(this.value)"><option value="">Todos los materiales</option></select>
-    </div>
-    <div class="search-bar">
-      <input class="search-input" placeholder="Buscar por OF, referencia, fecha, layout..." oninput="searchOFFin(this.value)">
-    </div>
-    <div class="tbl-wrap"><table>
-      <thead><tr><th>ID Layout</th><th>Material</th><th>OF</th><th>Referencia</th><th>Uds</th><th>Fecha entrega</th></tr></thead>
-      <tbody id="tb-of-fin"></tbody>
-    </table></div>
-  </div>
-</div>
+
 
 </div></div>
 
@@ -520,8 +517,8 @@ function renderAll(d){
   document.getElementById('k-hoy').textContent=d.resumen.layouts_finalizados_hoy||'0';
   document.getElementById('k-hoy-sub').textContent=new Date().toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'numeric'});
   document.getElementById('k-total').textContent=d.resumen.total_finalizados;
-  document.getElementById('bdg-pend').textContent=d.resumen.layouts_pendientes;
-  document.getElementById('bdg-fin').textContent=d.resumen.total_finalizados;
+  var _bpend=document.getElementById('bdg-pend');if(_bpend)_bpend.textContent=d.resumen.layouts_pendientes+' pendientes';
+  var _bfin=document.getElementById('bdg-fin');if(_bfin)_bfin.textContent=d.resumen.total_finalizados+' finalizados';
   var _bop=document.getElementById('bdg-of-pend');if(_bop)_bop.textContent=d.of_pendientes.length;
   document.getElementById('bdg-of-fin').textContent=d.of_finalizados.length;
   pendData=[].concat(d.layouts_pendientes);
@@ -797,17 +794,18 @@ function renderPend(rows){
   }).join('')||'<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:2rem">Sin datos</td></tr>';
 }
 function renderFin(rows){
-  document.getElementById('tb-fin').innerHTML=rows.map(function(r){
+  var el=document.getElementById('tb-fin');
+  if(!el) return;
+  el.innerHTML=rows.map(function(r){
     return'<tr>'
       +'<td><span class="bdg bdg-green">'+cl(r.id)+'</span></td>'
-      +'<td>'+cl(r.material)+'</td><td style="text-align:center">'+r.capas+'</td>'
-      +'<td style="color:var(--muted)">'+dEs(r.fecha_ini)+'</td>'
-      +'<td>'+dEs(r.fecha_fin)+'</td>'
+      +'<td>'+cl(r.material)+'</td>'
+      +'<td style="text-align:center">'+r.capas+'</td>'
+      +'<td style="color:var(--muted)">'+dEs(r.fecha_fin)+'</td>'
       +'<td><span class="bdg bdg-blue">'+cl(r.t_real)+'</span></td>'
-      +'<td style="color:var(--muted)">'+cl(r.t_teorico)+'</td>'
       +'<td>'+cl(r.operario)+'</td>'
       +'</tr>';
-  }).join('');
+  }).join('')||'<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:2rem">Sin datos</td></tr>';
 }
 function renderOFPend(rows){
   var _tbop=document.getElementById('tb-of-pend');if(_tbop)_tbop.innerHTML=rows.map(function(r){
@@ -841,6 +839,20 @@ function renderStock(rows){
 }
 
 // ── SEARCH / FILTER ──
+function searchBoth(q){
+  searchPend(q);
+  // Finalizados
+  if(!DATA) return;
+  var l=q.toLowerCase();
+  var rows=l ? DATA.layouts_finalizados.filter(function(r){
+    var ofMatch=DATA.of_by_layout&&(DATA.of_by_layout[r.id]||[]).some(function(o){
+      return(cl(o.of)+cl(o.referencia)+dEs(o.fecha_entrega)).toLowerCase().includes(l);
+    });
+    return Object.values(r).join(' ').toLowerCase().includes(l)||ofMatch;
+  }) : DATA.layouts_finalizados;
+  renderFin(rows);
+  document.getElementById('bdg-fin').textContent=rows.length+' finalizados';
+}
 function searchPend(q){
   var l=q.toLowerCase();
   if(!l){sortAndRenderPend();return;}
@@ -899,7 +911,7 @@ function showSec(id,el){
   document.querySelectorAll('.nav-tab').forEach(function(t){t.classList.remove('active');});
   document.getElementById('sec-'+id).classList.add('active');el.classList.add('active');
   var fb=document.getElementById('filter-bar');
-  fb.style.display=(id==='produccion'||id==='finalizados')?'flex':'none';
+  fb.style.display='none';
 }
 function setStatus(state,txt){
   document.getElementById('sync-lbl').textContent=txt;
@@ -925,10 +937,8 @@ function renderPend(rows){
       +'<td>'+cl(r.material)+'</td>'
       +'<td style="text-align:center">'+r.capas+'</td>'
       +'<td>'+cl(r.dimensiones)+'</td>'
-      +'<td style="color:var(--muted)">'+cl(r.retal)+'</td>'
       +'<td>'+cl(r.operario)+'</td>'
       +'<td><span class="bdg bdg-amber">'+cl(r.t_teorico)+'</span></td>'
-      +'<td style="color:var(--muted);max-width:160px;overflow:hidden;text-overflow:ellipsis">'+cl(r.obs)+'</td>'
       +'</tr>';
     // OF expand row
     html+='<tr class="of-expand-row" id="of-'+r.id.replace(/[^a-z0-9]/gi,'-')+'">'
@@ -974,7 +984,7 @@ function showSec(id,el){
   document.getElementById('sec-'+id).classList.add('active');
   el.classList.add('active');
   var fb=document.getElementById('filter-bar');
-  if(fb)fb.style.display=(id==='produccion'||id==='finalizados')?'flex':'none';
+  if(fb)fb.style.display='none';
 }
 
 
@@ -997,6 +1007,9 @@ renderAll = function(d) {
   } catch(e){ console.error('dona patch error:',e); }
 };
 
+
+// ── Null-safe wrappers for removed elements ──
+function safeEl(id){ return document.getElementById(id) || {style:{},textContent:'',innerHTML:'',value:''}; }
 </script>
 </body>
 </html>
