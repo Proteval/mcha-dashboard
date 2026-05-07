@@ -164,6 +164,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
 <nav class="nav">
   <button class="nav-tab active" onclick="showSec('produccion',this)">Producción</button>
   <button class="nav-tab" onclick="showSec('stock',this)">Stock</button>
+  <button class="nav-tab" onclick="showSec('finalizados',this)">Layouts finalizados</button>
 </nav>
 
 <div class="filter-bar" id="filter-bar">
@@ -185,38 +186,30 @@ tr:hover td{background:rgba(255,255,255,.025)}
     <div class="kpi"><div class="kpi-lbl">Finalizados hoy</div><div class="kpi-val green" id="k-hoy">—</div><div class="kpi-sub" id="k-hoy-sub">—</div></div>
     <div class="kpi"><div class="kpi-lbl">Total finalizados</div><div class="kpi-val" id="k-total">—</div><div class="kpi-sub">desde inicio de año</div></div>
   </div>
-  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-    <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap">Buscar:</span>
-    <input class="search-input" placeholder="ID, material, OF, referencia, operario..." oninput="searchBoth(this.value)" style="flex:1;min-width:200px">
-    <span class="bdg bdg-red" id="bdg-pend" style="white-space:nowrap">— pendientes</span>
-    <span class="bdg bdg-green" id="bdg-fin" style="white-space:nowrap">— finalizados</span>
-  </div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-    <div class="card" style="margin-bottom:0">
-      <div class="card-hdr" style="background:rgba(245,101,101,0.06)">
-        <span style="width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block;flex-shrink:0"></span>
-        <span class="card-title">Pendientes de corte</span>
-        <span style="font-size:11px;color:var(--muted)">▶ ver OF · # orden</span>
-      </div>
-      <div class="tbl-wrap" style="max-height:520px">
-        <table><thead><tr><th>#</th><th>ID Layout</th><th>Material</th><th>Capas</th><th>Dim.</th><th>Operario</th><th>T. teórico</th></tr></thead>
-        <tbody id="tb-pend"></tbody></table>
-      </div>
+
+  <!-- Tabla pendientes con OF expandible -->
+  <div class="card">
+    <div class="card-hdr">
+      <span class="card-title">Layouts pendientes de corte</span>
+      <span class="bdg bdg-amber" id="bdg-pend">—</span>
+      <span style="font-size:11px;color:var(--muted)">· ▶ para ver OF · # = orden de corte</span>
     </div>
-    <div class="card" style="margin-bottom:0">
-      <div class="card-hdr" style="background:rgba(61,214,140,0.06)">
-        <span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;flex-shrink:0"></span>
-        <span class="card-title">Layouts finalizados</span>
-        <span style="font-size:11px;color:var(--muted)">▶ ver OF</span>
-      </div>
-      <div class="tbl-wrap" style="max-height:520px">
-        <table><thead><tr><th>ID Layout</th><th>Material</th><th>Capas</th><th>Fecha fin</th><th>T. real</th><th>Operario</th></tr></thead>
-        <tbody id="tb-fin"></tbody></table>
-      </div>
+    <div class="search-bar">
+      <input class="search-input" placeholder="Buscar por ID, material, OF, referencia..." oninput="searchPend(this.value)">
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th title="Orden de corte">#</th>
+          <th>ID Layout</th><th>Material</th><th>Capas</th>
+          <th>Dim.</th><th>Retal</th><th>Operario</th>
+          <th>T. teórico</th><th>Obs.</th>
+        </tr></thead>
+        <tbody id="tb-pend"></tbody>
+      </table>
     </div>
   </div>
 </div>
-
 
 <!-- ══ STOCK ══ -->
 <div id="sec-stock" class="sec">
@@ -277,7 +270,35 @@ tr:hover td{background:rgba(255,255,255,.025)}
 </div>
 
 <!-- ══ FINALIZADOS ══ -->
-
+<div id="sec-finalizados" class="sec">
+  <div class="card">
+    <div class="card-hdr">
+      <span class="card-title">Layouts finalizados</span>
+      <span class="bdg bdg-green" id="bdg-fin">—</span>
+    </div>
+    <div class="search-bar">
+      <input class="search-input" placeholder="Buscar por ID, material, OF, referencia, fecha, operario..." oninput="searchFin(this.value)">
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>ID Layout</th><th>Material</th><th>Capas</th><th>Fecha inicio</th><th>Fecha fin</th><th>T. real</th><th>T. teórico</th><th>Operario</th></tr></thead>
+      <tbody id="tb-fin"></tbody>
+    </table></div>
+  </div>
+  <div class="card">
+    <div class="card-hdr">
+      <span class="card-title">OF de layouts finalizados</span>
+      <span class="bdg bdg-green" id="bdg-of-fin">—</span>
+      <select class="f-select" id="of-mat-fin" onchange="filterOFFin(this.value)"><option value="">Todos los materiales</option></select>
+    </div>
+    <div class="search-bar">
+      <input class="search-input" placeholder="Buscar por OF, referencia, fecha, layout..." oninput="searchOFFin(this.value)">
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>ID Layout</th><th>Material</th><th>OF</th><th>Referencia</th><th>Uds</th><th>Fecha entrega</th></tr></thead>
+      <tbody id="tb-of-fin"></tbody>
+    </table></div>
+  </div>
+</div>
 
 </div></div>
 
@@ -499,8 +520,8 @@ function renderAll(d){
   document.getElementById('k-hoy').textContent=d.resumen.layouts_finalizados_hoy||'0';
   document.getElementById('k-hoy-sub').textContent=new Date().toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'numeric'});
   document.getElementById('k-total').textContent=d.resumen.total_finalizados;
-  var _bp=document.getElementById('bdg-pend');if(_bp)_bp.textContent=d.resumen.layouts_pendientes+' pendientes';
-  var _bf=document.getElementById('bdg-fin');if(_bf)_bf.textContent=d.resumen.total_finalizados+' finalizados';
+  document.getElementById('bdg-pend').textContent=d.resumen.layouts_pendientes;
+  document.getElementById('bdg-fin').textContent=d.resumen.total_finalizados;
   var _bop=document.getElementById('bdg-of-pend');if(_bop)_bop.textContent=d.of_pendientes.length;
   document.getElementById('bdg-of-fin').textContent=d.of_finalizados.length;
   pendData=[].concat(d.layouts_pendientes);
@@ -758,108 +779,36 @@ function selectLayout(id){
 }
 
 // ── TABLES ──
-function buildOfRow(ofId,ofs,cols,color){
-  var tr=document.createElement('tr');
-  tr.id=ofId; tr.style.display='none';
-  var td=document.createElement('td');
-  td.colSpan=cols; td.style.cssText='padding:0;background:var(--surface2);border-left:2px solid '+color;
-  if(!ofs.length){
-    td.innerHTML='<div style="padding:8px 16px;font-size:11px;color:var(--muted)">Sin OF registradas.</div>';
-  } else {
-    var rows=ofs.map(function(o){
-      return '<tr>'
-        +'<td style="padding:5px 12px;border-bottom:0.5px solid var(--border);font-weight:500">'+cl(o.of)+'</td>'
-        +'<td style="padding:5px 12px;border-bottom:0.5px solid var(--border)">'+cl(o.referencia)+'</td>'
-        +'<td style="padding:5px 12px;border-bottom:0.5px solid var(--border)"><span class="bdg bdg-dim">'+o.uds+'</span></td>'
-        +'<td style="padding:5px 12px;border-bottom:0.5px solid var(--border);color:var(--muted)">'+dEs(o.fecha_entrega)+'</td>'
-        +'</tr>';
-    }).join('');
-    td.innerHTML='<div style="padding:6px 0 8px 32px"><table style="width:100%;border-collapse:collapse;font-size:11px">'
-      +'<thead><tr>'
-      +'<th style="padding:5px 12px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">OF</th>'
-      +'<th style="padding:5px 12px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Referencia</th>'
-      +'<th style="padding:5px 12px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Uds</th>'
-      +'<th style="padding:5px 12px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">F. entrega</th>'
-      +'</tr></thead><tbody>'+rows+'</tbody></table></div>';
-  }
-  tr.appendChild(td); return tr;
-}
-
-function toggleOf(ofId,layoutTr){
-  var ofRow=document.getElementById(ofId); if(!ofRow) return;
-  var isOpen=ofRow.style.display!=='none';
-  document.querySelectorAll('[id^="xof"]').forEach(function(r){r.style.display='none';});
-  document.querySelectorAll('tr.xopen').forEach(function(r){
-    r.classList.remove('xopen');
-    var ic=r.querySelector('.xic'); if(ic) ic.textContent='▶';
-  });
-  if(!isOpen){
-    ofRow.style.display='table-row';
-    layoutTr.classList.add('xopen');
-    var ic=layoutTr.querySelector('.xic'); if(ic) ic.textContent='▼';
-  }
-}
-
 function renderPend(rows){
-  var el=document.getElementById('tb-pend'); if(!el) return;
-  if(!rows||!rows.length){el.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:2rem">Sin layouts pendientes</td></tr>';return;}
   var o=getPendOrder();
-  var frag=document.createDocumentFragment();
-  rows.forEach(function(r){
-    var ofs=(DATA&&DATA.of_by_layout&&DATA.of_by_layout[r.id])||[];
-    var ofId='xofp'+r.id.replace(/[^a-zA-Z0-9]/g,'');
+  document.getElementById('tb-pend').innerHTML=rows.map(function(r){
     var ord=o[r.id]!==undefined?o[r.id]:'';
-    var tr=document.createElement('tr');
-    tr.innerHTML='<td style="width:48px"><input type="number" min="1" value="'+ord+'" placeholder="—" style="width:42px;background:var(--surface3);border:1px solid var(--border2);border-radius:4px;color:var(--text);padding:3px 4px;font-size:11px;text-align:center"></td>'
-      +'<td><span class="xic" style="font-size:9px;color:var(--muted);margin-right:3px">'+(ofs.length?'▶':'·')+'</span><span class="bdg bdg-red">'+cl(r.id)+'</span></td>'
+    return'<tr onclick="selectLayout(\''+r.id+'\')" style="cursor:pointer">'
+      +'<td style="width:52px"><input type="number" min="1" value="'+ord+'" placeholder="—"'
+      +' style="width:44px;background:var(--surface3);border:1px solid var(--border2);border-radius:4px;color:var(--text);padding:3px 4px;font-size:11px;text-align:center"'
+      +' onclick="event.stopPropagation()" onchange="savePendOrder(\''+r.id+'\',this.value)"></td>'
+      +'<td><span class="bdg bdg-blue layout-id">'+cl(r.id)+'</span></td>'
       +'<td>'+cl(r.material)+'</td><td style="text-align:center">'+r.capas+'</td>'
-      +'<td>'+cl(r.dimensiones)+'</td><td>'+cl(r.operario)+'</td>'
-      +'<td><span class="bdg bdg-amber">'+cl(r.t_teorico)+'</span></td>';
-    var inp=tr.querySelector('input');
-    inp.addEventListener('change',function(){savePendOrder(r.id,inp.value);});
-    inp.addEventListener('click',function(e){e.stopPropagation();});
-    tr.addEventListener('click',function(){toggleOf(ofId,tr);});
-    frag.appendChild(tr);
-    frag.appendChild(buildOfRow(ofId,ofs,7,'var(--blue)'));
-  });
-  el.innerHTML=''; el.appendChild(frag);
+      +'<td>'+cl(r.dimensiones)+'</td><td style="color:var(--muted)">'+cl(r.retal)+'</td>'
+      +'<td>'+cl(r.operario)+'</td>'
+      +'<td><span class="bdg bdg-amber">'+cl(r.t_teorico)+'</span></td>'
+      +'<td style="color:var(--muted)">'+cl(r.obs)+'</td>'
+      +'</tr>';
+  }).join('')||'<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:2rem">Sin datos</td></tr>';
 }
-
 function renderFin(rows){
-  var el=document.getElementById('tb-fin'); if(!el) return;
-  if(!rows||!rows.length){el.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:2rem">Sin datos</td></tr>';return;}
-  var frag=document.createDocumentFragment();
-  rows.forEach(function(r){
-    var ofs=(DATA&&DATA.of_by_layout&&DATA.of_by_layout[r.id])||[];
-    var ofId='xoff'+r.id.replace(/[^a-zA-Z0-9]/g,'');
-    var tr=document.createElement('tr');
-    tr.innerHTML='<td><span class="xic" style="font-size:9px;color:var(--muted);margin-right:3px">'+(ofs.length?'▶':'·')+'</span><span class="bdg bdg-green">'+cl(r.id)+'</span></td>'
+  document.getElementById('tb-fin').innerHTML=rows.map(function(r){
+    return'<tr>'
+      +'<td><span class="bdg bdg-green">'+cl(r.id)+'</span></td>'
       +'<td>'+cl(r.material)+'</td><td style="text-align:center">'+r.capas+'</td>'
-      +'<td style="color:var(--muted)">'+dEs(r.fecha_fin)+'</td>'
+      +'<td style="color:var(--muted)">'+dEs(r.fecha_ini)+'</td>'
+      +'<td>'+dEs(r.fecha_fin)+'</td>'
       +'<td><span class="bdg bdg-blue">'+cl(r.t_real)+'</span></td>'
-      +'<td>'+cl(r.operario)+'</td>';
-    tr.addEventListener('click',function(){toggleOf(ofId,tr);});
-    frag.appendChild(tr);
-    frag.appendChild(buildOfRow(ofId,ofs,6,'var(--green)'));
-  });
-  el.innerHTML=''; el.appendChild(frag);
+      +'<td style="color:var(--muted)">'+cl(r.t_teorico)+'</td>'
+      +'<td>'+cl(r.operario)+'</td>'
+      +'</tr>';
+  }).join('');
 }
-
-function searchBoth(q){
-  var l=q.toLowerCase();
-  function match(r){
-    var ofHit=DATA&&DATA.of_by_layout&&(DATA.of_by_layout[r.id]||[]).some(function(o){
-      return (cl(o.of)+cl(o.referencia)).toLowerCase().includes(l);
-    });
-    return Object.values(r).join(' ').toLowerCase().includes(l)||ofHit;
-  }
-  var pRows=l?pendData.filter(match):pendData;
-  var fRows=l?finData.filter(match):finData;
-  renderPend(pRows); renderFin(fRows);
-  var bp=document.getElementById('bdg-pend'); if(bp) bp.textContent=pRows.length+' pendientes';
-  var bf=document.getElementById('bdg-fin');  if(bf) bf.textContent=fRows.length+' finalizados';
-}
-
 function renderOFPend(rows){
   var _tbop=document.getElementById('tb-of-pend');if(_tbop)_tbop.innerHTML=rows.map(function(r){
     return'<tr><td><span class="bdg bdg-blue">'+cl(r.id_layout)+'</span></td>'
@@ -950,7 +899,7 @@ function showSec(id,el){
   document.querySelectorAll('.nav-tab').forEach(function(t){t.classList.remove('active');});
   document.getElementById('sec-'+id).classList.add('active');el.classList.add('active');
   var fb=document.getElementById('filter-bar');
-  fb.style.display='none';
+  fb.style.display=(id==='produccion'||id==='finalizados')?'flex':'none';
 }
 function setStatus(state,txt){
   document.getElementById('sync-lbl').textContent=txt;
@@ -959,6 +908,49 @@ function setStatus(state,txt){
 }
 
 // ── Override renderPend para filas expandibles con OF ──
+function renderPend(rows){
+  var o=getPendOrder();
+  var tbody=document.getElementById('tb-pend');
+  var html='';
+  rows.forEach(function(r){
+    var ord=o[r.id]!==undefined?o[r.id]:'';
+    var ofs=(DATA&&DATA.of_by_layout&&DATA.of_by_layout[r.id])||[];
+    var hasOf=ofs.length>0;
+    // Layout row
+    html+='<tr class="layout-row" onclick="toggleOFRow(\'of-'+r.id.replace(/[^a-z0-9]/gi,'-')+'\')">'
+      +'<td style="width:52px"><input type="number" min="1" value="'+ord+'" placeholder="—"'
+      +' style="width:44px;background:var(--surface3);border:1px solid var(--border2);border-radius:4px;color:var(--text);padding:3px 4px;font-size:11px;text-align:center"'
+      +' onclick="event.stopPropagation()" onchange="savePendOrder(\''+r.id+'\',this.value)"></td>'
+      +'<td><span class="expand-icon">'+(hasOf?'▶':'·')+'</span><span class="bdg bdg-blue">'+cl(r.id)+'</span></td>'
+      +'<td>'+cl(r.material)+'</td>'
+      +'<td style="text-align:center">'+r.capas+'</td>'
+      +'<td>'+cl(r.dimensiones)+'</td>'
+      +'<td style="color:var(--muted)">'+cl(r.retal)+'</td>'
+      +'<td>'+cl(r.operario)+'</td>'
+      +'<td><span class="bdg bdg-amber">'+cl(r.t_teorico)+'</span></td>'
+      +'<td style="color:var(--muted);max-width:160px;overflow:hidden;text-overflow:ellipsis">'+cl(r.obs)+'</td>'
+      +'</tr>';
+    // OF expand row
+    html+='<tr class="of-expand-row" id="of-'+r.id.replace(/[^a-z0-9]/gi,'-')+'">'
+      +'<td colspan="9"><div class="of-inner">';
+    if(!hasOf){
+      html+='<p class="no-of">Sin órdenes de fabricación registradas.</p>';
+    } else {
+      html+='<table class="of-mini-table"><thead><tr><th>OF</th><th>Referencia</th><th>Uds</th><th>Fecha entrega</th><th>Material</th></tr></thead><tbody>'
+        +ofs.map(function(o2){
+          return'<tr><td style="font-weight:500">'+cl(o2.of)+'</td>'
+            +'<td>'+cl(o2.referencia)+'</td>'
+            +'<td><span class="bdg bdg-dim">'+o2.uds+'</span></td>'
+            +'<td>'+dEs(o2.fecha_entrega)+'</td>'
+            +'<td style="color:var(--muted)">'+cl(o2.material)+'</td></tr>';
+        }).join('')
+        +'</tbody></table>';
+    }
+    html+='</div></td></tr>';
+  });
+  tbody.innerHTML=html||'<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:2rem">Sin layouts pendientes</td></tr>';
+}
+
 function toggleOFRow(id){
   var row=document.getElementById(id);
   if(!row)return;
@@ -982,7 +974,7 @@ function showSec(id,el){
   document.getElementById('sec-'+id).classList.add('active');
   el.classList.add('active');
   var fb=document.getElementById('filter-bar');
-  if(fb)fb.style.display='none';
+  if(fb)fb.style.display=(id==='produccion'||id==='finalizados')?'flex':'none';
 }
 
 
