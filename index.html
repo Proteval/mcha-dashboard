@@ -164,7 +164,6 @@ tr:hover td{background:rgba(255,255,255,.025)}
 <nav class="nav">
   <button class="nav-tab active" onclick="showSec('produccion',this)">Producción</button>
   <button class="nav-tab" onclick="showSec('stock',this)">Stock</button>
-  <button class="nav-tab" onclick="showSec('finalizados',this)">Layouts finalizados</button>
 </nav>
 
 <div class="filter-bar" id="filter-bar">
@@ -186,14 +185,12 @@ tr:hover td{background:rgba(255,255,255,.025)}
     <div class="kpi"><div class="kpi-lbl">Finalizados hoy</div><div class="kpi-val green" id="k-hoy">—</div><div class="kpi-sub" id="k-hoy-sub">—</div></div>
     <div class="kpi"><div class="kpi-lbl">Total finalizados</div><div class="kpi-val" id="k-total">—</div><div class="kpi-sub">desde inicio de año</div></div>
   </div>
-  <!-- Buscador compartido -->
   <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
     <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap">Buscar:</span>
     <input class="search-input" placeholder="ID, material, OF, referencia, operario..." oninput="searchBoth(this.value)" style="flex:1;min-width:200px">
     <span class="bdg bdg-red" id="bdg-pend" style="white-space:nowrap">— pendientes</span>
     <span class="bdg bdg-green" id="bdg-fin" style="white-space:nowrap">— finalizados</span>
   </div>
-  <!-- Tablas lado a lado -->
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
     <div class="card" style="margin-bottom:0">
       <div class="card-hdr" style="background:rgba(245,101,101,0.06)">
@@ -495,20 +492,6 @@ var showFull=false,pendOrder={};
 var pendData=[],finData=[],ofPendData=[],ofFinData=[],stockData=[];
 
 // ── RENDER ALL ──
-function searchBoth(q){
-  var l = q.toLowerCase();
-  function match(r){
-    var ofHit = DATA&&DATA.of_by_layout&&(DATA.of_by_layout[r.id]||[]).some(function(o){
-      return (cl(o.of)+cl(o.referencia)).toLowerCase().includes(l);
-    });
-    return Object.values(r).join(' ').toLowerCase().includes(l)||ofHit;
-  }
-  var pRows = l ? pendData.filter(match) : pendData;
-  var fRows = l ? finData.filter(match)  : finData;
-  renderPend(pRows); renderFin(fRows);
-  var bp=document.getElementById('bdg-pend'); if(bp) bp.textContent=pRows.length+' pendientes';
-  var bf=document.getElementById('bdg-fin');  if(bf) bf.textContent=fRows.length+' finalizados';
-}
 function renderAll(d){
   DATA=d;
   document.getElementById('k-pend').textContent=d.resumen.layouts_pendientes;
@@ -775,102 +758,106 @@ function selectLayout(id){
 }
 
 // ── TABLES ──
-function buildOfExpandRow(ofId, ofs, colspan, color){
-  var ofTr = document.createElement('tr');
-  ofTr.id = ofId; ofTr.style.display = 'none';
-  var td = document.createElement('td');
-  td.colSpan = colspan;
-  td.style.cssText = 'padding:0;background:var(--surface2);border-left:2px solid '+color;
+function buildOfRow(ofId,ofs,cols,color){
+  var tr=document.createElement('tr');
+  tr.id=ofId; tr.style.display='none';
+  var td=document.createElement('td');
+  td.colSpan=cols; td.style.cssText='padding:0;background:var(--surface2);border-left:2px solid '+color;
   if(!ofs.length){
-    td.innerHTML = '<div style="padding:8px 16px;font-size:11px;color:var(--muted)">Sin OF registradas.</div>';
+    td.innerHTML='<div style="padding:8px 16px;font-size:11px;color:var(--muted)">Sin OF registradas.</div>';
   } else {
-    var rows = ofs.map(function(o2){
+    var rows=ofs.map(function(o){
       return '<tr>'
-        +'<td style="padding:5px 12px;border-bottom:0.5px solid var(--border);font-weight:500">'+cl(o2.of)+'</td>'
-        +'<td style="padding:5px 12px;border-bottom:0.5px solid var(--border)">'+cl(o2.referencia)+'</td>'
-        +'<td style="padding:5px 12px;border-bottom:0.5px solid var(--border)"><span class="bdg bdg-dim">'+o2.uds+'</span></td>'
-        +'<td style="padding:5px 12px;border-bottom:0.5px solid var(--border);color:var(--muted)">'+dEs(o2.fecha_entrega)+'</td>'
+        +'<td style="padding:5px 12px;border-bottom:0.5px solid var(--border);font-weight:500">'+cl(o.of)+'</td>'
+        +'<td style="padding:5px 12px;border-bottom:0.5px solid var(--border)">'+cl(o.referencia)+'</td>'
+        +'<td style="padding:5px 12px;border-bottom:0.5px solid var(--border)"><span class="bdg bdg-dim">'+o.uds+'</span></td>'
+        +'<td style="padding:5px 12px;border-bottom:0.5px solid var(--border);color:var(--muted)">'+dEs(o.fecha_entrega)+'</td>'
         +'</tr>';
     }).join('');
-    td.innerHTML = '<div style="padding:6px 0 8px 32px">'
-      +'<table style="width:100%;border-collapse:collapse;font-size:11px"><thead><tr>'
+    td.innerHTML='<div style="padding:6px 0 8px 32px"><table style="width:100%;border-collapse:collapse;font-size:11px">'
+      +'<thead><tr>'
       +'<th style="padding:5px 12px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">OF</th>'
       +'<th style="padding:5px 12px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Referencia</th>'
       +'<th style="padding:5px 12px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Uds</th>'
       +'<th style="padding:5px 12px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">F. entrega</th>'
       +'</tr></thead><tbody>'+rows+'</tbody></table></div>';
   }
-  ofTr.appendChild(td);
-  return ofTr;
+  tr.appendChild(td); return tr;
 }
 
-function toggleOfRow(ofId, tr){
-  var ofRow = document.getElementById(ofId);
-  if(!ofRow) return;
-  var open = ofRow.style.display !== 'none';
-  document.querySelectorAll('[id^="xof_"]').forEach(function(r){ r.style.display='none'; });
-  document.querySelectorAll('tr.xrow-open').forEach(function(r){
-    r.classList.remove('xrow-open');
-    var ic = r.querySelector('.xicon'); if(ic) ic.textContent = '\u25B6';
+function toggleOf(ofId,layoutTr){
+  var ofRow=document.getElementById(ofId); if(!ofRow) return;
+  var isOpen=ofRow.style.display!=='none';
+  document.querySelectorAll('[id^="xof"]').forEach(function(r){r.style.display='none';});
+  document.querySelectorAll('tr.xopen').forEach(function(r){
+    r.classList.remove('xopen');
+    var ic=r.querySelector('.xic'); if(ic) ic.textContent='▶';
   });
-  if(!open){
-    ofRow.style.display = 'table-row';
-    tr.classList.add('xrow-open');
-    var ic = tr.querySelector('.xicon'); if(ic) ic.textContent = '\u25BC';
+  if(!isOpen){
+    ofRow.style.display='table-row';
+    layoutTr.classList.add('xopen');
+    var ic=layoutTr.querySelector('.xic'); if(ic) ic.textContent='▼';
   }
 }
 
 function renderPend(rows){
-  var el = document.getElementById('tb-pend'); if(!el) return;
-  if(!rows||!rows.length){ el.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:2rem">Sin layouts pendientes</td></tr>'; return; }
-  var o = getPendOrder();
-  var frag = document.createDocumentFragment();
+  var el=document.getElementById('tb-pend'); if(!el) return;
+  if(!rows||!rows.length){el.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:2rem">Sin layouts pendientes</td></tr>';return;}
+  var o=getPendOrder();
+  var frag=document.createDocumentFragment();
   rows.forEach(function(r){
-    var ord = o[r.id]!==undefined ? o[r.id] : '';
-    var ofs = (DATA&&DATA.of_by_layout&&DATA.of_by_layout[r.id])||[];
-    var ofId = 'xof_p_'+r.id.replace(/[^a-zA-Z0-9]/g,'_');
-    var tr = document.createElement('tr');
-    tr.innerHTML = '<td style="width:48px"><input type="number" min="1" value="'+ord+'" placeholder="\u2014"'
-      +' style="width:42px;background:var(--surface3);border:1px solid var(--border2);border-radius:4px;color:var(--text);padding:3px 4px;font-size:11px;text-align:center"></td>'
-      +'<td><span class="xicon" style="font-size:9px;color:var(--muted);margin-right:3px">'+(ofs.length?'\u25B6':'\u00B7')+'</span>'
-      +'<span class="bdg bdg-red">'+cl(r.id)+'</span></td>'
-      +'<td>'+cl(r.material)+'</td>'
-      +'<td style="text-align:center">'+r.capas+'</td>'
-      +'<td>'+cl(r.dimensiones)+'</td>'
-      +'<td>'+cl(r.operario)+'</td>'
+    var ofs=(DATA&&DATA.of_by_layout&&DATA.of_by_layout[r.id])||[];
+    var ofId='xofp'+r.id.replace(/[^a-zA-Z0-9]/g,'');
+    var ord=o[r.id]!==undefined?o[r.id]:'';
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td style="width:48px"><input type="number" min="1" value="'+ord+'" placeholder="—" style="width:42px;background:var(--surface3);border:1px solid var(--border2);border-radius:4px;color:var(--text);padding:3px 4px;font-size:11px;text-align:center"></td>'
+      +'<td><span class="xic" style="font-size:9px;color:var(--muted);margin-right:3px">'+(ofs.length?'▶':'·')+'</span><span class="bdg bdg-red">'+cl(r.id)+'</span></td>'
+      +'<td>'+cl(r.material)+'</td><td style="text-align:center">'+r.capas+'</td>'
+      +'<td>'+cl(r.dimensiones)+'</td><td>'+cl(r.operario)+'</td>'
       +'<td><span class="bdg bdg-amber">'+cl(r.t_teorico)+'</span></td>';
-    var inp = tr.querySelector('input');
-    inp.addEventListener('change', function(){ savePendOrder(r.id, inp.value); });
-    inp.addEventListener('click', function(e){ e.stopPropagation(); });
-    tr.addEventListener('click', function(){ toggleOfRow(ofId, tr); });
+    var inp=tr.querySelector('input');
+    inp.addEventListener('change',function(){savePendOrder(r.id,inp.value);});
+    inp.addEventListener('click',function(e){e.stopPropagation();});
+    tr.addEventListener('click',function(){toggleOf(ofId,tr);});
     frag.appendChild(tr);
-    frag.appendChild(buildOfExpandRow(ofId, ofs, 7, 'var(--blue)'));
+    frag.appendChild(buildOfRow(ofId,ofs,7,'var(--blue)'));
   });
-  el.innerHTML = '';
-  el.appendChild(frag);
+  el.innerHTML=''; el.appendChild(frag);
 }
 
 function renderFin(rows){
-  var el = document.getElementById('tb-fin'); if(!el) return;
-  if(!rows||!rows.length){ el.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:2rem">Sin datos</td></tr>'; return; }
-  var frag = document.createDocumentFragment();
+  var el=document.getElementById('tb-fin'); if(!el) return;
+  if(!rows||!rows.length){el.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:2rem">Sin datos</td></tr>';return;}
+  var frag=document.createDocumentFragment();
   rows.forEach(function(r){
-    var ofs = (DATA&&DATA.of_by_layout&&DATA.of_by_layout[r.id])||[];
-    var ofId = 'xof_f_'+r.id.replace(/[^a-zA-Z0-9]/g,'_');
-    var tr = document.createElement('tr');
-    tr.innerHTML = '<td><span class="xicon" style="font-size:9px;color:var(--muted);margin-right:3px">'+(ofs.length?'\u25B6':'\u00B7')+'</span>'
-      +'<span class="bdg bdg-green">'+cl(r.id)+'</span></td>'
-      +'<td>'+cl(r.material)+'</td>'
-      +'<td style="text-align:center">'+r.capas+'</td>'
+    var ofs=(DATA&&DATA.of_by_layout&&DATA.of_by_layout[r.id])||[];
+    var ofId='xoff'+r.id.replace(/[^a-zA-Z0-9]/g,'');
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td><span class="xic" style="font-size:9px;color:var(--muted);margin-right:3px">'+(ofs.length?'▶':'·')+'</span><span class="bdg bdg-green">'+cl(r.id)+'</span></td>'
+      +'<td>'+cl(r.material)+'</td><td style="text-align:center">'+r.capas+'</td>'
       +'<td style="color:var(--muted)">'+dEs(r.fecha_fin)+'</td>'
       +'<td><span class="bdg bdg-blue">'+cl(r.t_real)+'</span></td>'
       +'<td>'+cl(r.operario)+'</td>';
-    tr.addEventListener('click', function(){ toggleOfRow(ofId, tr); });
+    tr.addEventListener('click',function(){toggleOf(ofId,tr);});
     frag.appendChild(tr);
-    frag.appendChild(buildOfExpandRow(ofId, ofs, 6, 'var(--green)'));
+    frag.appendChild(buildOfRow(ofId,ofs,6,'var(--green)'));
   });
-  el.innerHTML = '';
-  el.appendChild(frag);
+  el.innerHTML=''; el.appendChild(frag);
+}
+
+function searchBoth(q){
+  var l=q.toLowerCase();
+  function match(r){
+    var ofHit=DATA&&DATA.of_by_layout&&(DATA.of_by_layout[r.id]||[]).some(function(o){
+      return (cl(o.of)+cl(o.referencia)).toLowerCase().includes(l);
+    });
+    return Object.values(r).join(' ').toLowerCase().includes(l)||ofHit;
+  }
+  var pRows=l?pendData.filter(match):pendData;
+  var fRows=l?finData.filter(match):finData;
+  renderPend(pRows); renderFin(fRows);
+  var bp=document.getElementById('bdg-pend'); if(bp) bp.textContent=pRows.length+' pendientes';
+  var bf=document.getElementById('bdg-fin');  if(bf) bf.textContent=fRows.length+' finalizados';
 }
 
 function renderOFPend(rows){
@@ -972,7 +959,6 @@ function setStatus(state,txt){
 }
 
 // ── Override renderPend para filas expandibles con OF ──
-
 function toggleOFRow(id){
   var row=document.getElementById(id);
   if(!row)return;
