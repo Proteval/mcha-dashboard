@@ -6,7 +6,6 @@
 <title>MCHA — Control de Producción</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <style>
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0d0f14;--surface:#161920;--surface2:#1e2130;--surface3:#252a3a;
@@ -21,8 +20,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 .topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
 .topbar-logo{display:flex;align-items:center;gap:10px}
 .logo-mark{width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;font-weight:700}
-.logo-name{font-size:14px;font-weight:600;letter-spacing:-.3px}
-.logo-sub{font-size:11px;color:var(--muted);margin-left:2px}
+.logo-name{font-size:14px;font-weight:600;letter-spacing:-.3px}.logo-sub{font-size:11px;color:var(--muted);margin-left:2px}
 .topbar-right{display:flex;align-items:center;gap:12px}
 .sync-info{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px}
 .live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green)}
@@ -69,56 +67,39 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 .kpi-val.blue{color:var(--blue)}.kpi-val.green{color:var(--green)}.kpi-val.amber{color:var(--amber)}
 .kpi-sub{font-size:11px;color:var(--muted);margin-top:4px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:14px}
 .card:last-child{margin-bottom:0}
 .card-hdr{padding:10px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .card-title{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;flex:1;white-space:nowrap}
 .card-body{padding:12px 16px}
-/* Tabla principal */
-.tbl-wrap{overflow-x:auto;max-height:460px;overflow-y:auto}
+.tbl-wrap{overflow-x:auto;max-height:420px;overflow-y:auto}
 table{width:100%;border-collapse:collapse;font-size:12px}
 thead{position:sticky;top:0;z-index:2}
 th{background:var(--surface2);color:var(--muted);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap}
 td{padding:7px 12px;border-bottom:1px solid var(--border);color:var(--text);white-space:nowrap;vertical-align:middle}
-tr:last-child td{border-bottom:none}
-tr:hover td{background:rgba(255,255,255,.025)}
-/* Fila expandible */
-.layout-row{cursor:pointer}
-.layout-row.open td{background:rgba(74,158,255,0.06)}
-.layout-row.open .expand-icon{transform:rotate(90deg)}
-.expand-icon{display:inline-block;font-size:10px;color:var(--muted);transition:transform .15s;margin-right:4px}
-.of-expand-row td{padding:0!important;background:var(--surface2)!important}
-.of-expand-row{display:none}
-.of-expand-row.open{display:table-row}
-.of-inner{padding:8px 16px 10px 40px}
-.of-mini-table{width:100%;border-collapse:collapse;font-size:11px}
-.of-mini-table th{background:transparent;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;padding:4px 10px;border-bottom:0.5px solid var(--border)}
-.of-mini-table td{padding:5px 10px;border-bottom:0.5px solid var(--border);color:var(--text)}
-.of-mini-table tr:last-child td{border-bottom:none}
-.no-of{font-size:11px;color:var(--muted);padding:8px 0}
-/* Badges */
+tr:last-child td{border-bottom:none}tr:hover td{background:rgba(255,255,255,.025)}
+.selected-row td{background:rgba(74,158,255,0.08)!important;border-left:2px solid var(--blue)}
 .bdg{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px}
 .bdg-blue{background:var(--blue-dim);color:var(--blue)}.bdg-green{background:var(--green-dim);color:var(--green)}
 .bdg-amber{background:var(--amber-dim);color:var(--amber)}.bdg-red{background:var(--red-dim);color:var(--red)}
 .bdg-dim{background:rgba(255,255,255,.06);color:var(--muted)}
-/* Stock */
-.stock-ok{background:var(--green-dim);border:1px solid rgba(61,214,140,.25);border-radius:var(--r);padding:16px 20px;text-align:center;font-size:18px;font-weight:700;color:var(--green);margin-bottom:14px}
+.stock-ok{background:var(--green-dim);border:1px solid rgba(61,214,140,.25);border-radius:var(--r);padding:20px;text-align:center;font-size:20px;font-weight:700;color:var(--green);margin-bottom:14px}
 .stock-fail{background:var(--red-dim);border:1px solid rgba(245,101,101,.25);border-radius:var(--r);padding:14px;font-size:13px;font-weight:600;color:var(--red);margin-bottom:14px;line-height:1.6}
 .search-bar{display:flex;gap:8px;padding:8px 14px;border-bottom:1px solid var(--border);flex-wrap:wrap;align-items:center}
 .search-input{flex:1;min-width:140px;background:var(--surface2);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:inherit;font-size:12px;padding:6px 10px;outline:none}
 .search-input:focus{border-color:var(--blue)}.search-input::placeholder{color:var(--muted)}
-.mini-bar{display:flex;align-items:center;gap:8px;margin-bottom:6px}
-.mini-lbl{font-size:11px;color:var(--muted);width:52px;text-align:right;flex-shrink:0}
-.mini-track{flex:1;height:5px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden}
-.mini-fill{height:5px;border-radius:3px}
-.mini-val{font-size:11px;color:var(--dim);min-width:24px;text-align:right}
+.of-inline{border-top:2px solid var(--blue-dim);background:var(--surface2)}
 .sec{display:none}.sec.active{display:block}
-@media(max-width:1000px){.kpi-row{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}}
-
+.mini-bar{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.mini-lbl{font-size:11px;color:var(--muted);width:60px;text-align:right;flex-shrink:0}
+.mini-track{flex:1;height:5px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden}
+.mini-fill{height:5px;border-radius:3px;background:var(--blue)}
+.mini-val{font-size:11px;color:var(--dim);min-width:28px;text-align:right}
+@media(max-width:1000px){.kpi-row{grid-template-columns:1fr 1fr}.grid2,.grid3{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-
 
 <div class="topbar">
   <div class="topbar-logo">
@@ -176,11 +157,15 @@ tr:hover td{background:rgba(255,255,255,.025)}
   <select class="f-select" id="f-material" onchange="setFiltro('material',this.value)"><option value="">Material</option></select>
   <select class="f-select" id="f-operario" onchange="setFiltro('operario',this.value)"><option value="">Operario</option></select>
   <button class="f-reset" onclick="resetFiltros()">✕ Limpiar</button>
+  <div style="flex:1"></div>
+  <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Gráficos:</span>
+  <button class="mode-btn active" onclick="setProdMode(false,this)">Todos</button>
+  <button class="mode-btn" onclick="setProdMode(true,this)">Solo planchas completas</button>
 </div>
 
 <div class="main">
 
-<!-- ══ PRODUCCIÓN ══ -->
+<!-- PRODUCCIÓN -->
 <div id="sec-produccion" class="sec active">
   <div class="kpi-row">
     <div class="kpi"><div class="kpi-lbl">Layouts pendientes</div><div class="kpi-val blue" id="k-pend">—</div><div class="kpi-sub">en cola de corte</div></div>
@@ -188,90 +173,55 @@ tr:hover td{background:rgba(255,255,255,.025)}
     <div class="kpi"><div class="kpi-lbl">Finalizados hoy</div><div class="kpi-val green" id="k-hoy">—</div><div class="kpi-sub" id="k-hoy-sub">—</div></div>
     <div class="kpi"><div class="kpi-lbl">Total finalizados</div><div class="kpi-val" id="k-total">—</div><div class="kpi-sub">desde inicio de año</div></div>
   </div>
-
-  <!-- Buscador compartido -->
-  <div class="card" style="margin-bottom:10px">
-    <div class="search-bar" style="border:none;padding:10px 14px">
-      <span style="font-size:11px;color:var(--muted);white-space:nowrap">Buscar:</span>
-      <input class="search-input" id="shared-search" placeholder="Buscar por ID, material, OF, referencia, operario..." oninput="searchBoth(this.value)">
-      <span class="bdg bdg-red" id="bdg-pend" style="white-space:nowrap">— pendientes</span>
-      <span class="bdg bdg-green" id="bdg-fin" style="white-space:nowrap">— finalizados</span>
-    </div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+    <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap">Buscar:</span>
+    <input class="search-input" placeholder="ID, material, OF, referencia, operario..." oninput="searchBoth(this.value)" style="flex:1;min-width:200px">
+    <span class="bdg bdg-red" id="bdg-pend" style="white-space:nowrap">— pendientes</span>
+    <span class="bdg bdg-green" id="bdg-fin" style="white-space:nowrap">— finalizados</span>
   </div>
-
-  <!-- Tablas lado a lado -->
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-
-    <!-- Pendientes -->
     <div class="card" style="margin-bottom:0">
-      <div class="card-hdr" style="background:rgba(245,101,101,0.06);border-bottom-color:rgba(245,101,101,0.2)">
-        <span style="width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 5px var(--red);flex-shrink:0;display:inline-block"></span>
+      <div class="card-hdr" style="background:rgba(245,101,101,0.06)">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block;flex-shrink:0"></span>
         <span class="card-title">Pendientes de corte</span>
         <span style="font-size:11px;color:var(--muted)">▶ OF · # orden</span>
       </div>
       <div class="tbl-wrap" style="max-height:520px">
-        <table>
-          <thead><tr>
-            <th>#</th><th>ID Layout</th><th>Material</th><th>Capas</th>
-            <th>Dim.</th><th>Operario</th><th>T. teórico</th>
-          </tr></thead>
-          <tbody id="tb-pend"></tbody>
-        </table>
+        <table><thead><tr><th>#</th><th>ID Layout</th><th>Material</th><th>Capas</th><th>Dim.</th><th>Operario</th><th>T. teórico</th></tr></thead>
+        <tbody id="tb-pend"></tbody></table>
       </div>
     </div>
-
-    <!-- Finalizados -->
     <div class="card" style="margin-bottom:0">
-      <div class="card-hdr" style="background:rgba(61,214,140,0.06);border-bottom-color:rgba(61,214,140,0.2)">
-        <span style="width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 5px var(--green);flex-shrink:0;display:inline-block"></span>
+      <div class="card-hdr" style="background:rgba(61,214,140,0.06)">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;flex-shrink:0"></span>
         <span class="card-title">Layouts finalizados</span>
+        <span style="font-size:11px;color:var(--muted)">▶ OF</span>
       </div>
       <div class="tbl-wrap" style="max-height:520px">
-        <table>
-          <thead><tr>
-            <th>ID Layout</th><th>Material</th><th>Capas</th>
-            <th>Fecha fin</th><th>T. real</th><th>Operario</th>
-          </tr></thead>
-          <tbody id="tb-fin"></tbody>
-        </table>
+        <table><thead><tr><th>ID Layout</th><th>Material</th><th>Capas</th><th>Fecha fin</th><th>T. real</th><th>Operario</th></tr></thead>
+        <tbody id="tb-fin"></tbody></table>
       </div>
     </div>
-
   </div>
 </div>
 
-<!-- ══ STOCK ══ -->
+<!-- STOCK -->
 <div id="sec-stock" class="sec">
-  <!-- 3 tarjetas superiores configurables -->
   <div class="kpi-row" id="st-kpis-top" style="grid-template-columns:repeat(3,1fr);margin-bottom:14px"></div>
-  <div id="st-status"></div>
-
-  <!-- Gráfico mensual + 2 donas -->
-  <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:14px;margin-bottom:14px;align-items:start">
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:14px;align-items:start">
     <div class="card" style="margin-bottom:0">
       <div class="card-hdr">
-        <span class="card-title">Corte planchas completas / mes</span>
+        <span class="card-title">Corte de planchas completas por mes</span>
         <select class="f-select" id="stock-chart-mat" onchange="setStockChartMat(this.value)"><option value="">Todos</option></select>
         <label style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);cursor:pointer">
           <input type="checkbox" onchange="toggleStockMedia(this)" style="accent-color:var(--blue)"> Media
         </label>
       </div>
-      <div class="card-body"><div style="height:240px"><canvas id="ch-mon-stock"></canvas></div></div>
+      <div class="card-body"><div style="height:280px"><canvas id="ch-mon-stock"></canvas></div></div>
     </div>
-    <div class="card" style="margin-bottom:0">
-      <div class="card-hdr"><span class="card-title">% Aluminio cortado</span></div>
-      <div class="card-body"><div style="height:220px"><canvas id="ch-alu"></canvas></div></div>
-    </div>
-    <div class="card" style="margin-bottom:0">
-      <div class="card-hdr"><span class="card-title">% PVC cortado</span></div>
-      <div class="card-body"><div style="height:220px"><canvas id="ch-pvc"></canvas></div></div>
-    </div>
+    <div id="st-kpis" style="display:flex;flex-direction:column;gap:10px"></div>
   </div>
-
-  <!-- Tarjetas laterales consumo mensual -->
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:14px" id="st-kpis"></div>
-
-  <!-- Tabla stock + alertas -->
+  <div id="st-status"></div>
   <div class="card">
     <div class="card-hdr">
       <span class="card-title">Resumen por material</span>
@@ -284,7 +234,6 @@ tr:hover td{background:rgba(255,255,255,.025)}
       <tbody id="tb-stock"></tbody>
     </table></div>
   </div>
-
   <div class="card">
     <div class="card-hdr">
       <span class="card-title">Configuración de alertas</span>
@@ -298,16 +247,311 @@ tr:hover td{background:rgba(255,255,255,.025)}
   </div>
 </div>
 
+l>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCHA — Control de Producción</title>
 
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0d0f14;--surface:#161920;--surface2:#1e2130;--surface3:#252a3a;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --text:#e8eaf0;--muted:#7b8099;--dim:#4a5068;
+  --blue:#4a9eff;--blue-dim:rgba(74,158,255,0.12);
+  --green:#3dd68c;--green-dim:rgba(61,214,140,0.12);
+  --amber:#f5a623;--amber-dim:rgba(245,166,35,0.12);
+  --red:#f56565;--red-dim:rgba(245,101,101,0.12);
+  --purple:#a78bfa;--r:10px;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-size:13px;min-height:100vh}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.topbar-logo{display:flex;align-items:center;gap:10px}
+.logo-mark{width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;font-weight:700}
+.logo-name{font-size:14px;font-weight:600;letter-spacing:-.3px}.logo-sub{font-size:11px;color:var(--muted);margin-left:2px}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.sync-info{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green)}
+.live-dot.loading{background:var(--amber);box-shadow:0 0 6px var(--amber);animation:pulse 1s infinite}
+.live-dot.error{background:var(--red);box-shadow:0 0 6px var(--red)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.top-btn{background:var(--surface2);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:inherit;font-size:11px;padding:5px 10px;cursor:pointer}
+.top-btn:hover{background:var(--surface3)}.top-btn:disabled{opacity:.4;cursor:not-allowed}
+.cfg{background:var(--surface2);border-bottom:1px solid var(--border);padding:12px 24px;display:none;gap:12px;flex-wrap:wrap;align-items:flex-end}
+.cfg.open{display:flex}
+.cfg-f{display:flex;flex-direction:column;gap:3px}
+.cfg-f label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.cfg-f input,.cfg-f select{background:var(--surface3);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:inherit;font-size:12px;padding:6px 10px;outline:none;min-width:220px}
+.cfg-f input:focus{border-color:var(--blue)}.cfg-f input::placeholder{color:var(--dim)}
+.cfg-save{background:var(--blue);color:#fff;border:none;border-radius:6px;padding:7px 14px;font-family:inherit;font-size:12px;font-weight:500;cursor:pointer}
+.wiz-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:200}
+.wiz-box{background:var(--surface);border:1px solid var(--border2);border-radius:14px;padding:28px;max-width:500px;width:92%}
+.wiz-box h2{font-size:17px;font-weight:600;margin-bottom:6px}
+.wiz-box .sub{color:var(--muted);font-size:13px;line-height:1.6;margin-bottom:18px}
+.steps{background:var(--surface2);border-radius:8px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:var(--muted);line-height:2}
+.steps ol{padding-left:16px}.steps li span{color:var(--text)}
+.wiz-fields{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.wiz-field{display:flex;flex-direction:column;gap:4px}
+.wiz-field label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.wiz-field input{background:var(--surface2);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:inherit;font-size:13px;padding:9px 12px;outline:none;width:100%}
+.wiz-field input:focus{border-color:var(--blue)}.wiz-field input::placeholder{color:var(--dim)}
+.wiz-btn{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:10px;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;width:100%}
+.wiz-skip{font-size:12px;color:var(--muted);margin-top:10px;display:block;cursor:pointer;background:none;border:none;width:100%;text-align:center}
+.nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;display:flex;gap:2px;position:sticky;top:52px;z-index:90}
+.nav-tab{padding:10px 16px;font-size:12px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;background:none;border-top:none;border-left:none;border-right:none}
+.nav-tab:hover{color:var(--text)}.nav-tab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.filter-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:8px 24px;background:var(--surface2);border-bottom:1px solid var(--border);position:sticky;top:94px;z-index:80}
+.f-select{background:var(--surface2);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:inherit;font-size:12px;padding:5px 9px;outline:none;cursor:pointer}
+.f-select:focus{border-color:var(--blue)}
+.f-reset{background:none;border:1px solid var(--border2);border-radius:6px;color:var(--muted);font-family:inherit;font-size:11px;padding:5px 9px;cursor:pointer}
+.f-reset:hover{color:var(--text)}
+.mode-btn{background:none;border:1px solid var(--border2);border-radius:6px;color:var(--muted);font-family:inherit;font-size:11px;padding:5px 10px;cursor:pointer}
+.mode-btn.active{background:var(--blue-dim);border-color:var(--blue);color:var(--blue)}
+.main{padding:20px 24px;max-width:1400px;margin:0 auto}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px}
+.kpi-lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.kpi-val{font-size:26px;font-weight:700;letter-spacing:-1px;line-height:1}
+.kpi-val.blue{color:var(--blue)}.kpi-val.green{color:var(--green)}.kpi-val.amber{color:var(--amber)}
+.kpi-sub{font-size:11px;color:var(--muted);margin-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:14px}
+.card:last-child{margin-bottom:0}
+.card-hdr{padding:10px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.card-title{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;flex:1;white-space:nowrap}
+.card-body{padding:12px 16px}
+.tbl-wrap{overflow-x:auto;max-height:420px;overflow-y:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead{position:sticky;top:0;z-index:2}
+th{background:var(--surface2);color:var(--muted);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:7px 12px;border-bottom:1px solid var(--border);color:var(--text);white-space:nowrap;vertical-align:middle}
+tr:last-child td{border-bottom:none}tr:hover td{background:rgba(255,255,255,.025)}
+.selected-row td{background:rgba(74,158,255,0.08)!important;border-left:2px solid var(--blue)}
+.bdg{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px}
+.bdg-blue{background:var(--blue-dim);color:var(--blue)}.bdg-green{background:var(--green-dim);color:var(--green)}
+.bdg-amber{background:var(--amber-dim);color:var(--amber)}.bdg-red{background:var(--red-dim);color:var(--red)}
+.bdg-dim{background:rgba(255,255,255,.06);color:var(--muted)}
+.stock-ok{background:var(--green-dim);border:1px solid rgba(61,214,140,.25);border-radius:var(--r);padding:20px;text-align:center;font-size:20px;font-weight:700;color:var(--green);margin-bottom:14px}
+.stock-fail{background:var(--red-dim);border:1px solid rgba(245,101,101,.25);border-radius:var(--r);padding:14px;font-size:13px;font-weight:600;color:var(--red);margin-bottom:14px;line-height:1.6}
+.search-bar{display:flex;gap:8px;padding:8px 14px;border-bottom:1px solid var(--border);flex-wrap:wrap;align-items:center}
+.search-input{flex:1;min-width:140px;background:var(--surface2);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:inherit;font-size:12px;padding:6px 10px;outline:none}
+.search-input:focus{border-color:var(--blue)}.search-input::placeholder{color:var(--muted)}
+.of-inline{border-top:2px solid var(--blue-dim);background:var(--surface2)}
+.sec{display:none}.sec.active{display:block}
+.mini-bar{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.mini-lbl{font-size:11px;color:var(--muted);width:60px;text-align:right;flex-shrink:0}
+.mini-track{flex:1;height:5px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden}
+.mini-fill{height:5px;border-radius:3px;background:var(--blue)}
+.mini-val{font-size:11px;color:var(--dim);min-width:28px;text-align:right}
+@media(max-width:1000px){.kpi-row{grid-template-columns:1fr 1fr}.grid2,.grid3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-logo">
+    <div class="logo-mark">M</div>
+    <div><span class="logo-name">MCHA</span><span class="logo-sub">Control de Producción</span></div>
+  </div>
+  <div class="topbar-right">
+    <div class="sync-info"><span id="sync-lbl">Sin conectar</span><div class="live-dot error" id="live-dot"></div></div>
+    <button class="top-btn" id="sync-btn" onclick="syncNow()" disabled>↻ Sync</button>
+    <button class="top-btn" onclick="toggleCfg()">⚙ Config</button>
+  </div>
+</div>
+
+<div class="cfg" id="cfg-panel">
+  <div class="cfg-f"><label>CSV Layouts</label><input type="text" id="cfg-url-layouts" placeholder="https://www.dropbox.com/scl/fi/..."></div>
+  <div class="cfg-f"><label>CSV OF</label><input type="text" id="cfg-url-of" placeholder="enlace MCHA_of.csv"></div>
+  <div class="cfg-f"><label>CSV Stock</label><input type="text" id="cfg-url-stock" placeholder="enlace MCHA_stock.csv"></div>
+  <div class="cfg-f"><label>Auto-sync</label>
+    <select id="cfg-iv"><option value="0">Manual</option><option value="5" selected>Cada 5 min</option><option value="15">Cada 15 min</option><option value="30">Cada 30 min</option><option value="60">Cada hora</option></select>
+  </div>
+  <button class="cfg-save" onclick="saveCfg()">Guardar y conectar</button>
+  <button class="top-btn" onclick="toggleCfg()">✕</button>
+</div>
+
+<div class="wiz-overlay" id="wizard" style="display:none">
+  <div class="wiz-box">
+    <div style="font-size:28px;margin-bottom:10px">◈</div>
+    <h2>Conectar con Dropbox</h2>
+    <p class="sub">Pega los 3 enlaces compartidos de los CSV que genera la macro al guardar el Excel.</p>
+    <div class="steps"><ol>
+      <li>Guarda el Excel → crea <span>MCHA_layouts.csv</span>, <span>MCHA_of.csv</span>, <span>MCHA_stock.csv</span></li>
+      <li>Dropbox web → clic derecho en cada CSV → <span>Compartir → Copiar enlace</span></li>
+      <li>Pega los 3 enlaces abajo</li>
+    </ol></div>
+    <div class="wiz-fields">
+      <div class="wiz-field"><label>MCHA_layouts.csv</label><input type="text" id="wiz-layouts" placeholder="https://www.dropbox.com/scl/fi/..."></div>
+      <div class="wiz-field"><label>MCHA_of.csv</label><input type="text" id="wiz-of" placeholder="https://www.dropbox.com/scl/fi/..."></div>
+      <div class="wiz-field"><label>MCHA_stock.csv</label><input type="text" id="wiz-stock" placeholder="https://www.dropbox.com/scl/fi/..."></div>
+    </div>
+    <button class="wiz-btn" onclick="wizConnect()">Conectar →</button>
+    <button class="wiz-skip" onclick="useFallback()">Usar datos de ejemplo sin Dropbox</button>
+  </div>
+</div>
+
+<div id="dashboard" style="display:none">
+<nav class="nav">
+  <button class="nav-tab active" onclick="showSec('produccion',this)">Producción</button>
+  <button class="nav-tab" onclick="showSec('stock',this)">Stock</button>
+</nav>
+
+<div class="filter-bar" id="filter-bar">
+  <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Filtrar:</span>
+  <select class="f-select" id="f-anio" onchange="setFiltro('anio',this.value)"><option value="">Año</option></select>
+  <select class="f-select" id="f-mes" onchange="setFiltro('mes',this.value)"><option value="">Mes</option></select>
+  <select class="f-select" id="f-material" onchange="setFiltro('material',this.value)"><option value="">Material</option></select>
+  <select class="f-select" id="f-operario" onchange="setFiltro('operario',this.value)"><option value="">Operario</option></select>
+  <button class="f-reset" onclick="resetFiltros()">✕ Limpiar</button>
+  <div style="flex:1"></div>
+  <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Gráficos:</span>
+  <button class="mode-btn active" onclick="setProdMode(false,this)">Todos</button>
+  <button class="mode-btn" onclick="setProdMode(true,this)">Solo planchas completas</button>
+</div>
+
+<div class="main">
+
+<!-- PRODUCCIÓN -->
+<div id="sec-produccion" class="sec active">
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-lbl">Layouts pendientes</div><div class="kpi-val blue" id="k-pend">—</div><div class="kpi-sub">en cola de corte</div></div>
+    <div class="kpi"><div class="kpi-lbl">Tiempo pendiente</div><div class="kpi-val amber" id="k-time">—</div><div class="kpi-sub">suma T. teórico</div></div>
+    <div class="kpi"><div class="kpi-lbl">Finalizados hoy</div><div class="kpi-val green" id="k-hoy">—</div><div class="kpi-sub" id="k-hoy-sub">—</div></div>
+    <div class="kpi"><div class="kpi-lbl">Total finalizados</div><div class="kpi-val" id="k-total">—</div><div class="kpi-sub">desde inicio de año</div></div>
+  </div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+    <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap">Buscar:</span>
+    <input class="search-input" placeholder="ID, material, OF, referencia, operario..." oninput="searchBoth(this.value)" style="flex:1;min-width:200px">
+    <span class="bdg bdg-red" id="bdg-pend" style="white-space:nowrap">— pendientes</span>
+    <span class="bdg bdg-green" id="bdg-fin" style="white-space:nowrap">— finalizados</span>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+    <div class="card" style="margin-bottom:0">
+      <div class="card-hdr" style="background:rgba(245,101,101,0.06)">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block;flex-shrink:0"></span>
+        <span class="card-title">Pendientes de corte</span>
+        <span style="font-size:11px;color:var(--muted)">▶ OF · # orden</span>
+      </div>
+      <div class="tbl-wrap" style="max-height:520px">
+        <table><thead><tr><th>#</th><th>ID Layout</th><th>Material</th><th>Capas</th><th>Dim.</th><th>Operario</th><th>T. teórico</th></tr></thead>
+        <tbody id="tb-pend"></tbody></table>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:0">
+      <div class="card-hdr" style="background:rgba(61,214,140,0.06)">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;flex-shrink:0"></span>
+        <span class="card-title">Layouts finalizados</span>
+        <span style="font-size:11px;color:var(--muted)">▶ OF</span>
+      </div>
+      <div class="tbl-wrap" style="max-height:520px">
+        <table><thead><tr><th>ID Layout</th><th>Material</th><th>Capas</th><th>Fecha fin</th><th>T. real</th><th>Operario</th></tr></thead>
+        <tbody id="tb-fin"></tbody></table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STOCK -->
+<div id="sec-stock" class="sec">
+  <div class="kpi-row" id="st-kpis-top" style="grid-template-columns:repeat(3,1fr);margin-bottom:14px"></div>
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:14px;align-items:start">
+    <div class="card" style="margin-bottom:0">
+      <div class="card-hdr">
+        <span class="card-title">Corte de planchas completas por mes</span>
+        <select class="f-select" id="stock-chart-mat" onchange="setStockChartMat(this.value)"><option value="">Todos</option></select>
+        <label style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);cursor:pointer">
+          <input type="checkbox" onchange="toggleStockMedia(this)" style="accent-color:var(--blue)"> Media
+        </label>
+      </div>
+      <div class="card-body"><div style="height:280px"><canvas id="ch-mon-stock"></canvas></div></div>
+    </div>
+    <div id="st-kpis" style="display:flex;flex-direction:column;gap:10px"></div>
+  </div>
+  <div id="st-status"></div>
+  <div class="card">
+    <div class="card-hdr">
+      <span class="card-title">Resumen por material</span>
+      <select class="f-select" id="stock-mat-sel" onchange="filterStockByMat(this.value)"><option value="">Todos</option></select>
+      <span id="stock-avg-badge" style="display:none;font-size:11px;padding:3px 10px;border-radius:20px;background:var(--blue-dim);color:var(--blue)"></span>
+      <input class="search-input" style="width:150px;flex:none" placeholder="Buscar..." oninput="filterStock(this.value)">
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Material</th><th>Dimensiones</th><th>Stock actual</th><th>Stock mínimo</th><th>Repos.</th></tr></thead>
+      <tbody id="tb-stock"></tbody>
+    </table></div>
+  </div>
+  <div class="card">
+    <div class="card-hdr">
+      <span class="card-title">Configuración de alertas</span>
+      <button class="f-reset" onclick="toggleAlertCfg()" id="alert-cfg-btn">Editar alertas</button>
+    </div>
+    <div id="alert-cfg-body" style="display:none;padding:14px 16px">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:12px">Marca los materiales que quieres monitorizar. Solo estos generarán alertas de reposición.</p>
+      <div id="alert-checkboxes" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px"></div>
+      <button class="cfg-save" style="margin-top:14px" onclick="saveAlertCfg()">Guardar alertas</button>
+    </div>
+  </div>
+</div>
+
+<!-- FINALIZADOS -->
+<div id="sec-finalizados" class="sec">
+  <div class="card">
+    <div class="card-hdr">
+      <span class="card-title">Layouts finalizados</span>
+      <span class="bdg bdg-green" id="bdg-fin">—</span>
+    </div>
+    <div class="search-bar">
+      <input class="search-input" placeholder="Buscar por ID, material, OF, referencia, fecha, operario..." oninput="searchFin(this.value)">
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>ID Layout</th><th>Material</th><th>Capas</th><th>Fecha inicio</th><th>Fecha fin</th><th>T. real</th><th>T. teórico</th><th>Operario</th></tr></thead>
+      <tbody id="tb-fin"></tbody>
+    </table></div>
+  </div>
+  <div class="card">
+    <div class="card-hdr">
+      <span class="card-title">OF de layouts finalizados</span>
+      <span class="bdg bdg-green" id="bdg-of-fin">—</span>
+      <select class="f-select" id="of-mat-fin" onchange="filterOFFin(this.value)"><option value="">Todos los materiales</option></select>
+    </div>
+    <div class="search-bar">
+      <input class="search-input" placeholder="Buscar por OF, referencia, fecha, layout..." oninput="searchOFFin(this.value)">
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>ID Layout</th><th>Material</th><th>OF</th><th>Referencia</th><th>Uds</th><th>Fecha entrega</th></tr></thead>
+      <tbody id="tb-of-fin"></tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- OF POR LAYOUT -->
+<div id="sec-of" class="sec">
+  <div class="card">
+    <div class="card-hdr">
+      <span class="card-title">OF pendientes de corte</span>
+      <span class="bdg bdg-amber" id="bdg-of-pend">—</span>
+      <select class="f-select" id="of-mat-pend" onchange="filterOFPend(this.value)"><option value="">Todos los materiales</option></select>
+    </div>
+    <div class="search-bar">
+      <input class="search-input" placeholder="Buscar por OF, referencia, fecha, layout..." oninput="searchOFPend(this.value)">
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>ID Layout</th><th>Material</th><th>OF</th><th>Referencia</th><th>Uds</th><th>Fecha entrega</th></tr></thead>
+      <tbody id="tb-of-pend"></tbody>
+    </table></div>
+  </div>
+</div>
 
 </div></div>
 
 <script>
-
 const FALLBACK={"resumen": {"layouts_pendientes": 15, "tiempo_pendiente": "32:35", "layouts_finalizados_hoy": 2, "total_finalizados": 225}, "stock": [{"material": "Pvc 0,5mm", "dimensiones": "1000x700", "stock_min": 60, "stock_actual": 120, "necesita": false}, {"material": "Pvc 0,5mm", "dimensiones": "1400x1000", "stock_min": 60, "stock_actual": 0, "necesita": true}, {"material": "Pvc 0,7mm", "dimensiones": "1000x700", "stock_min": 40, "stock_actual": 170, "necesita": false}, {"material": "Pvc 1mm", "dimensiones": "2000x1000", "stock_min": 300, "stock_actual": 0, "necesita": true}, {"material": "Pvc 1mm", "dimensiones": "3000x1500", "stock_min": 200, "stock_actual": 490, "necesita": false}, {"material": "Pvc 1,5mm", "dimensiones": "2000x1000", "stock_min": 100, "stock_actual": 0, "necesita": true}, {"material": "Pvc 1,5mm", "dimensiones": "3000x1500", "stock_min": 80, "stock_actual": 202, "necesita": false}, {"material": "Pvc 2mm", "dimensiones": "2000x1000", "stock_min": 1, "stock_actual": 1, "necesita": true}, {"material": "Pvc 3mm", "dimensiones": "2000x1000", "stock_min": 1, "stock_actual": 30, "necesita": false}, {"material": "Aluminio 1mm", "dimensiones": "3000x1500", "stock_min": 1, "stock_actual": 4, "necesita": false}, {"material": "Aluminio 2mm", "dimensiones": "3000x1500", "stock_min": 4, "stock_actual": 17, "necesita": false}, {"material": "Aluminio 3mm", "dimensiones": "3000x1500", "stock_min": 1, "stock_actual": 3, "necesita": false}, {"material": "Aluminio 4mm", "dimensiones": "2000x1000", "stock_min": 1, "stock_actual": 3, "necesita": false}, {"material": "Hierro 1mm", "dimensiones": "2000x1000", "stock_min": 1, "stock_actual": 4, "necesita": false}, {"material": "Hierro 2mm", "dimensiones": "2000x1000", "stock_min": 1, "stock_actual": 3, "necesita": false}, {"material": "Hierro 3mm", "dimensiones": "2000x1000", "stock_min": 0, "stock_actual": 0, "necesita": true}, {"material": "Hierro 4mm", "dimensiones": "2000x1000", "stock_min": 1, "stock_actual": 4, "necesita": false}, {"material": "Hierro 5mm", "dimensiones": "2000x1000", "stock_min": 0, "stock_actual": 3, "necesita": false}, {"material": "Inoxidable 1,5mm", "dimensiones": "3000x1500", "stock_min": 1, "stock_actual": 2, "necesita": false}, {"material": "Galvanizado 1,5mm", "dimensiones": "3000x1500", "stock_min": 0, "stock_actual": 6, "necesita": false}], "stock_ok": false, "consumo_material": [{"material": "Pvc 1mm", "capas": 558}, {"material": "Pvc 0,5mm", "capas": 510}, {"material": "Pvc 1,5mm", "capas": 161}, {"material": "Aluminio 2mm", "capas": 62}, {"material": "PVC/PES/PVC 0,6", "capas": 35}, {"material": "Carbonaramida 0,4mm", "capas": 24}, {"material": "Pvc 2mm", "capas": 20}, {"material": "Hierro 2mm", "capas": 16}, {"material": "Pvc 0,7mm", "capas": 15}, {"material": "Inoxidable 1,5mm", "capas": 11}], "aluminio_dist": [{"material": "Aluminio 2mm", "capas": 62}], "pvc_dist": [{"material": "Pvc 1mm", "capas": 558}, {"material": "Pvc 0,5mm", "capas": 510}, {"material": "Pvc 1,5mm", "capas": 161}, {"material": "PVC/PES/PVC 0,6", "capas": 35}, {"material": "Pvc 2mm", "capas": 20}, {"material": "Pvc 0,7mm", "capas": 15}], "layouts_pendientes": [{"id": "T2026-0322", "material": "Pvc 1mm", "capas": 10, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "4:10", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "nan"}, {"id": "T2026-0325", "material": "Aluminio 3mm", "capas": 1, "dimensiones": "nan", "retal": "T2026-0225", "operario": "Samuel", "t_teorico": "0:20", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "nan"}, {"id": "T2026-0293", "material": "Pvc 10mm", "capas": 1, "dimensiones": "2000x1000", "retal": "nan", "operario": "Samuel", "t_teorico": "0:35", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "CORTAR CON EL FILM, NO QUIERE MARCAS"}, {"id": "T2025-0677", "material": "Pvc 10mm", "capas": 1, "dimensiones": "2000x1000", "retal": "nan", "operario": "Samuel", "t_teorico": "0:35", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "CORTAR CON EL FILM, NO QUIERE MARCAS"}, {"id": "T2025-0677", "material": "Pvc 10mm", "capas": 1, "dimensiones": "2000x1000", "retal": "nan", "operario": "Samuel", "t_teorico": "0:35", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "CORTAR CON EL FILM, NO QUIERE MARCAS"}, {"id": "T2026-0299", "material": "PVC/PES/PVC 0,6", "capas": 16, "dimensiones": "nan", "retal": "1300x800", "operario": "Samuel", "t_teorico": "0:45", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "nan"}, {"id": "T2026-0304", "material": "PVC/PES/PVC 0,6", "capas": 8, "dimensiones": "nan", "retal": "1300x800", "operario": "Samuel", "t_teorico": "0:50", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "nan"}, {"id": "T2026-0311", "material": "PU/PES/PU 0,35", "capas": 16, "dimensiones": "nan", "retal": "1500X1000", "operario": "Samuel", "t_teorico": "0:35", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "nan"}, {"id": "T2026-0312", "material": "PU/PES/PU 0,35", "capas": 16, "dimensiones": "nan", "retal": "1500X1000", "operario": "Samuel", "t_teorico": "0:40", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "nan"}, {"id": "T2026-0235", "material": "Aluminio 20mm", "capas": 1, "dimensiones": "nan", "retal": "Plancha 3000x1500", "operario": "Samuel", "t_teorico": "15:30", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "nan"}, {"id": "T2026-0320", "material": "Hierro 2mm", "capas": 1, "dimensiones": "nan", "retal": "T0008653", "operario": "Samuel", "t_teorico": "1:40", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "nan"}, {"id": "T2026-0326", "material": "Hierro 3mm", "capas": 1, "dimensiones": "nan", "retal": "T2025-1095", "operario": "Samuel", "t_teorico": "2:20", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "nan"}, {"id": "Castañuelas Nº 8 - 1 columna (Formato 1040x1060)", "material": "1 Plancha de Fibra negra", "capas": 1, "dimensiones": "nan", "retal": "nan", "operario": "Samuel", "t_teorico": "1:20", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "nan"}, {"id": "Castañuelas Nº 3 Mallorquinas - 1 columna", "material": "1 Plancha de fibra madera", "capas": 1, "dimensiones": "nan", "retal": "nan", "operario": "Samuel", "t_teorico": "1:20", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "nan"}, {"id": "Castañuelas Nº 5 Mallorquinas - 1 columna", "material": "1 Plancha de fibra madera 17mm", "capas": 1, "dimensiones": "nan", "retal": "nan", "operario": "Samuel", "t_teorico": "1:20", "t_real": "", "fecha_ini": null, "fecha_fin": null, "obs": "CORTAR EN LA PLANCHA DE FIBRA MADERA MÁS GRUESA (17mm)"}], "layouts_finalizados": [{"id": "Castañuelas Nº 7 - 1 columna (Formato 1040x1060)", "material": "1 Plancha de Fibra negra", "capas": 1, "dimensiones": "nan", "retal": "nan", "operario": "Samuel", "t_teorico": "1:20", "t_real": "2:00", "fecha_ini": "2026-03-23", "fecha_fin": "2026-03-23", "obs": "nan"}, {"id": "Castañuelas Nº 7 - 1 Columna", "material": "1 Plancha de veta blanca", "capas": 1, "dimensiones": "nan", "retal": "nan", "operario": "Samuel", "t_teorico": "1:20", "t_real": "1:50", "fecha_ini": "2026-03-23", "fecha_fin": "2026-03-23", "obs": "ALMUERZO"}, {"id": "T2026-0230", "material": "Pvc 0,5mm", "capas": 10, "dimensiones": "1000x700", "retal": "nan", "operario": "Samuel", "t_teorico": "0:10", "t_real": "0:15", "fecha_ini": "2026-03-23", "fecha_fin": "2026-03-23", "obs": "nan"}, {"id": "T2026-0228", "material": "Pvc 1mm", "capas": 10, "dimensiones": "nan", "retal": "T2026-0215", "operario": "Samuel", "t_teorico": "3:55", "t_real": "7:40", "fecha_ini": "2026-03-23", "fecha_fin": "2026-03-24", "obs": "nan"}, {"id": "T2026-0237", "material": "Pvc 0,5mm", "capas": 10, "dimensiones": "nan", "retal": "T2026-0230", "operario": "Samuel", "t_teorico": "0:25", "t_real": "0:20", "fecha_ini": "2026-03-24", "fecha_fin": "2026-03-24", "obs": "nan"}, {"id": "T2026-0238", "material": "Pvc 0,5mm", "capas": 10, "dimensiones": "1000x700", "retal": "nan", "operario": "Samuel", "t_teorico": "0:10", "t_real": "0:10", "fecha_ini": "2026-03-25", "fecha_fin": "2026-03-25", "obs": "nan"}, {"id": "T2026-0242", "material": "Aluminio 1mm", "capas": 2, "dimensiones": "nan", "retal": "T2025-1108", "operario": "Samuel", "t_teorico": "0:10", "t_real": "0:05", "fecha_ini": "2026-03-26", "fecha_fin": "2026-03-26", "obs": "nan"}, {"id": "T2026-0243", "material": "Pvc 1mm", "capas": 10, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "2:10", "t_real": "2:00", "fecha_ini": "2026-03-26", "fecha_fin": "2026-03-26", "obs": "nan"}, {"id": "T2026-0246", "material": "Pvc 1mm", "capas": 10, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "2:45", "t_real": "2:30", "fecha_ini": "2026-03-26", "fecha_fin": "2026-03-27", "obs": "nan"}, {"id": "T2026-0247", "material": "Pvc 1mm", "capas": 10, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "2:25", "t_real": "2:30", "fecha_ini": "2026-03-25", "fecha_fin": "2026-03-25", "obs": "nan"}, {"id": "T2026-0249", "material": "Pvc 3mm", "capas": 3, "dimensiones": "nan", "retal": "T2025-0507", "operario": "Samuel", "t_teorico": "0:10", "t_real": "0:10", "fecha_ini": "2026-03-26", "fecha_fin": "2026-03-26", "obs": "nan"}, {"id": "T2026-0250", "material": "Pvc 1,5mm", "capas": 7, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "1:45", "t_real": "1:30", "fecha_ini": "2026-03-27", "fecha_fin": "2026-03-27", "obs": "nan"}, {"id": "T2026-0239", "material": "Aluminio 2mm", "capas": 2, "dimensiones": "nan", "retal": "T2026-0189", "operario": "Samuel", "t_teorico": "7:30", "t_real": "4:00", "fecha_ini": "2026-03-27", "fecha_fin": "2026-03-30", "obs": "nan"}, {"id": "T2026-0240", "material": "Aluminio 2mm", "capas": 2, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "3:35", "t_real": "2:55", "fecha_ini": "2026-03-30", "fecha_fin": "2026-03-30", "obs": "nan"}, {"id": "T2026-0234", "material": "XC2-P 15", "capas": 1, "dimensiones": "nan", "retal": "Retal Ø208", "operario": "Samuel", "t_teorico": "0:05", "t_real": "0:05", "fecha_ini": "2026-03-31", "fecha_fin": "2026-03-31", "obs": "nan"}, {"id": "T2025-0677", "material": "Pvc 10mm", "capas": 1, "dimensiones": "2000x1000", "retal": "nan", "operario": "Samuel", "t_teorico": "0:35", "t_real": "0:50", "fecha_ini": "2026-03-31", "fecha_fin": "2026-03-31", "obs": "PROBLEMAS CON ABRASIVO"}, {"id": "T2026-0256", "material": "Pvc 0,5mm", "capas": 20, "dimensiones": "1000x700", "retal": "nan", "operario": "Samuel", "t_teorico": "1:30", "t_real": "1:45", "fecha_ini": "2026-03-31", "fecha_fin": "2026-03-31", "obs": "ALMUERZO"}, {"id": "T2026-0257", "material": "Pvc 0,5mm", "capas": 10, "dimensiones": "nan", "retal": "T2026-0238", "operario": "Samuel", "t_teorico": "0:15", "t_real": "0:10", "fecha_ini": "2026-03-31", "fecha_fin": "2026-03-31", "obs": "nan"}, {"id": "T2026-0255", "material": "Pvc 2mm", "capas": 5, "dimensiones": "nan", "retal": "T2025-1140", "operario": "Samuel", "t_teorico": "0:15", "t_real": "0:20", "fecha_ini": "2026-03-31", "fecha_fin": "2026-03-31", "obs": "nan"}, {"id": "T2026-0258", "material": "Pvc 1mm", "capas": 10, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "3:20", "t_real": "3:00", "fecha_ini": "2026-03-31", "fecha_fin": "2026-04-01", "obs": "nan"}, {"id": "T2026-0259", "material": "Pvc 1mm", "capas": 10, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "1:20", "t_real": "1:30", "fecha_ini": "2026-04-01", "fecha_fin": "2026-04-01", "obs": "nan"}, {"id": "T2026-0268", "material": "Pvc 1mm", "capas": 10, "dimensiones": "nan", "retal": "T2026-0259", "operario": "Samuel", "t_teorico": "0:45", "t_real": "0:40", "fecha_ini": "2026-04-01", "fecha_fin": "2026-04-01", "obs": "nan"}, {"id": "T2026-0269", "material": "Pvc 1mm", "capas": 10, "dimensiones": "nan", "retal": "T2026-0247", "operario": "Samuel", "t_teorico": "0:30", "t_real": "0:30", "fecha_ini": "2026-04-01", "fecha_fin": "2026-04-01", "obs": "nan"}, {"id": "T2026-0241", "material": "Aluminio 2mm", "capas": 2, "dimensiones": "nan", "retal": "T2026-0227", "operario": "Samuel", "t_teorico": "3:20", "t_real": "1:35", "fecha_ini": "2026-04-01", "fecha_fin": "2026-04-07", "obs": "nan"}, {"id": "T2026-0263", "material": "Aluminio 3mm", "capas": 2, "dimensiones": "nan", "retal": "T2025-0774", "operario": "Samuel", "t_teorico": "0:20", "t_real": "0:15", "fecha_ini": "2026-04-07", "fecha_fin": "2026-04-07", "obs": "nan"}, {"id": "T2026-0264", "material": "Aluminio 4mm", "capas": 1, "dimensiones": "nan", "retal": "T2026-0226", "operario": "Samuel", "t_teorico": "0:10", "t_real": "0:05", "fecha_ini": "2026-04-07", "fecha_fin": "2026-04-07", "obs": "nan"}, {"id": "T2026-0260", "material": "Pvc 1,5mm", "capas": 7, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "1:30", "t_real": "1:10", "fecha_ini": "2026-04-07", "fecha_fin": "2026-04-07", "obs": "nan"}, {"id": "T2026-0261", "material": "Pvc 1,5mm", "capas": 7, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "1:50", "t_real": "2:05", "fecha_ini": "2026-04-07", "fecha_fin": "2026-04-07", "obs": "ALMUERZO"}, {"id": "T2026-0262", "material": "Pvc 1,5mm", "capas": 7, "dimensiones": "nan", "retal": "T2026-0250", "operario": "Samuel", "t_teorico": "0:20", "t_real": "0:15", "fecha_ini": "2026-04-07", "fecha_fin": "2026-04-07", "obs": "nan"}, {"id": "T2026-0236", "material": "Aluminio 20mm", "capas": 1, "dimensiones": "nan", "retal": "Plancha 3000x1500", "operario": "Samuel", "t_teorico": "11:30", "t_real": "2:55", "fecha_ini": "2026-04-07", "fecha_fin": "2026-04-09", "obs": "nan"}, {"id": "T2026-0287", "material": "Pvc 0,5mm", "capas": 20, "dimensiones": "1000x700", "retal": "nan", "operario": "Samuel", "t_teorico": "0:10", "t_real": "0:10", "fecha_ini": "2026-04-09", "fecha_fin": "2026-04-09", "obs": "nan"}, {"id": "T2026-0280", "material": "Pvc 1mm", "capas": 10, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "3:45", "t_real": "3:30", "fecha_ini": "2026-04-09", "fecha_fin": "2026-04-10", "obs": "nan"}, {"id": "T2026-0282", "material": "Pvc 1mm", "capas": 10, "dimensiones": "nan", "retal": "T2026-0269", "operario": "Samuel", "t_teorico": "0:25", "t_real": "0:20", "fecha_ini": "2026-04-10", "fecha_fin": "2026-04-10", "obs": "nan"}, {"id": "T2026-0291", "material": "Hierro 2mm", "capas": 1, "dimensiones": "nan", "retal": "T2026-0142", "operario": "Samuel", "t_teorico": "0:10", "t_real": "0:05", "fecha_ini": "2026-04-10", "fecha_fin": "2026-04-10", "obs": "nan"}, {"id": "T2026-0292", "material": "Hierro 2mm", "capas": 2, "dimensiones": "nan", "retal": "T2025-1145", "operario": "Samuel", "t_teorico": "0:10", "t_real": "0:10", "fecha_ini": "2026-04-10", "fecha_fin": "2026-04-10", "obs": "nan"}, {"id": "T2026-0284", "material": "Pvc 1,5mm", "capas": 7, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "2:40", "t_real": "2:25", "fecha_ini": "2026-04-10", "fecha_fin": "2026-04-10", "obs": "nan"}, {"id": "T2026-0285", "material": "Inoxidable 1,5mm", "capas": 1, "dimensiones": "nan", "retal": "T2026-0181-B", "operario": "Samuel", "t_teorico": "0:10", "t_real": "0:10", "fecha_ini": "2026-04-14", "fecha_fin": "2026-04-14", "obs": "nan"}, {"id": "T2026-0286", "material": "Galvanizado 1,5mm", "capas": 1, "dimensiones": "nan", "retal": "T2025-0242-B", "operario": "Samuel", "t_teorico": "1:15", "t_real": "1:00", "fecha_ini": "2026-04-14", "fecha_fin": "2026-04-14", "obs": "nan"}, {"id": "T2026-0289", "material": "Aluminio 3mm", "capas": 2, "dimensiones": "nan", "retal": "T2026-0263", "operario": "Samuel", "t_teorico": "0:15", "t_real": "0:40", "fecha_ini": "2026-04-14", "fecha_fin": "2026-04-14", "obs": "REPASAR TERMINALES"}, {"id": "T2026-0283", "material": "Aluminio 2mm", "capas": 2, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "6:30", "t_real": "3:30", "fecha_ini": "2026-04-14", "fecha_fin": "2026-04-14", "obs": "DESCARGAR MAQUINA 30`"}, {"id": "T2025-0677", "material": "Pvc 10mm", "capas": 1, "dimensiones": "2000x1000", "retal": "nan", "operario": "Samuel", "t_teorico": "0:35", "t_real": "0:35", "fecha_ini": "2026-04-15", "fecha_fin": "2026-04-15", "obs": "REPETIR 4 TERMINALES 6:40--6:45"}, {"id": "Castañuelas Nº 3 Mallorquinas - 1 columna", "material": "1 Plancha de fibra madera", "capas": 1, "dimensiones": "nan", "retal": "nan", "operario": "Samuel", "t_teorico": "1:20", "t_real": "1:45", "fecha_ini": "2026-04-15", "fecha_fin": "2026-04-15", "obs": "nan"}, {"id": "T2026-0303", "material": "Aluminio 2mm", "capas": 1, "dimensiones": "nan", "retal": "Retal 330x230", "operario": "Samuel", "t_teorico": "0:10", "t_real": "0:05", "fecha_ini": "2026-04-15", "fecha_fin": "2026-04-15", "obs": "nan"}, {"id": "T2026-0302", "material": "Pvc 0,5mm", "capas": 20, "dimensiones": "nan", "retal": "T2026-0287", "operario": "Samuel", "t_teorico": "0:40", "t_real": "0:40", "fecha_ini": "2026-04-15", "fecha_fin": "2026-04-15", "obs": "nan"}, {"id": "T2026-0294", "material": "Da igual", "capas": 1, "dimensiones": "nan", "retal": "Baldosas 200x200", "operario": "Samuel", "t_teorico": "0:05", "t_real": "0:05", "fecha_ini": "2026-04-15", "fecha_fin": "2026-04-15", "obs": "Plantilla de corte"}, {"id": "T2026-0295", "material": "Porcelánico 5mm", "capas": 1, "dimensiones": "nan", "retal": "Baldosas 200x200", "operario": "Samuel", "t_teorico": "0:15", "t_real": "1:05", "fecha_ini": "2026-04-15", "fecha_fin": "2026-04-15", "obs": "Cuidado con el color de las baldosas. "}, {"id": "T2026-0307", "material": "Pvc 1mm", "capas": 10, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "5:20", "t_real": "6:20", "fecha_ini": "2026-04-15", "fecha_fin": "2026-04-16", "obs": "nan"}, {"id": "T2026-0316", "material": "Pvc 2mm", "capas": 5, "dimensiones": "nan", "retal": "T2026-0169", "operario": "Samuel", "t_teorico": "0:05", "t_real": "0:05", "fecha_ini": "2026-04-16", "fecha_fin": "2026-04-16", "obs": "nan"}, {"id": "Castañuelas Nº 7 - 1 Columna", "material": "1 Plancha de tela", "capas": 1, "dimensiones": "nan", "retal": "nan", "operario": "Samuel", "t_teorico": "1:20", "t_real": "1:20", "fecha_ini": "2026-04-17", "fecha_fin": "2026-04-17", "obs": "nan"}, {"id": "T2026-0281", "material": "Pvc 1mm", "capas": 10, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "2:50", "t_real": "3:20", "fecha_ini": "2026-04-17", "fecha_fin": "2026-04-17", "obs": "nan"}, {"id": "T2026-0310", "material": "Aluminio 4mm", "capas": 1, "dimensiones": "nan", "retal": "T2026-0264", "operario": "Samuel", "t_teorico": "0:30", "t_real": "0:20", "fecha_ini": "2026-04-17", "fecha_fin": "2026-04-17", "obs": "nan"}, {"id": "T2026-0305", "material": "Pvc 1mm", "capas": 10, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "3:15", "t_real": "3:10", "fecha_ini": "2026-04-20", "fecha_fin": "2026-04-20", "obs": "nan"}, {"id": "T2026-0253", "material": "Inoxidable 1,5mm", "capas": 1, "dimensiones": "nan", "retal": "Plancha 2000x1000", "operario": "Samuel", "t_teorico": "0:15", "t_real": "0:10", "fecha_ini": "2026-04-20", "fecha_fin": "2026-04-20", "obs": "nan"}, {"id": "T2026-0313", "material": "Inoxidable 1,5mm", "capas": 2, "dimensiones": "nan", "retal": "Retal 540x1000 ", "operario": "Samuel", "t_teorico": "4:40", "t_real": "5:15", "fecha_ini": "2026-04-20", "fecha_fin": "2026-04-21", "obs": "nan"}, {"id": "T2026-0306", "material": "Pvc 1mm", "capas": 10, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "3:30", "t_real": "3:45", "fecha_ini": "2026-04-21", "fecha_fin": "2026-04-21", "obs": "ALMUERZO"}, {"id": "T2026-0308", "material": "Aluminio 2mm", "capas": 2, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "6:30", "t_real": "5:35", "fecha_ini": "2026-04-22", "fecha_fin": "2026-04-22", "obs": "nan"}, {"id": "Castañuelas Nº 8 - 1 Columna", "material": "1 Plancha de tela", "capas": 1, "dimensiones": "nan", "retal": "nan", "operario": "Samuel", "t_teorico": "1:20", "t_real": "1:35", "fecha_ini": "2026-04-22", "fecha_fin": "2026-04-23", "obs": "REPASAR TERMINALES MAL CORTADOS 7:40--8:00"}, {"id": "T2026-0321", "material": "Pvc 1mm", "capas": 10, "dimensiones": "3000x1500", "retal": "nan", "operario": "Samuel", "t_teorico": "3:55", "t_real": "4:40", "fecha_ini": "2026-04-23", "fecha_fin": "2026-04-23", "obs": "ALMUERZO"}, {"id": "T2026-0323", "material": "Pvc 0,5mm", "capas": 20, "dimensiones": "1000x700", "retal": "nan", "operario": "Samuel", "t_teorico": "1:10", "t_real": "0:55", "fecha_ini": "2026-04-24", "fecha_fin": "2026-04-24", "obs": "nan"}, {"id": "T2026-0324", "material": "Pvc 1,5mm", "capas": 7, "dimensiones": "nan", "retal": "T2026-0094", "operario": "Samuel", "t_teorico": "0:50", "t_real": "1:10", "fecha_ini": "2026-04-24", "fecha_fin": "2026-04-24", "obs": "REPASAR LA MITAD DEL LAYOUT FALLO DE ABRASIVO"}], "of_pendientes": [{"id_layout": "T2026-0235", "of": "nan", "referencia": "MCH4992", "uds": 36, "fecha_entrega": "2026-03-30", "obs": "nan"}, {"id_layout": "T2026-0293", "of": "nan", "referencia": "MCH5144", "uds": 15, "fecha_entrega": NaN, "obs": "nan"}, {"id_layout": "T2026-0293", "of": "nan", "referencia": "MCH5142", "uds": 10, "fecha_entrega": NaN, "obs": "nan"}, {"id_layout": "T2026-0299", "of": "24769", "referencia": "10985-RC515-TELAS", "uds": 304, "fecha_entrega": "2026-05-15", "obs": "nan"}, {"id_layout": "T2026-0299", "of": "24760", "referencia": "11177-RC592-TELAS", "uds": 240, "fecha_entrega": "2026-05-06", "obs": "nan"}, {"id_layout": "T2026-0304", "of": "24769", "referencia": "10985-RC515-TELAS", "uds": 80, "fecha_entrega": "2026-05-15", "obs": "nan"}, {"id_layout": "T2026-0304", "of": "24760", "referencia": "11177-RC592-TELAS", "uds": 80, "fecha_entrega": "2026-05-06", "obs": "nan"}, {"id_layout": "T2026-0304", "of": "24760", "referencia": "11177-RC592-MANGUITO A", "uds": 16, "fecha_entrega": "2026-05-06", "obs": "nan"}, {"id_layout": "T2026-0304", "of": "24760", "referencia": "11177-RC592-TIRA A", "uds": 8, "fecha_entrega": "2026-05-06", "obs": "nan"}, {"id_layout": "T2026-0304", "of": "24775", "referencia": "10844-RC799 Telas", "uds": 32, "fecha_entrega": "2026-04-29", "obs": "nan"}, {"id_layout": "T2026-0304", "of": "24775", "referencia": "10844-RC799 Tira manguito A", "uds": 8, "fecha_entrega": "2026-04-29", "obs": "nan"}, {"id_layout": "T2026-0304", "of": "24775", "referencia": "10844-RC799 Manguito B", "uds": 8, "fecha_entrega": "2026-04-29", "obs": "nan"}, {"id_layout": "T2026-0304", "of": "24775", "referencia": "10844-RC799 Manguito A", "uds": 8, "fecha_entrega": "2026-04-29", "obs": "nan"}, {"id_layout": "T2026-0304", "of": "24775", "referencia": "10844-RC799 Tira manguito B", "uds": 8, "fecha_entrega": "2026-04-29", "obs": "nan"}, {"id_layout": "T2026-0304", "of": "24760", "referencia": "11177-RC592-MANGUITO B", "uds": 16, "fecha_entrega": "2026-05-06", "obs": "nan"}, {"id_layout": "T2026-0304", "of": "24760", "referencia": "11177-RC592-TIRA B", "uds": 8, "fecha_entrega": "2026-05-06", "obs": "nan"}, {"id_layout": "T2026-0311", "of": "24773", "referencia": "11641-RC798-TELAS", "uds": 240, "fecha_entrega": "2026-05-06", "obs": "nan"}, {"id_layout": "T2026-0311", "of": "24773", "referencia": "11641-RC798-TELAS TA", "uds": 16, "fecha_entrega": "2026-05-06", "obs": "nan"}, {"id_layout": "T2026-0312", "of": "24772", "referencia": "11641-RC796-TELAS", "uds": 224, "fecha_entrega": "2026-05-06", "obs": "nan"}, {"id_layout": "T2026-0312", "of": "24772", "referencia": "11641-RC796-TIRA ", "uds": 16, "fecha_entrega": "2026-05-06", "obs": "nan"}, {"id_layout": "T2026-0312", "of": "24776", "referencia": "10144-RC781 Manguito", "uds": 16, "fecha_entrega": "2026-05-08", "obs": "nan"}, {"id_layout": "T2026-0312", "of": "24776", "referencia": "10144-RC781 Telas", "uds": 32, "fecha_entrega": "2026-05-08", "obs": "nan"}, {"id_layout": "T2026-0312", "of": "24776", "referencia": "10144-RC781 Tira manguito", "uds": 16, "fecha_entrega": "2026-05-08", "obs": "nan"}, {"id_layout": "T2026-0312", "of": "24773", "referencia": "11641-RC798-TELAS TB", "uds": 16, "fecha_entrega": "2026-05-06", "obs": "nan"}, {"id_layout": "T2026-0312", "of": "24776", "referencia": "11641-RC796-MANGUITO", "uds": 16, "fecha_entrega": "2026-05-08", "obs": "nan"}, {"id_layout": "T2026-0320", "of": "24777", "referencia": "9649-FK4237-T", "uds": 8, "fecha_entrega": "2026-05-15", "obs": "nan"}, {"id_layout": "T2026-0320", "of": "24778", "referencia": "9649-FK5114-T", "uds": 12, "fecha_entrega": "2026-05-15", "obs": "nan"}, {"id_layout": "T2026-0322", "of": "24778", "referencia": "9649-FK5114-P", "uds": 100, "fecha_entrega": "2026-05-15", "obs": "nan"}, {"id_layout": "T2026-0322", "of": "24777", "referencia": "9649-FK4237-P", "uds": 20, "fecha_entrega": "2026-05-15", "obs": "nan"}, {"id_layout": "T2026-0322", "of": "24781", "referencia": "9839-FK3600-M-P", "uds": 120, "fecha_entrega": "2026-06-23", "obs": "nan"}, {"id_layout": "T2026-0322", "of": "24783", "referencia": "10183-FK3583-P", "uds": 20, "fecha_entrega": "2026-05-15", "obs": "nan"}, {"id_layout": "T2026-0322", "of": "24794", "referencia": "11346-FK4802-P", "uds": 290, "fecha_entrega": "2026-05-08", "obs": "nan"}, {"id_layout": "T2026-0322", "of": "24784", "referencia": "881-FK2392-P", "uds": 220, "fecha_entrega": "2026-05-15", "obs": "nan"}, {"id_layout": "T2026-0322", "of": "24785", "referencia": "881-FK2392-P", "uds": 250, "fecha_entrega": "2026-05-15", "obs": "nan"}, {"id_layout": "T2026-0322", "of": "24798", "referencia": "11220-FK5273-P", "uds": 30, "fecha_entrega": "2026-05-20", "obs": "nan"}, {"id_layout": "T2026-0322", "of": "24788", "referencia": "10657-FK4596-P", "uds": 60, "fecha_entrega": "2026-05-20", "obs": "nan"}, {"id_layout": "T2026-0322", "of": "24789", "referencia": "10657-FK4596-P", "uds": 50, "fecha_entrega": "2026-05-20", "obs": "nan"}, {"id_layout": "T2026-0322", "of": "24787", "referencia": "10657-FK4596-P", "uds": 160, "fecha_entrega": "2026-05-20", "obs": "nan"}, {"id_layout": "T2026-0322", "of": "24793", "referencia": "11645-FK5285-P", "uds": 100, "fecha_entrega": "2026-05-15", "obs": "nan"}, {"id_layout": "T2026-0322", "of": "24790", "referencia": "10180-FK4290-P", "uds": 80, "fecha_entrega": "2026-04-30", "obs": "nan"}, {"id_layout": "T2026-0325", "of": "24768", "referencia": "9751-FK5269-T", "uds": 8, "fecha_entrega": "2026-05-05", "obs": "nan"}, {"id_layout": "T2026-0326", "of": "24692", "referencia": "10114-FK4098-TB", "uds": 10, "fecha_entrega": "2026-05-30", "obs": "nan"}, {"id_layout": "T2026-0326", "of": "24692", "referencia": "10114-FK4098-TA", "uds": 10, "fecha_entrega": "2026-05-30", "obs": "nan"}], "consumo_mensual": [{"mes": "2026-01", "material": "Aluminio 2mm", "capas": 15}, {"mes": "2026-01", "material": "Carbonaramida 0,4mm", "capas": 16}, {"mes": "2026-01", "material": "Pvc 0,5mm", "capas": 130}, {"mes": "2026-01", "material": "Pvc 1,5mm", "capas": 42}, {"mes": "2026-01", "material": "Pvc 1mm", "capas": 178}, {"mes": "2026-02", "material": "Aluminio 2mm", "capas": 30}, {"mes": "2026-02", "material": "Carbonaramida 0,4mm", "capas": 8}, {"mes": "2026-02", "material": "Pvc 0,5mm", "capas": 140}, {"mes": "2026-02", "material": "Pvc 1,5mm", "capas": 28}, {"mes": "2026-02", "material": "Pvc 1mm", "capas": 160}, {"mes": "2026-03", "material": "Aluminio 2mm", "capas": 10}, {"mes": "2026-03", "material": "PVC/PES/PVC 0,6", "capas": 35}, {"mes": "2026-03", "material": "Pvc 0,5mm", "capas": 170}, {"mes": "2026-03", "material": "Pvc 1,5mm", "capas": 56}, {"mes": "2026-03", "material": "Pvc 1mm", "capas": 110}, {"mes": "2026-04", "material": "Aluminio 2mm", "capas": 7}, {"mes": "2026-04", "material": "Pvc 0,5mm", "capas": 60}, {"mes": "2026-04", "material": "Pvc 1,5mm", "capas": 35}, {"mes": "2026-04", "material": "Pvc 1mm", "capas": 110}, {"mes": "2026-12", "material": "Pvc 0,5mm", "capas": 10}]};
 const PAL=['#4a9eff','#3dd68c','#f5a623','#a78bfa','#f56565','#38bdf8','#fb923c','#e879f9','#34d399','#facc15'];
 let DATA=null,autoTimer=null;
-// chart vars declared below
+let chAlu=null,chPvc=null,chBar=null,chMon=null,chMonStock=null;
 Chart.defaults.color='#7b8099';Chart.defaults.font.family="'Inter',sans-serif";Chart.defaults.font.size=11;
 const MN=['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 
@@ -521,9 +765,9 @@ function renderAll(d){
   document.getElementById('k-hoy').textContent=d.resumen.layouts_finalizados_hoy||'0';
   document.getElementById('k-hoy-sub').textContent=new Date().toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'numeric'});
   document.getElementById('k-total').textContent=d.resumen.total_finalizados;
-  var _bpend=document.getElementById('bdg-pend');if(_bpend)_bpend.textContent=d.resumen.layouts_pendientes+' pendientes';
-  var _bfin=document.getElementById('bdg-fin');if(_bfin)_bfin.textContent=d.resumen.total_finalizados+' finalizados';
-  var _bop=document.getElementById('bdg-of-pend');if(_bop)_bop.textContent=d.of_pendientes.length;
+  var _bp=document.getElementById('bdg-pend');if(_bp)_bp.textContent=d.resumen.layouts_pendientes+' pendientes';
+  var _bf=document.getElementById('bdg-fin');if(_bf)_bf.textContent=d.resumen.total_finalizados+' finalizados';
+  document.getElementById('bdg-of-pend').textContent=d.of_pendientes.length;
   document.getElementById('bdg-of-fin').textContent=d.of_finalizados.length;
   pendData=[].concat(d.layouts_pendientes);
   finData=[].concat(d.layouts_finalizados);
@@ -541,176 +785,197 @@ function renderAll(d){
 }
 
 // ── PROD CHARTS ──
-// ═══ RENDER FUNCTIONS ═══
-var chAlu=null,chPvc=null,chBar=null,chMon=null,chMonStock=null;
-Chart.defaults.color='#7b8099';
-Chart.defaults.font.family="'Inter',sans-serif";
-Chart.defaults.font.size=11;
-
-
 function updateProdCharts(){
-  if(!DATA) return;
+  if(!DATA)return;
   var fin=DATA.layouts_finalizados.filter(applyFiltrosFn);
   var cAll={},cFull={};
-  fin.forEach(function(r){
-    var m=r.material; if(!m) return;
-    cAll[m]=(cAll[m]||0)+r.capas;
-    if(!r.retal) cFull[m]=(cFull[m]||0)+r.capas;
-  });
-  var src=showFull?cFull:cAll;
-  var consumo=Object.entries(src).sort(function(a,b){return b[1]-a[1];}).slice(0,12).map(function(e){return{material:e[0],capas:e[1]};});
-  function filt(kw){return consumo.filter(function(d){return d.material.toLowerCase().includes(kw);});}
-  var aluDist=filt('aluminio'), pvcDist=filt('pvc');
-  var top6=consumo.slice(0,6).map(function(d){return d.material;});
-  var mMap={};
-  fin.forEach(function(r){
-    if(!r.fecha_fin||!top6.includes(r.material)) return;
-    if(showFull&&r.retal) return;
-    var k=r.fecha_fin.slice(0,7)+'|'+r.material;
-    mMap[k]=(mMap[k]||0)+r.capas;
-  });
+  fin.forEach(function(r){var m=r.material;if(!m)return;
+    cAll[m]=(cAll[m]||0)+r.capas;if(!r.retal)cFull[m]=(cFull[m]||0)+r.capas;});
+  function toArr(o){return Object.entries(o).sort(function(a,b){return b[1]-a[1];}).slice(0,12).map(function(e){return{material:e[0],capas:e[1]};});}
+  var consumo=showFull?toArr(cFull):toArr(cAll);
+  function filt(arr,kw){return arr.filter(function(d){return d.material.toLowerCase().includes(kw);});}
+  var aluDist=showFull?filt(toArr(cFull),'aluminio'):filt(toArr(cAll),'aluminio');
+  var pvcDist=showFull?filt(toArr(cFull),'pvc'):filt(toArr(cAll),'pvc');
+  var mMap={};var top6=consumo.slice(0,6).map(function(d){return d.material;});
+  fin.forEach(function(r){if(!r.fecha_fin||!top6.includes(r.material))return;
+    if(showFull&&r.retal)return;
+    var k=r.fecha_fin.slice(0,7)+'|'+r.material;mMap[k]=(mMap[k]||0)+r.capas;});
   var mensual=Object.entries(mMap).map(function(e){var p=e[0].split('|');return{mes:p[0],material:p[1],capas:e[1]};});
   var months=[...new Set(mensual.map(function(x){return x.mes;}))].sort();
   var mats=[...new Set(mensual.map(function(x){return x.material;}))];
 
-  function updDona(ch,id,data){
-    var el=document.getElementById(id); if(!el) return ch;
+  function updDoughnut(ch,id,data){
     if(ch){ch.data.labels=data.map(function(x){return x.material;});ch.data.datasets[0].data=data.map(function(x){return x.capas;});ch.update();return ch;}
-    if(!data.length) return ch;
-    return new Chart(el,{type:'doughnut',data:{labels:data.map(function(x){return x.material;}),datasets:[{data:data.map(function(x){return x.capas;}),backgroundColor:PAL,borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:10,padding:6}}}}});
+    if(!data.length)return ch;
+    return new Chart(document.getElementById(id),{type:'doughnut',
+      data:{labels:data.map(function(x){return x.material;}),datasets:[{data:data.map(function(x){return x.capas;}),backgroundColor:PAL,borderWidth:0,hoverOffset:4}]},
+      options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'right',labels:{font:{size:10},boxWidth:10,padding:7}}}}});
   }
-  chAlu=updDona(chAlu,'ch-alu',aluDist);
-  chPvc=updDona(chPvc,'ch-pvc',pvcDist);
+  chAlu=updDoughnut(chAlu,'ch-alu',aluDist);
+  chPvc=updDoughnut(chPvc,'ch-pvc',pvcDist);
 
-  var barEl=document.getElementById('ch-bar');
-  if(barEl&&consumo.length){
-    if(chBar){chBar.data.labels=consumo.map(function(x){return x.material;});chBar.data.datasets[0].data=consumo.map(function(x){return x.capas;});chBar.data.datasets[0].backgroundColor=consumo.map(function(d,i){return PAL[i%PAL.length];});chBar.update();}
-    else{chBar=new Chart(barEl,{type:'bar',data:{labels:consumo.map(function(x){return x.material;}),datasets:[{data:consumo.map(function(x){return x.capas;}),backgroundColor:consumo.map(function(d,i){return PAL[i%PAL.length];}),borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{maxRotation:35,font:{size:10}}},y:{grid:{color:'rgba(255,255,255,.04)'}}}}});}
-  }
+  if(chBar){chBar.data.labels=consumo.map(function(x){return x.material;});chBar.data.datasets[0].data=consumo.map(function(x){return x.capas;});chBar.data.datasets[0].backgroundColor=consumo.map(function(d,i){return PAL[i%PAL.length];});chBar.update();}
+  else if(consumo.length){chBar=new Chart(document.getElementById('ch-bar'),{type:'bar',
+    data:{labels:consumo.map(function(x){return x.material;}),datasets:[{data:consumo.map(function(x){return x.capas;}),backgroundColor:consumo.map(function(d,i){return PAL[i%PAL.length];}),borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{maxRotation:35,font:{size:10}}},y:{grid:{color:'rgba(255,255,255,.04)'}}}}});}
 
-  var monEl=document.getElementById('ch-mon');
-  if(monEl&&months.length){
-    var ds=mats.map(function(mat,i){return{label:mat,data:months.map(function(m){var r=mensual.find(function(x){return x.mes===m&&x.material===mat;});return r?r.capas:0;}),backgroundColor:PAL[i%PAL.length],borderRadius:2};});
-    if(chMon){chMon.data.labels=months.map(mLabel);chMon.data.datasets=ds;chMon.update();}
-    else{chMon=new Chart(monEl,{type:'bar',data:{labels:months.map(mLabel),datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{size:10},boxWidth:10,padding:6}}},scales:{x:{stacked:true,grid:{color:'rgba(255,255,255,.04)'}},y:{stacked:true,grid:{color:'rgba(255,255,255,.04)'}}}}});}
-  }
+  function mkDS(mats,months,data){return mats.map(function(mat,i){return{label:mat,data:months.map(function(m){var r=data.find(function(x){return x.mes===m&&x.material===mat;});return r?r.capas:0;}),backgroundColor:PAL[i%PAL.length],borderRadius:2};});}
+  var stackOpts={responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{size:10},boxWidth:10,padding:6}}},scales:{x:{stacked:true,grid:{color:'rgba(255,255,255,.04)'}},y:{stacked:true,grid:{color:'rgba(255,255,255,.04)'}}}};
+  if(chMon&&months.length){chMon.data.labels=months.map(mLabel);chMon.data.datasets=mkDS(mats,months,mensual);chMon.update();}
+  else if(months.length){chMon=new Chart(document.getElementById('ch-mon'),{type:'bar',data:{labels:months.map(mLabel),datasets:mkDS(mats,months,mensual)},options:stackOpts});}
 }
 
-function setProdMode(full,btn){
-  showFull=full;
-  document.querySelectorAll('.mode-btn').forEach(function(b){b.classList.remove('active');});
-  btn.classList.add('active');
-  updateProdCharts();
-}
+function setProdMode(full,btn){showFull=full;document.querySelectorAll('.mode-btn').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');updateProdCharts();}
 
-// ── STOCK ──
+// ── FILTROS ──
+function applyFiltrosFn(r){
+  if(filtros.anio&&(!r.fecha_fin||r.fecha_fin.slice(0,4)!==filtros.anio))return false;
+  if(filtros.mes&&(!r.fecha_fin||r.fecha_fin.slice(5,7)!==filtros.mes))return false;
+  if(filtros.material&&r.material!==filtros.material)return false;
+  if(filtros.operario&&r.operario!==filtros.operario)return false;
+  return true;
+}
+function buildFiltros(){
+  if(!DATA||!DATA.meta)return;
+  var m=DATA.meta;
+  function opts(arr,fn){return arr.map(function(v){return'<option value="'+v+'">'+fn(v)+'</option>';}).join('');}
+  document.getElementById('f-anio').innerHTML='<option value="">Año</option>'+opts(m.anios,function(v){return v;});
+  document.getElementById('f-mes').innerHTML='<option value="">Mes</option>'+opts(m.meses,function(v){return MN[parseInt(v)];});
+  document.getElementById('f-material').innerHTML='<option value="">Material</option>'+opts(m.mats,function(v){return v;});
+  document.getElementById('f-operario').innerHTML='<option value="">Operario</option>'+opts(m.ops,function(v){return v;});
+}
+function buildFiltrosMats(){
+  if(!DATA)return;
+  var mats=[...new Set(DATA.of_pendientes.concat(DATA.of_finalizados).map(function(r){return r.material;}).filter(Boolean))].sort();
+  function optsM(id){document.getElementById(id).innerHTML='<option value="">Todos los materiales</option>'+mats.map(function(m){return'<option value="'+m+'">'+m+'</option>';}).join('');}
+  optsM('of-mat-pend');optsM('of-mat-fin');
+  // Stock chart material selector
+  var sMats=[...new Set((DATA.mensual_stock||[]).map(function(x){return x.material;}))].sort();
+  document.getElementById('stock-chart-mat').innerHTML='<option value="">Todos</option>'+sMats.map(function(m){return'<option value="'+m+'">'+m+'</option>';}).join('');
+  // Stock table mat selector
+  var stMats=[...new Set(DATA.stock.map(function(s){return s.material;}))].sort();
+  document.getElementById('stock-mat-sel').innerHTML='<option value="">Todos los materiales</option>'+stMats.map(function(m){return'<option value="'+m+'">'+m+'</option>';}).join('');
+}
+function setFiltro(k,v){filtros[k]=v;updateProdCharts();var rows=DATA.layouts_finalizados.filter(applyFiltrosFn);renderFin(rows);document.getElementById('bdg-fin').textContent=rows.length;}
+function resetFiltros(){filtros={anio:'',mes:'',material:'',operario:''};['f-anio','f-mes','f-material','f-operario'].forEach(function(id){document.getElementById(id).value='';});updateProdCharts();renderFin(DATA.layouts_finalizados);document.getElementById('bdg-fin').textContent=DATA.resumen.total_finalizados;}
+
+// ── STOCK SECTION ──
+var stockChartMat='',stockShowFull=false,stockShowMedia=false;
+
+function getStockKpiCfg(){try{return JSON.parse(localStorage.getItem('mcha_kpi_cfg')||'null');}catch(e){return null;}}
+function saveStockKpiCfg(cfg){localStorage.setItem('mcha_kpi_cfg',JSON.stringify(cfg));}
+
 function updateStockSection(){
-  if(!DATA) return;
+  if(!DATA)return;
   renderStockKpis();
   refreshStockStatus();
   updateStockChart();
-  var sMats=[...new Set((DATA.mensual_stock||[]).map(function(x){return x.material;}))].sort();
-  var sch=document.getElementById('stock-chart-mat');
-  if(sch) sch.innerHTML='<option value="">Todos</option>'+sMats.map(function(m){return '<option value="'+m+'">'+m+'</option>';}).join('');
-  var stMats=[...new Set(DATA.stock.map(function(s){return s.material;}))].sort();
-  var ss=document.getElementById('stock-mat-sel');
-  if(ss) ss.innerHTML='<option value="">Todos</option>'+stMats.map(function(m){return '<option value="'+m+'">'+m+'</option>';}).join('');
 }
-
-function getStockKpiCfg(){try{return JSON.parse(localStorage.getItem('mcha_kpi_cfg')||'null');}catch(e){return null;}}
-function saveStockKpiCfg(c){localStorage.setItem('mcha_kpi_cfg',JSON.stringify(c));}
 
 function renderStockKpis(){
-  if(!DATA) return;
-  var cfg=getStockKpiCfg()||[{mat:'Pvc 1mm',dim:'3000x1500'},{mat:'Pvc 1,5mm',dim:'3000x1500'},{mat:'Aluminio 2mm',dim:'3000x1500'}];
-  var allOpts=DATA.stock.map(function(s){return {mat:s.material,dim:s.dimensiones,key:s.material+'|'+s.dimensiones};});
+  var cfg=getStockKpiCfg()||[
+    {mat:'Pvc 1mm',dim:'3000x1500'},
+    {mat:'Pvc 1,5mm',dim:'3000x1500'},
+    {mat:'Aluminio 2mm',dim:'3000x1500'}
+  ];
+  // Build unique mat+dim options from stock
+  var opts=DATA.stock.map(function(s){return{mat:s.material,dim:s.dimensiones,key:s.material+'|'+s.dimensiones};});
   function mkSel(idx,selMat,selDim){
-    return '<select class="f-select" style="font-size:10px;padding:2px 6px;max-width:140px;margin-bottom:6px" onchange="changeKpi('+idx+',this.value)">'
-      +allOpts.map(function(o){return '<option value="'+o.key+'"'+(o.mat===selMat&&o.dim===selDim?' selected':'')+'>'+o.mat+' '+o.dim+'</option>';}).join('')+'</select>';
+    return'<select class="f-select" style="font-size:10px;padding:2px 6px;max-width:130px" onchange="changeKpi('+idx+',this.value)">'
+      +opts.map(function(o){return'<option value="'+o.key+'"'+(o.mat===selMat&&o.dim===selDim?' selected':'')+'>'+o.mat+' '+o.dim+'</option>';}).join('')+'</select>';
   }
-  var colors=['#4a9eff','#3dd68c','#a78bfa'];
-  var topEl=document.getElementById('st-kpis-top');
-  var sideEl=document.getElementById('st-kpis');
-  var topHtml='', sideHtml='';
-  cfg.forEach(function(c,i){
-    var found=DATA.stock.find(function(s){return s.material===c.mat&&s.dimensiones===c.dim;});
-    var val=found?found.stock_actual:'\u2014', bad=found?found.necesita:false;
+  // Top KPI row (same data, simpler layout)
+  var topKpisEl=document.getElementById('st-kpis-top');
+  // Build unique mat+dim options
+  var allOpts=DATA.stock.map(function(s){return{mat:s.material,dim:s.dimensiones,key:s.material+'|'+s.dimensiones};});
+  function mkTopSel(idx,selMat,selDim){
+    return'<select class="f-select" style="font-size:10px;padding:2px 6px;max-width:140px;margin-bottom:6px" onchange="changeTopKpi('+idx+',this.value)">'
+      +allOpts.map(function(o){return'<option value="'+o.key+'"'+(o.mat===selMat&&o.dim===selDim?' selected':'')+'>'+o.mat+' '+o.dim+'</option>';}).join('')+'</select>';
+  }
+  if(topKpisEl){
+    topKpisEl.innerHTML=cfg.map(function(c,i){
+      var found=DATA.stock.find(function(s){return s.material===c.mat&&s.dimensiones===c.dim;});
+      var val=found?found.stock_actual:'—',bad=found?found.necesita:false;
+      var mon=(DATA.mensual_stock||[]).filter(function(x){return x.material===c.mat;});
+      var avg=mon.length?Math.round(mon.reduce(function(s,x){return s+x.capas;},0)/mon.length*10)/10:0;
+      var colors=['#4a9eff','#3dd68c','#a78bfa'];
+      return'<div class="kpi">'+mkTopSel(i,c.mat,c.dim)
+        +'<div class="kpi-val" style="color:'+(bad?'var(--red)':colors[i])+'">'+val+'</div>'
+        +'<div class="kpi-sub">Stock actual · Media: <strong style="color:var(--text)">'+avg+'</strong> planchas/mes</div></div>';
+    }).join('');
+  }
+  document.getElementById('st-kpis').innerHTML=cfg.map(function(c,i){
     var mon=(DATA.mensual_stock||[]).filter(function(x){return x.material===c.mat;});
-    var avg=mon.length?Math.round(mon.reduce(function(s,x){return s+x.capas;},0)/mon.length*10)/10:0;
     var mx=Math.max.apply(null,mon.map(function(x){return x.capas;}).concat([1]));
-    // Top card
-    topHtml+='<div class="kpi">'+mkSel(i,c.mat,c.dim)
-      +'<div class="kpi-val" style="color:'+(bad?'var(--red)':colors[i])+'">'+val+'</div>'
-      +'<div class="kpi-sub">Stock actual \u00b7 Media: <strong style="color:var(--text)">'+avg+'</strong> / mes</div></div>';
-    // Side card (mini bars)
-    var bars=mon.slice(-5).map(function(x){
+    var avg=mon.length?Math.round(mon.reduce(function(s,x){return s+x.capas;},0)/mon.length*10)/10:0;
+    var colors=['#4a9eff','#3dd68c','#a78bfa'];
+    var bars=mon.slice(-6).map(function(x){
       var p=x.mes.split('-');
-      return '<div class="mini-bar"><span class="mini-lbl">'+MN[parseInt(p[1])]+' '+p[0].slice(2)+'</span>'
-        +'<div class="mini-track"><div class="mini-fill" style="width:'+Math.round(x.capas/mx*100)+'%;background:'+colors[i]+'"></div></div>'
+      var lbl=MN[parseInt(p[1])]+' '+p[0].slice(2);
+      var pct=Math.round(x.capas/mx*100);
+      return'<div class="mini-bar"><span class="mini-lbl">'+lbl+'</span>'
+        +'<div class="mini-track"><div class="mini-fill" style="width:'+pct+'%;background:'+colors[i]+'"></div></div>'
         +'<span class="mini-val">'+x.capas+'</span></div>';
     }).join('');
-    sideHtml+='<div class="card" style="margin-bottom:0"><div class="card-hdr" style="padding:8px 12px">'+mkSel(i,c.mat,c.dim)+'</div>'
-      +'<div class="card-body" style="padding:10px 12px">'+(bars||'<div style="font-size:11px;color:var(--muted)">Sin datos</div>')
-      +'<div style="font-size:11px;color:var(--muted);margin-top:6px;padding-top:6px;border-top:0.5px solid var(--border)">Media: <strong style="color:var(--text)">'+avg+'</strong> planchas/mes</div>'
+    return'<div class="card" style="margin-bottom:0;padding:0">'
+      +'<div class="card-hdr" style="padding:8px 12px">'+mkSel(i,c.mat,c.dim)+'</div>'
+      +'<div class="card-body" style="padding:10px 12px">'
+      +(bars||'<div style="font-size:11px;color:var(--muted)">Sin datos de consumo</div>')
+      +'<div style="font-size:11px;color:var(--muted);margin-top:8px;padding-top:6px;border-top:0.5px solid var(--border)">Media: <strong style="color:var(--text)">'+avg+'</strong> planchas/mes</div>'
       +'</div></div>';
-  });
-  if(topEl) topEl.innerHTML=topHtml;
-  if(sideEl) sideEl.innerHTML=sideHtml;
+  }).join('');
 }
 
+function changeTopKpi(idx,val){
+  var cfg=getStockKpiCfg()||[{mat:'Pvc 1mm',dim:'3000x1500'},{mat:'Pvc 1,5mm',dim:'3000x1500'},{mat:'Aluminio 2mm',dim:'3000x1500'}];
+  var parts=val.split('|');cfg[idx]={mat:parts[0],dim:parts[1]||''};
+  saveStockKpiCfg(cfg);renderStockKpis();
+}
 function changeKpi(idx,val){
   var cfg=getStockKpiCfg()||[{mat:'Pvc 1mm',dim:'3000x1500'},{mat:'Pvc 1,5mm',dim:'3000x1500'},{mat:'Aluminio 2mm',dim:'3000x1500'}];
-  var p=val.split('|'); cfg[idx]={mat:p[0],dim:p[1]||''};
-  saveStockKpiCfg(cfg); renderStockKpis();
+  var parts=val.split('|');cfg[idx]={mat:parts[0],dim:parts[1]||''};
+  saveStockKpiCfg(cfg);renderStockKpis();
 }
 
-var stockChartMat='',stockShowMedia=false;
 function updateStockChart(){
-  if(!DATA) return;
+  if(!DATA)return;
   var src=DATA.mensual_stock||[];
-  var f=stockChartMat?src.filter(function(x){return x.material===stockChartMat;}):src;
-  var months=[...new Set(f.map(function(x){return x.mes;}))].sort();
-  var mats=[...new Set(f.map(function(x){return x.material;}))];
-  var el=document.getElementById('ch-mon-stock'); if(!el) return;
-  if(chMonStock) chMonStock.destroy();
-  if(!months.length) return;
-  var ds=mats.map(function(mat,i){return{label:mat,data:months.map(function(m){var r=f.find(function(x){return x.mes===m&&x.material===mat;});return r?r.capas:0;}),backgroundColor:PAL[i%PAL.length],borderRadius:2};});
+  var filtered=stockChartMat?src.filter(function(x){return x.material===stockChartMat;}):src;
+  var months=[...new Set(filtered.map(function(x){return x.mes;}))].sort();
+  var mats=[...new Set(filtered.map(function(x){return x.material;}))];
+  if(chMonStock)chMonStock.destroy();
+  if(!months.length)return;
+  function mkDS2(mts,mos,data){return mts.map(function(mat,i){return{label:mat,data:mos.map(function(m){var r=data.find(function(x){return x.mes===m&&x.material===mat;});return r?r.capas:0;}),backgroundColor:PAL[i%PAL.length],borderRadius:2};});}
+  var datasets=mkDS2(mats,months,filtered);
   if(stockShowMedia&&mats.length===1){
-    var vals=months.map(function(m){var r=f.find(function(x){return x.mes===m;});return r?r.capas:0;});
-    var avg=vals.reduce(function(a,b){return a+b;},0)/vals.length;
-    ds.push({type:'line',label:'Media',data:months.map(function(){return Math.round(avg*10)/10;}),borderColor:'#f5a623',borderDash:[4,3],borderWidth:2,pointRadius:0,fill:false,order:-1});
+    var vals=months.map(function(m){var r=filtered.find(function(x){return x.mes===m;});return r?r.capas:0;});
+    var avg2=vals.reduce(function(a,b){return a+b;},0)/vals.length;
+    datasets.push({type:'line',label:'Media',data:months.map(function(){return Math.round(avg2*10)/10;}),borderColor:'#f5a623',borderDash:[4,3],borderWidth:2,pointRadius:0,fill:false,order:-1});
   }
-  chMonStock=new Chart(el,{type:'bar',data:{labels:months.map(mLabel),datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{size:10},boxWidth:10,padding:6}}},scales:{x:{stacked:true,grid:{color:'rgba(255,255,255,.04)'}},y:{stacked:true,grid:{color:'rgba(255,255,255,.04)'}}}}});
+  chMonStock=new Chart(document.getElementById('ch-mon-stock'),{type:'bar',
+    data:{labels:months.map(mLabel),datasets:datasets},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'right',labels:{font:{size:10},boxWidth:10,padding:6}}},
+      scales:{x:{stacked:true,grid:{color:'rgba(255,255,255,.04)'}},y:{stacked:true,grid:{color:'rgba(255,255,255,.04)'}}}}});
 }
 function setStockChartMat(v){stockChartMat=v;updateStockChart();}
 function toggleStockMedia(cb){stockShowMedia=cb.checked;updateStockChart();}
 
+// ── ALERT CFG ──
 function getAlertCfg(){try{return JSON.parse(localStorage.getItem('mcha_alert_cfg')||'null');}catch(e){return null;}}
-function refreshStockStatus(){
-  if(!DATA) return;
-  var cfg=getAlertCfg();
-  var mon=cfg?DATA.stock.filter(function(s){return cfg.indexOf(s.material+'|'+s.dimensiones)>=0;}):DATA.stock;
-  var crit=mon.filter(function(s){return s.necesita;});
-  var el=document.getElementById('st-status'); if(!el) return;
-  el.innerHTML=crit.length===0
-    ?'<div class="stock-ok">\u2713 Stock OK</div>'
-    :'<div class="stock-fail">\u26a0 Repos. necesaria: '+crit.map(function(s){return s.material+' '+s.dimensiones;}).join(', ')+'</div>';
-}
 function buildAlertCheckboxes(){
-  if(!DATA) return;
+  if(!DATA)return;
   var cfg=getAlertCfg();
-  var c=document.getElementById('alert-checkboxes'); if(!c) return;
+  var c=document.getElementById('alert-checkboxes');if(!c)return;
   c.innerHTML=DATA.stock.map(function(s){
-    var k=s.material+'|'+s.dimensiones, chk=!cfg||cfg.indexOf(k)>=0;
-    return '<label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text);background:var(--surface2);padding:8px 10px;border-radius:6px;cursor:pointer">'
+    var k=s.material+'|'+s.dimensiones,chk=!cfg||cfg.indexOf(k)>=0;
+    return'<label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text);background:var(--surface2);padding:8px 10px;border-radius:6px;cursor:pointer">'
       +'<input type="checkbox" value="'+k+'"'+(chk?' checked':'')
-      +' style="accent-color:var(--blue)"> '+s.material
-      +' <span style="color:var(--dim);font-size:11px">'+s.dimensiones+'</span></label>';
+      +' style="accent-color:var(--blue)"> '+s.material+' <span style="color:var(--dim);font-size:11px">'+s.dimensiones+'</span></label>';
   }).join('');
 }
 function saveAlertCfg(){
-  var sel=[];
-  document.querySelectorAll('#alert-checkboxes input:checked').forEach(function(cb){sel.push(cb.value);});
+  var sel=[];document.querySelectorAll('#alert-checkboxes input:checked').forEach(function(cb){sel.push(cb.value);});
   localStorage.setItem('mcha_alert_cfg',JSON.stringify(sel));
   document.getElementById('alert-cfg-body').style.display='none';
   document.getElementById('alert-cfg-btn').textContent='Editar alertas';
@@ -718,227 +983,143 @@ function saveAlertCfg(){
 }
 function toggleAlertCfg(){
   var b=document.getElementById('alert-cfg-body'),btn=document.getElementById('alert-cfg-btn');
-  var open=b.style.display==='none'; b.style.display=open?'block':'none';
+  var open=b.style.display==='none';b.style.display=open?'block':'none';
   btn.textContent=open?'Cerrar':'Editar alertas';
 }
-
-// ── RENDER ALL ──
-function renderAll(d){
-  DATA=d;
-  // KPIs
-  document.getElementById('k-pend').textContent=d.resumen.layouts_pendientes;
-  document.getElementById('k-time').textContent=d.resumen.tiempo_pendiente;
-  document.getElementById('k-hoy').textContent=d.resumen.layouts_finalizados_hoy||'0';
-  document.getElementById('k-hoy-sub').textContent=new Date().toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'numeric'});
-  document.getElementById('k-total').textContent=d.resumen.total_finalizados;
-  var bp=document.getElementById('bdg-pend'); if(bp) bp.textContent=d.resumen.layouts_pendientes+' pendientes';
-  var bf=document.getElementById('bdg-fin'); if(bf) bf.textContent=d.resumen.total_finalizados+' finalizados';
-  // Data arrays
-  pendData=[].concat(d.layouts_pendientes);
-  finData=[].concat(d.layouts_finalizados);
-  ofFinData=[].concat(d.of_finalizados||[]);
-  stockData=[].concat(d.stock);
-  filtros={anio:'',mes:'',material:'',operario:''};
-  // Build selectors
-  buildFiltros();
-  buildFiltrosMats();
-  // Charts
-  updateProdCharts();
-  updateStockSection();
-  buildAlertCheckboxes();
-  // Tables
-  renderPend(pendData);
-  renderFin(finData);
-  renderOFFin(ofFinData);
-  renderStock(stockData);
+function refreshStockStatus(){
+  if(!DATA)return;
+  var cfg=getAlertCfg();
+  var mon=cfg?DATA.stock.filter(function(s){return cfg.indexOf(s.material+'|'+s.dimensiones)>=0;}):DATA.stock;
+  var crit=mon.filter(function(s){return s.necesita;});
+  document.getElementById('st-status').innerHTML=crit.length===0
+    ?'<div class="stock-ok">✓ Stock OK</div>'
+    :'<div class="stock-fail">⚠ Repos. necesaria: '+crit.map(function(s){return s.material+' '+s.dimensiones;}).join(', ')+'</div>';
 }
 
-// ── PENDING TABLE with expandable OF ──
+// ── PEND ORDER ──
+function getPendOrder(){try{return JSON.parse(localStorage.getItem('mcha_pend_order')||'{}');}catch(e){return{};}}
+function savePendOrder(id,val){var o=getPendOrder();if(val==='')delete o[id];else o[id]=parseInt(val)||0;localStorage.setItem('mcha_pend_order',JSON.stringify(o));sortAndRenderPend();}
+function searchBoth(q){
+  var l=q.toLowerCase();
+  function matchRow(r){
+    var ofMatch=DATA&&DATA.of_by_layout&&(DATA.of_by_layout[r.id]||[]).some(function(o){return(cl(o.of)+cl(o.referencia)).toLowerCase().includes(l);});
+    return Object.values(r).join(' ').toLowerCase().includes(l)||ofMatch;
+  }
+  var pRows=l?pendData.filter(matchRow):pendData;
+  var fRows=l?finData.filter(matchRow):finData;
+  renderPend(pRows); renderFin(fRows);
+  var bp=document.getElementById('bdg-pend');if(bp)bp.textContent=pRows.length+' pendientes';
+  var bf=document.getElementById('bdg-fin');if(bf)bf.textContent=fRows.length+' finalizados';
+}
+function sortAndRenderPend(){
+  var o=getPendOrder();
+  var sorted=[].concat(pendData).sort(function(a,b){var oa=o[a.id]!==undefined?o[a.id]:9999,ob=o[b.id]!==undefined?o[b.id]:9999;return oa-ob;});
+  renderPend(sorted);
+}
+
+// ── SELECTED LAYOUT ──
+var selectedLayout=null;
+function selectLayout(id){
+  selectedLayout=id;
+  document.querySelectorAll('#tb-pend tr').forEach(function(tr){tr.classList.remove('selected-row');});
+  var rows=document.querySelectorAll('#tb-pend tr');
+  rows.forEach(function(tr){if(tr.querySelector('.layout-id')&&tr.querySelector('.layout-id').textContent===id)tr.classList.add('selected-row');});
+  var panel=document.getElementById('of-inline');
+  if(!DATA||!id){panel.style.display='none';return;}
+  var ofs=(DATA.of_by_layout||{})[id]||[];
+  if(!ofs.length){panel.innerHTML='<div style="padding:12px 16px;font-size:12px;color:var(--muted)">Sin órdenes de fabricación para este layout.</div>';panel.style.display='block';return;}
+  panel.style.display='block';
+  panel.innerHTML='<div style="padding:10px 16px;background:var(--surface2);border-bottom:1px solid var(--border);font-size:11px;font-weight:600;color:var(--blue);text-transform:uppercase;letter-spacing:.06em">OF del layout '+id+'</div>'
+    +'<div style="overflow-x:auto"><table><thead><tr><th>OF</th><th>Referencia</th><th>Uds</th><th>Fecha entrega</th><th>Material</th></tr></thead><tbody>'
+    +ofs.map(function(o){return'<tr><td style="font-weight:500">'+cl(o.of)+'</td><td>'+cl(o.referencia)+'</td><td><span class="bdg bdg-dim">'+o.uds+'</span></td><td>'+dEs(o.fecha_entrega)+'</td><td style="color:var(--muted)">'+cl(o.material)+'</td></tr>';}).join('')
+    +'</tbody></table></div>';
+}
+
+// ── TABLES ──
+
+function buildOfRow(ofId,ofs,colspan,color){
+  var ofTr=document.createElement('tr');
+  ofTr.id=ofId; ofTr.style.display='none';
+  var td=document.createElement('td');
+  td.colSpan=colspan;
+  td.style.cssText='padding:0;background:var(--surface2);border-left:2px solid '+color;
+  if(!ofs.length){
+    td.innerHTML='<div style="padding:8px 16px;font-size:11px;color:var(--muted)">Sin OF registradas.</div>';
+  } else {
+    var trs=ofs.map(function(o2){
+      return '<tr><td style="padding:5px 12px;border-bottom:0.5px solid var(--border);font-weight:500">'+cl(o2.of)+'</td>'
+        +'<td style="padding:5px 12px;border-bottom:0.5px solid var(--border)">'+cl(o2.referencia)+'</td>'
+        +'<td style="padding:5px 12px;border-bottom:0.5px solid var(--border)"><span class="bdg bdg-dim">'+o2.uds+'</span></td>'
+        +'<td style="padding:5px 12px;border-bottom:0.5px solid var(--border);color:var(--muted)">'+dEs(o2.fecha_entrega)+'</td></tr>';
+    }).join('');
+    td.innerHTML='<div style="padding:6px 0 8px 32px"><table style="width:100%;border-collapse:collapse;font-size:11px"><thead><tr>'
+      +'<th style="padding:5px 12px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">OF</th>'
+      +'<th style="padding:5px 12px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Referencia</th>'
+      +'<th style="padding:5px 12px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Uds</th>'
+      +'<th style="padding:5px 12px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">F. entrega</th>'
+      +'</tr></thead><tbody>'+trs+'</tbody></table></div>';
+  }
+  ofTr.appendChild(td); return ofTr;
+}
+
+function toggleOf(ofId,tr,iconSel){
+  var ofRow=document.getElementById(ofId); if(!ofRow) return;
+  var open=ofRow.style.display!=='none';
+  // Close all open OF rows
+  document.querySelectorAll('[id^="pof_"],[id^="fof_"]').forEach(function(x){x.style.display='none';});
+  document.querySelectorAll(iconSel).forEach(function(ic){if(ic.textContent==='▼')ic.textContent='▶';});
+  if(!open){
+    ofRow.style.display='table-row';
+    var ic=tr.querySelector(iconSel); if(ic) ic.textContent='▼';
+  }
+}
+
 function renderPend(rows){
   var el=document.getElementById('tb-pend');
   if(!el) return;
-  if(!rows||!rows.length){
-    el.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:2rem">Sin layouts pendientes</td></tr>';
-    return;
-  }
+  if(!rows||!rows.length){el.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:2rem">Sin layouts pendientes</td></tr>';return;}
   var o=getPendOrder();
   var frag=document.createDocumentFragment();
   rows.forEach(function(r){
     var ord=o[r.id]!==undefined?o[r.id]:'';
     var ofs=(DATA&&DATA.of_by_layout&&DATA.of_by_layout[r.id])||[];
-    var safeId=r.id.replace(/[^a-zA-Z0-9]/g,'_');
-    var ofRowId='ofrow_'+safeId;
-    // Main row
+    var ofId='pof_'+r.id.replace(/[^a-zA-Z0-9]/g,'_');
     var tr=document.createElement('tr');
-    tr.className='layout-row';
     tr.style.cursor='pointer';
-    tr.innerHTML=[
-      '<td style="width:48px"><input type="number" min="1" value="'+ord+'" placeholder="\u2014"',
-      ' style="width:42px;background:var(--surface3);border:1px solid var(--border2);border-radius:4px;color:var(--text);padding:3px 4px;font-size:11px;text-align:center"></td>',
-      '<td><span class="exp-icon" style="font-size:9px;color:var(--muted);margin-right:3px">'+(ofs.length?'\u25B6':'\u00B7')+'</span>',
-      '<span class="bdg bdg-red">'+cl(r.id)+'</span></td>',
-      '<td>'+cl(r.material)+'</td>',
-      '<td style="text-align:center">'+r.capas+'</td>',
-      '<td>'+cl(r.dimensiones)+'</td>',
-      '<td>'+cl(r.operario)+'</td>',
-      '<td><span class="bdg bdg-amber">'+cl(r.t_teorico)+'</span></td>'
-    ].join('');
-    // Click to expand
-    (function(rowEl, rowId, rowOfs){
-      rowEl.addEventListener('click', function(e){
-        if(e.target.tagName==='INPUT') return;
-        toggleExpand(rowId, rowEl);
-      });
-      // Order input change
-      var inp=rowEl.querySelector('input[type=number]');
-      if(inp){ inp.addEventListener('change',function(){savePendOrder(r.id,inp.value);}); }
-    })(tr, ofRowId, ofs);
+    tr.innerHTML='<td style="width:48px"><input type="number" min="1" value="'+ord+'" placeholder="—" style="width:42px;background:var(--surface3);border:1px solid var(--border2);border-radius:4px;color:var(--text);padding:3px 4px;font-size:11px;text-align:center"></td>'
+      +'<td><span class="xi" style="font-size:9px;color:var(--muted);margin-right:3px">'+(ofs.length?'▶':'·')+'</span><span class="bdg bdg-red">'+cl(r.id)+'</span></td>'
+      +'<td>'+cl(r.material)+'</td><td style="text-align:center">'+r.capas+'</td>'
+      +'<td>'+cl(r.dimensiones)+'</td><td>'+cl(r.operario)+'</td>'
+      +'<td><span class="bdg bdg-amber">'+cl(r.t_teorico)+'</span></td>';
+    var inp=tr.querySelector('input');
+    inp.addEventListener('change',function(){savePendOrder(r.id,inp.value);});
+    inp.addEventListener('click',function(e){e.stopPropagation();});
+    tr.addEventListener('click',function(){toggleOf(ofId,tr,'.xi');});
     frag.appendChild(tr);
-    // OF expand row
-    var ofTr=document.createElement('tr');
-    ofTr.id=ofRowId;
-    ofTr.style.display='none';
-    var td=document.createElement('td');
-    td.colSpan=7;
-    td.style.cssText='padding:0;background:var(--surface2);border-left:2px solid var(--blue)';
-    if(!ofs.length){
-      td.innerHTML='<div style="padding:8px 16px;font-size:11px;color:var(--muted)">Sin OF registradas.</div>';
-    } else {
-      var rows2=ofs.map(function(o2){
-        return '<tr>'
-          +'<td style="padding:5px 12px;border-bottom:0.5px solid var(--border);font-weight:500;color:var(--text)">'+cl(o2.of)+'</td>'
-          +'<td style="padding:5px 12px;border-bottom:0.5px solid var(--border);color:var(--text)">'+cl(o2.referencia)+'</td>'
-          +'<td style="padding:5px 12px;border-bottom:0.5px solid var(--border)"><span class="bdg bdg-dim">'+o2.uds+'</span></td>'
-          +'<td style="padding:5px 12px;border-bottom:0.5px solid var(--border);color:var(--muted)">'+dEs(o2.fecha_entrega)+'</td>'
-          +'</tr>';
-      }).join('');
-      td.innerHTML='<div style="padding:6px 0 8px 32px">'
-        +'<table style="width:100%;border-collapse:collapse;font-size:11px">'
-        +'<thead><tr>'
-        +'<th style="padding:5px 12px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">OF</th>'
-        +'<th style="padding:5px 12px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Referencia</th>'
-        +'<th style="padding:5px 12px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Uds</th>'
-        +'<th style="padding:5px 12px;color:var(--dim);font-size:10px;font-weight:500;text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">F. entrega</th>'
-        +'</tr></thead><tbody>'+rows2+'</tbody></table></div>';
-    }
-    ofTr.appendChild(td);
-    frag.appendChild(ofTr);
+    frag.appendChild(buildOfRow(ofId,ofs,7,'var(--blue)'));
   });
-  el.innerHTML='';
-  el.appendChild(frag);
+  el.innerHTML=''; el.appendChild(frag);
 }
-
-function toggleExpand(ofRowId, layoutRow){
-  var ofRow=document.getElementById(ofRowId);
-  if(!ofRow) return;
-  var isOpen=ofRow.style.display!=='none';
-  // Close all
-  document.querySelectorAll('[id^="ofrow_"]').forEach(function(r){r.style.display='none';});
-  document.querySelectorAll('.layout-row .exp-icon').forEach(function(ic){ic.textContent='\u25B6';});
-  document.querySelectorAll('.layout-row').forEach(function(r){r.style.background='';});
-  if(!isOpen){
-    ofRow.style.display='table-row';
-    var ic=layoutRow.querySelector('.exp-icon');
-    if(ic) ic.textContent='\u25BC';
-    layoutRow.style.background='rgba(74,158,255,0.06)';
-  }
-}
-
-// ── FINALIZADOS TABLE ──
 function renderFin(rows){
-  var el=document.getElementById('tb-fin'); if(!el) return;
+  var el=document.getElementById('tb-fin');
+  if(!el) return;
   if(!rows||!rows.length){el.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:2rem">Sin datos</td></tr>';return;}
-  el.innerHTML=rows.map(function(r){
-    return '<tr>'
-      +'<td><span class="bdg bdg-green">'+cl(r.id)+'</span></td>'
-      +'<td>'+cl(r.material)+'</td>'
-      +'<td style="text-align:center">'+r.capas+'</td>'
+  var frag=document.createDocumentFragment();
+  rows.forEach(function(r){
+    var ofs=(DATA&&DATA.of_by_layout&&DATA.of_by_layout[r.id])||[];
+    var ofId='fof_'+r.id.replace(/[^a-zA-Z0-9]/g,'_');
+    var tr=document.createElement('tr');
+    tr.style.cursor='pointer';
+    tr.innerHTML='<td><span class="xi" style="font-size:9px;color:var(--muted);margin-right:3px">'+(ofs.length?'▶':'·')+'</span><span class="bdg bdg-green">'+cl(r.id)+'</span></td>'
+      +'<td>'+cl(r.material)+'</td><td style="text-align:center">'+r.capas+'</td>'
       +'<td style="color:var(--muted)">'+dEs(r.fecha_fin)+'</td>'
       +'<td><span class="bdg bdg-blue">'+cl(r.t_real)+'</span></td>'
-      +'<td>'+cl(r.operario)+'</td>'
-      +'</tr>';
-  }).join('');
-}
-
-function renderOFFin(rows){
-  var el=document.getElementById('tb-of-fin'); if(!el) return;
-  if(!rows||!rows.length){el.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:2rem">Sin datos</td></tr>';return;}
-  el.innerHTML=rows.map(function(r){
-    return '<tr>'
-      +'<td><span class="bdg bdg-green">'+cl(r.id_layout)+'</span></td>'
-      +'<td style="color:var(--muted)">'+cl(r.material)+'</td>'
-      +'<td style="font-weight:500">'+cl(r.of)+'</td>'
-      +'<td>'+cl(r.referencia)+'</td>'
-      +'<td><span class="bdg bdg-dim">'+r.uds+'</span></td>'
-      +'<td>'+dEs(r.fecha_entrega)+'</td>'
-      +'</tr>';
-  }).join('');
-}
-
-function renderStock(rows){
-  var el=document.getElementById('tb-stock'); if(!el) return;
-  var cfg=getAlertCfg();
-  el.innerHTML=rows.map(function(r){
-    var isM=!cfg||cfg.indexOf(r.material+'|'+r.dimensiones)>=0;
-    var col=r.necesita&&isM?'var(--red)':r.stock_actual<=r.stock_min*1.2?'var(--amber)':'var(--green)';
-    return '<tr style="'+(r.necesita&&isM?'background:rgba(245,101,101,0.04)':'')+'"><td style="font-weight:500">'+r.material+'</td>'
-      +'<td>'+r.dimensiones+'</td>'
-      +'<td style="text-align:center;font-weight:600;color:'+col+'">'+r.stock_actual+'</td>'
-      +'<td style="text-align:center;color:var(--muted)">'+r.stock_min+'</td>'
-      +'<td style="text-align:center"><span class="bdg '+(r.necesita&&isM?'bdg-red':'bdg-green')+'">'+(r.necesita&&isM?'S\u00ed':'No')+'</span></td></tr>';
-  }).join('');
-}
-
-// ── SEARCH ──
-function searchBoth(q){
-  var l=q.toLowerCase();
-  var pRows=l?pendData.filter(function(r){
-    var ofMatch=DATA&&DATA.of_by_layout&&(DATA.of_by_layout[r.id]||[]).some(function(o){
-      return (cl(o.of)+cl(o.referencia)+dEs(o.fecha_entrega)).toLowerCase().includes(l);
-    });
-    return Object.values(r).join(' ').toLowerCase().includes(l)||ofMatch;
-  }):pendData;
-  var fRows=l?finData.filter(function(r){
-    return Object.values(r).join(' ').toLowerCase().includes(l);
-  }):finData;
-  renderPend(pRows);
-  renderFin(fRows);
-  var bp=document.getElementById('bdg-pend'); if(bp) bp.textContent=pRows.length+' pendientes';
-  var bf=document.getElementById('bdg-fin'); if(bf) bf.textContent=fRows.length+' finalizados';
-}
-
-function filterStock(q){var l=q.toLowerCase();renderStock(stockData.filter(function(r){return(r.material+r.dimensiones).toLowerCase().includes(l);}));}
-function filterStockByMat(mat){
-  var b=document.getElementById('stock-avg-badge');
-  var rows=mat?stockData.filter(function(r){return r.material===mat;}):stockData;
-  renderStock(rows);
-  if(mat&&rows.length&&b){var avg=Math.round(rows.reduce(function(s,r){return s+r.stock_actual;},0)/rows.length*10)/10;b.textContent='Promedio: '+avg+' uds';b.style.display='inline';}
-  else if(b) b.style.display='none';
-}
-function filterOFFin(mat){renderOFFin(mat?ofFinData.filter(function(r){return r.material===mat;}):ofFinData);}
-function searchOFFin(q){var l=q.toLowerCase();renderOFFin(ofFinData.filter(function(r){return(cl(r.of)+cl(r.referencia)+dEs(r.fecha_entrega)+cl(r.id_layout)).toLowerCase().includes(l);}));}
-
-function setFiltro(k,v){filtros[k]=v;updateProdCharts();var rows=DATA.layouts_finalizados.filter(applyFiltrosFn);renderFin(rows);var bf=document.getElementById('bdg-fin');if(bf)bf.textContent=rows.length+' finalizados';}
-function resetFiltros(){filtros={anio:'',mes:'',material:'',operario:''};['f-anio','f-mes','f-material','f-operario'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});updateProdCharts();renderFin(DATA.layouts_finalizados);var bf=document.getElementById('bdg-fin');if(bf)bf.textContent=DATA.resumen.total_finalizados+' finalizados';}
-
-function buildFiltrosMats(){
-  if(!DATA) return;
-  var mats=[...new Set((DATA.of_finalizados||[]).map(function(r){return r.material;}).filter(Boolean))].sort();
-  var om=document.getElementById('of-mat-fin');
-  if(om) om.innerHTML='<option value="">Todos los materiales</option>'+mats.map(function(m){return '<option value="'+m+'">'+m+'</option>';}).join('');
-}
-
-function showSec(id,el){
-  document.querySelectorAll('.sec').forEach(function(s){s.classList.remove('active');});
-  document.querySelectorAll('.nav-tab').forEach(function(t){t.classList.remove('active');});
-  document.getElementById('sec-'+id).classList.add('active'); el.classList.add('active');
-  var fb=document.getElementById('filter-bar'); if(fb) fb.style.display='none';
-}
-
-function setStatus(state,txt){
-  document.getElementById('sync-lbl').textContent=txt;
-  var d=document.getElementById('live-dot');
-  d.className='live-dot'+(state==='connected'?'':(state==='loading'?' loading':' error'));
+      +'<td>'+cl(r.operario)+'</td>';
+    tr.addEventListener('click',function(){toggleOf(ofId,tr,'.xi');});
+    frag.appendChild(tr);
+    frag.appendChild(buildOfRow(ofId,ofs,6,'var(--green)'));
+  });
+  el.innerHTML=''; el.appendChild(frag);
 }
 
 </script>
