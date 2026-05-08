@@ -209,7 +209,9 @@ tr:hover td{background:rgba(255,255,255,.025)}
             <th title="Orden de corte">#</th>
             <th>ID Layout</th><th>Material</th><th>Capas</th>
             <th>Dim.</th><th>Retal</th><th>Operario</th>
-            <th>T. teórico</th><th>Obs.</th>
+            <th>T. teórico</th>
+            <th onclick="cyclePendSort()" title="Ordenar por fecha de entrega más próxima" style="cursor:pointer;user-select:none;white-space:nowrap">F. entrega <span id="pend-sort-icon">⇅</span></th>
+            <th>Obs.</th>
           </tr></thead>
           <tbody id="tb-pend"></tbody>
         </table>
@@ -936,6 +938,7 @@ function renderPend(rows){
     var ord=o[r.id]!==undefined?o[r.id]:'';
     var ofs=(DATA&&DATA.of_by_layout&&DATA.of_by_layout[r.id])||[];
     var hasOf=ofs.length>0;
+    var minF=getMinFechaEntrega(r.id);
     // Layout row
     html+='<tr class="layout-row" onclick="toggleOFRow(\'of-'+r.id.replace(/[^a-z0-9]/gi,'-')+'\')">'
       +'<td style="width:52px"><input type="number" min="1" value="'+ord+'" placeholder="—"'
@@ -948,11 +951,12 @@ function renderPend(rows){
       +'<td style="color:var(--muted)">'+cl(r.retal)+'</td>'
       +'<td>'+cl(r.operario)+'</td>'
       +'<td><span class="bdg bdg-amber">'+cl(r.t_teorico)+'</span></td>'
+      +'<td>'+fEntBadge(minF)+'</td>'
       +'<td style="color:var(--muted);max-width:160px;overflow:hidden;text-overflow:ellipsis">'+cl(r.obs)+'</td>'
       +'</tr>';
     // OF expand row
     html+='<tr class="of-expand-row" id="of-'+r.id.replace(/[^a-z0-9]/gi,'-')+'">'
-      +'<td colspan="9"><div class="of-inner">';
+      +'<td colspan="10"><div class="of-inner">';
     if(!hasOf){
       html+='<p class="no-of">Sin órdenes de fabricación registradas.</p>';
     } else {
@@ -968,7 +972,42 @@ function renderPend(rows){
     }
     html+='</div></td></tr>';
   });
-  tbody.innerHTML=html||'<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:2rem">Sin layouts pendientes</td></tr>';
+  tbody.innerHTML=html||'<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:2rem">Sin layouts pendientes</td></tr>';
+}
+
+// ── Fecha entrega más urgente por layout ──
+var pendSortDir=null; // null=manual, 'asc', 'desc'
+
+function getMinFechaEntrega(id){
+  var ofs=(DATA&&DATA.of_by_layout&&DATA.of_by_layout[id])||[];
+  var dates=ofs.map(function(o){return dISO(o.fecha_entrega);}).filter(function(d){return d&&d!=='';});
+  if(!dates.length)return null;
+  return dates.slice().sort()[0];
+}
+
+function fEntBadge(iso){
+  if(!iso)return'<span style="color:var(--dim)">—</span>';
+  var today=new Date().toISOString().slice(0,10);
+  var diff=Math.round((new Date(iso)-new Date(today))/(1000*60*60*24));
+  var lbl=dEs(iso);
+  if(diff<0)return'<span class="bdg bdg-red" title="Vencida">'+lbl+'</span>';
+  if(diff<=7)return'<span class="bdg bdg-amber" title="'+diff+' días">'+lbl+'</span>';
+  return'<span class="bdg bdg-green" title="'+diff+' días">'+lbl+'</span>';
+}
+
+function cyclePendSort(){
+  if(pendSortDir===null)pendSortDir='asc';
+  else if(pendSortDir==='asc')pendSortDir='desc';
+  else pendSortDir=null;
+  var icon=document.getElementById('pend-sort-icon');
+  if(icon)icon.textContent=pendSortDir==='asc'?'↑':pendSortDir==='desc'?'↓':'⇅';
+  if(pendSortDir===null){sortAndRenderPend();return;}
+  var sorted=pendData.slice().sort(function(a,b){
+    var da=getMinFechaEntrega(a.id)||'9999-99-99';
+    var db=getMinFechaEntrega(b.id)||'9999-99-99';
+    return pendSortDir==='asc'?da<db?-1:da>db?1:0:da>db?-1:da<db?1:0;
+  });
+  renderPend(sorted);
 }
 
 function toggleOFRow(id){
