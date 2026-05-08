@@ -193,11 +193,8 @@ tr:hover td{background:rgba(255,255,255,.025)}
     <input class="search-input" id="prod-search" placeholder="Buscar en pendientes y finalizados: ID, material, OF, referencia..." oninput="searchProduccion(this.value)" style="width:100%">
   </div>
 
-  <!-- Dos tablas lado a lado -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-
-    <!-- Pendientes (izquierda, roja) -->
-    <div class="card" style="border-color:rgba(245,101,101,0.35);margin-bottom:0">
+  <!-- Pendientes (arriba, roja) -->
+  <div class="card" style="border-color:rgba(245,101,101,0.35)">
       <div class="card-hdr" style="border-bottom-color:rgba(245,101,101,0.2)">
         <span class="card-title" style="color:var(--red)">Pendientes de corte</span>
         <span class="bdg bdg-red" id="bdg-pend">—</span>
@@ -218,8 +215,8 @@ tr:hover td{background:rgba(255,255,255,.025)}
       </div>
     </div>
 
-    <!-- Finalizados (derecha, verde) -->
-    <div class="card" style="border-color:rgba(61,214,140,0.35);margin-bottom:0">
+  <!-- Finalizados (abajo, verde) -->
+  <div class="card" style="border-color:rgba(61,214,140,0.35)">
       <div class="card-hdr" style="border-bottom-color:rgba(61,214,140,0.2)">
         <span class="card-title" style="color:var(--green)">Finalizados</span>
         <span class="bdg bdg-green" id="bdg-fin">—</span>
@@ -235,8 +232,6 @@ tr:hover td{background:rgba(255,255,255,.025)}
           <tbody id="tb-fin"></tbody>
         </table>
       </div>
-    </div>
-
   </div>
 </div>
 
