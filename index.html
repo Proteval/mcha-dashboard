@@ -400,7 +400,7 @@ function setupAutoSync(){clearInterval(autoTimer);var m=parseInt(localStorage.ge
 // ── Parse ──
 function parseData(csvL,csvOF,csvS){
   var rows=parseCSV(csvL),hdr=rows[0];
-  var iId=0,iMat=1,iCap=2,iDim=3,iRet=4,iOp=5,iFi=6,iFf=8,iTr=10,iTt=11,iObs=12,iHf=9;
+  var iId=0,iMat=1,iCap=2,iDim=3,iRet=4,iOp=6,iFi=7,iFf=9,iTr=11,iTt=12,iObs=13,iHf=10;
   var _t;
   _t=findCol(hdr,'ID Layout');if(_t>=0)iId=_t;
   _t=findCol(hdr,'Material');if(_t>=0)iMat=_t;
