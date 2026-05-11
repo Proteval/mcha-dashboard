@@ -135,6 +135,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
   <div class="cfg-f"><label>CSV Layouts</label><input type="text" id="cfg-url-layouts" placeholder="https://www.dropbox.com/scl/fi/..."></div>
   <div class="cfg-f"><label>CSV OF</label><input type="text" id="cfg-url-of" placeholder="enlace MCHA_of.csv"></div>
   <div class="cfg-f"><label>CSV Stock</label><input type="text" id="cfg-url-stock" placeholder="enlace MCHA_stock.csv"></div>
+  <div class="cfg-f"><label title="Carpeta local donde Dropbox sincroniza los PDFs de layouts">📄 Carpeta PDFs local</label><input type="text" id="cfg-pdf-base" placeholder="C:\Users\TuUsuario\Dropbox\MCHA\01_PROTEVAL PROGRAMAS\01_PDF Layouts"></div>
   <div class="cfg-f"><label>Auto-sync</label>
     <select id="cfg-iv"><option value="0">Manual</option><option value="5" selected>Cada 5 min</option><option value="15">Cada 15 min</option><option value="30">Cada 30 min</option><option value="60">Cada hora</option></select>
   </div>
@@ -156,6 +157,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
       <div class="wiz-field"><label>MCHA_layouts.csv</label><input type="text" id="wiz-layouts" placeholder="https://www.dropbox.com/scl/fi/..."></div>
       <div class="wiz-field"><label>MCHA_of.csv</label><input type="text" id="wiz-of" placeholder="https://www.dropbox.com/scl/fi/..."></div>
       <div class="wiz-field"><label>MCHA_stock.csv</label><input type="text" id="wiz-stock" placeholder="https://www.dropbox.com/scl/fi/..."></div>
+      <div class="wiz-field"><label>📄 Carpeta local de PDFs <span style="font-size:11px;opacity:.6">(para abrir PDFs desde el dashboard)</span></label><input type="text" id="wiz-pdf-base" placeholder="C:\Users\TuUsuario\Dropbox\MCHA\01_PROTEVAL PROGRAMAS\01_PDF Layouts"></div>
     </div>
     <button class="wiz-btn" onclick="wizConnect()">Conectar →</button>
     <button class="wiz-skip" onclick="useFallback()">Usar datos de ejemplo sin Dropbox</button>
@@ -345,7 +347,13 @@ function parseCSV(txt){
 function pathToUrl(p){
   if(!p)return'';
   if(p.startsWith('http')||p.startsWith('file:'))return p;
-  // Ruta local Windows → file:// URL
+  // Ruta relativa (sin letra de unidad) → añadir carpeta base configurada
+  if(!/^[A-Za-z]:\\/.test(p)){
+    var base=localStorage.getItem('mcha_pdf_base')||'';
+    if(!base)return'';
+    p=base.replace(/\\+$/,'')+'\\'+ p;
+  }
+  // Ruta absoluta Windows → file:// URL
   return'file:///'+p.replace(/\\/g,'/').split('/').map(function(s){return encodeURIComponent(s);}).join('/');
 }
 function dlUrl(u){return u.replace('www.dropbox.com','dl.dropboxusercontent.com').replace('?dl=0','').replace(/[?&]rlkey/,'?raw=1&rlkey');}
@@ -363,6 +371,7 @@ window.addEventListener('load',function(){
       var k=['mcha_url_layouts','mcha_url_of','mcha_url_stock'][i];
       var v=localStorage.getItem(k);if(v)document.getElementById(id).value=v;
     });
+    var pb=localStorage.getItem('mcha_pdf_base');if(pb)document.getElementById('cfg-pdf-base').value=pb;
     document.getElementById('cfg-iv').value=localStorage.getItem('mcha_interval')||'5';
     startDash();syncNow();
   }else document.getElementById('wizard').style.display='flex';
@@ -377,6 +386,8 @@ function saveCfg(){
     var v=document.getElementById(id).value.trim();
     if(v)localStorage.setItem(['mcha_url_of','mcha_url_stock'][i],v);
   });
+  var pb=document.getElementById('cfg-pdf-base').value.trim();
+  if(pb)localStorage.setItem('mcha_pdf_base',pb);
   localStorage.setItem('mcha_interval',document.getElementById('cfg-iv').value);
   document.getElementById('cfg-panel').classList.remove('open');startDash();syncNow();
 }
@@ -386,6 +397,8 @@ function wizConnect(){
   localStorage.setItem('mcha_url_layouts',ul);
   var uo=document.getElementById('wiz-of').value.trim(),us=document.getElementById('wiz-stock').value.trim();
   if(uo)localStorage.setItem('mcha_url_of',uo);if(us)localStorage.setItem('mcha_url_stock',us);
+  var pb=document.getElementById('wiz-pdf-base').value.trim();
+  if(pb)localStorage.setItem('mcha_pdf_base',pb);
   localStorage.setItem('mcha_interval','5');
   document.getElementById('wizard').style.display='none';startDash();syncNow();
 }
