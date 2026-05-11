@@ -209,6 +209,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
             <th>T. teórico</th>
             <th onclick="cyclePendSort()" title="Ordenar por fecha de entrega más próxima" style="cursor:pointer;user-select:none;white-space:nowrap">F. entrega <span id="pend-sort-icon">⇅</span></th>
             <th>Obs.</th>
+            <th title="Abrir PDF del layout">PDF</th>
           </tr></thead>
           <tbody id="tb-pend"></tbody>
         </table>
@@ -228,6 +229,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
             <th>ID Layout</th><th>Material</th><th>Capas</th>
             <th>Fecha ini.</th><th>Fecha fin</th>
             <th>T. real</th><th>T. teórico</th><th>Operario</th>
+            <th title="Abrir PDF del layout">PDF</th>
           </tr></thead>
           <tbody id="tb-fin"></tbody>
         </table>
@@ -411,6 +413,7 @@ function parseData(csvL,csvOF,csvS){
   _t=findCol(hdr,'T. real');if(_t>=0)iTr=_t;
   _t=findCol(hdr,'teorico');if(_t>=0)iTt=_t;
   _t=findCol(hdr,'Observaciones');if(_t>=0)iObs=_t;
+  var iUrl=-1;_t=findCol(hdr,'URL_PDF');if(_t>=0)iUrl=_t;
 
   var pending=[],finished=[];
   for(var i=1;i<rows.length;i++){
@@ -423,7 +426,8 @@ function parseData(csvL,csvOF,csvS){
     var obj={id:id,material:r[iMat]||'',capas:parseInt(r[iCap])||0,
       dimensiones:r[iDim]||'',retal:r[iRet]||'',operario:r[iOp]||'',
       t_teorico:tStr(r[iTt]),t_real:tStr(r[iTr]),
-      fecha_ini:dISO(r[iFi]),fecha_fin:dISO(r[iFf]),obs:r[iObs]||''};
+      fecha_ini:dISO(r[iFi]),fecha_fin:dISO(r[iFf]),obs:r[iObs]||'',
+      url_pdf:iUrl>=0?cl(r[iUrl]):''};
     if(esPend)pending.push(obj);else finished.push(obj);
   }
   console.log('Pendientes:',pending.length,'Finalizados:',finished.length);
@@ -806,9 +810,13 @@ function renderFin(rows){
       +'<td><span class="bdg bdg-blue">'+cl(r.t_real)+'</span></td>'
       +'<td style="color:var(--muted)">'+cl(r.t_teorico)+'</td>'
       +'<td>'+cl(r.operario)+'</td>'
+      +'<td style="text-align:center" onclick="event.stopPropagation()">'
+        +(r.url_pdf?'<a href="'+r.url_pdf+'" target="_blank" title="Abrir PDF" style="color:var(--blue);font-size:15px;text-decoration:none;line-height:1">📄</a>'
+                  :'<span style="color:var(--dim)">—</span>')
+      +'</td>'
       +'</tr>';
     html+='<tr class="of-expand-row-fin" id="'+rowId+'">'
-      +'<td colspan="8"><div class="of-inner">';
+      +'<td colspan="9"><div class="of-inner">';
     if(!hasOf){
       html+='<p class="no-of">Sin órdenes de fabricación registradas.</p>';
     } else {
@@ -824,7 +832,7 @@ function renderFin(rows){
     }
     html+='</div></td></tr>';
   });
-  tbody.innerHTML=html||'<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:2rem">Sin layouts finalizados</td></tr>';
+  tbody.innerHTML=html||'<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:2rem">Sin layouts finalizados</td></tr>';
 }
 function renderOFPend(rows){
   var _tbop=document.getElementById('tb-of-pend');if(_tbop)_tbop.innerHTML=rows.map(function(r){
@@ -948,10 +956,14 @@ function renderPend(rows){
       +'<td><span class="bdg bdg-amber">'+cl(r.t_teorico)+'</span></td>'
       +'<td>'+fEntBadge(minF)+'</td>'
       +'<td style="color:var(--muted);max-width:160px;overflow:hidden;text-overflow:ellipsis">'+cl(r.obs)+'</td>'
+      +'<td style="text-align:center" onclick="event.stopPropagation()">'
+        +(r.url_pdf?'<a href="'+r.url_pdf+'" target="_blank" title="Abrir PDF" style="color:var(--blue);font-size:15px;text-decoration:none;line-height:1">📄</a>'
+                  :'<span style="color:var(--dim)">—</span>')
+      +'</td>'
       +'</tr>';
     // OF expand row
     html+='<tr class="of-expand-row" id="of-'+r.id.replace(/[^a-z0-9]/gi,'-')+'">'
-      +'<td colspan="10"><div class="of-inner">';
+      +'<td colspan="11"><div class="of-inner">';
     if(!hasOf){
       html+='<p class="no-of">Sin órdenes de fabricación registradas.</p>';
     } else {
