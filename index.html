@@ -342,6 +342,12 @@ function parseCSV(txt){
     cells.push(cur.trim());return cells;
   });
 }
+function pathToUrl(p){
+  if(!p)return'';
+  if(p.startsWith('http')||p.startsWith('file:'))return p;
+  // Ruta local Windows → file:// URL
+  return'file:///'+p.replace(/\\/g,'/').split('/').map(function(s){return encodeURIComponent(s);}).join('/');
+}
 function dlUrl(u){return u.replace('www.dropbox.com','dl.dropboxusercontent.com').replace('?dl=0','').replace(/[?&]rlkey/,'?raw=1&rlkey');}
 function fetchCSV(url){
   var dl=dlUrl(url),px='https://corsproxy.io/?url='+encodeURIComponent(dl);
@@ -427,7 +433,7 @@ function parseData(csvL,csvOF,csvS){
       dimensiones:r[iDim]||'',retal:r[iRet]||'',operario:r[iOp]||'',
       t_teorico:tStr(r[iTt]),t_real:tStr(r[iTr]),
       fecha_ini:dISO(r[iFi]),fecha_fin:dISO(r[iFf]),obs:r[iObs]||'',
-      url_pdf:iUrl>=0?cl(r[iUrl]):''};
+      url_pdf:iUrl>=0?pathToUrl(cl(r[iUrl])):''};
     if(esPend)pending.push(obj);else finished.push(obj);
   }
   console.log('Pendientes:',pending.length,'Finalizados:',finished.length);
