@@ -165,15 +165,6 @@ tr:hover td{background:rgba(255,255,255,.025)}
 </div>
 
 <div id="dashboard" style="display:none">
-
-<div id="pdf-banner" style="display:none;background:#fff3cd;border-bottom:2px solid #f0a500;padding:10px 18px;display:none;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px">
-  <span>📄 <strong>Para abrir PDFs</strong> introduce tu carpeta local de Dropbox:</span>
-  <input id="pdf-banner-input" type="text" placeholder="C:\Users\TuUsuario\Dropbox\MCHA\01_PROTEVAL PROGRAMAS\01_PDF Layouts"
-    style="flex:1;min-width:320px;padding:5px 8px;border:1px solid #ccc;border-radius:4px;font-size:12px">
-  <button onclick="savePdfBase()" style="padding:5px 14px;background:#f0a500;border:none;border-radius:4px;cursor:pointer;font-weight:600">Guardar</button>
-  <button onclick="document.getElementById('pdf-banner').style.display='none'" style="padding:5px 10px;background:transparent;border:1px solid #ccc;border-radius:4px;cursor:pointer">✕</button>
-</div>
-
 <nav class="nav">
   <button class="nav-tab active" onclick="showSec('produccion',this)">Producción</button>
   <button class="nav-tab" onclick="showSec('stock',this)">Stock</button>
@@ -442,7 +433,6 @@ function parseData(csvL,csvOF,csvS){
   _t=findCol(hdr,'teorico');if(_t>=0)iTt=_t;
   _t=findCol(hdr,'Observaciones');if(_t>=0)iObs=_t;
   var iUrl=-1;_t=findCol(hdr,'URL_PDF');if(_t>=0)iUrl=_t;
-  _hasPdfLinks=false; // reset flag
 
   var pending=[],finished=[];
   for(var i=1;i<rows.length;i++){
@@ -456,7 +446,7 @@ function parseData(csvL,csvOF,csvS){
       dimensiones:r[iDim]||'',retal:r[iRet]||'',operario:r[iOp]||'',
       t_teorico:tStr(r[iTt]),t_real:tStr(r[iTr]),
       fecha_ini:dISO(r[iFi]),fecha_fin:dISO(r[iFf]),obs:r[iObs]||'',
-      url_pdf:(function(){if(iUrl<0)return'';var raw=cl(r[iUrl]);if(raw)_hasPdfLinks=true;return pathToUrl(raw);})()};
+      url_pdf:iUrl>=0?pathToUrl(cl(r[iUrl])):''};
     if(esPend)pending.push(obj);else finished.push(obj);
   }
   console.log('Pendientes:',pending.length,'Finalizados:',finished.length);
@@ -538,7 +528,6 @@ function parseData(csvL,csvOF,csvS){
 var filtros={anio:'',mes:'',material:'',operario:''};
 var showFull=false,pendOrder={};
 var pendData=[],finData=[],ofPendData=[],ofFinData=[],stockData=[];
-var _hasPdfLinks=false;
 
 // ── RENDER ALL ──
 function renderAll(d){
@@ -564,24 +553,6 @@ function renderAll(d){
   renderPend(pendData);renderFin(finData);
   renderOFPend(ofPendData);renderOFFin(ofFinData);
   renderStock(stockData);
-  checkPdfBanner();
-}
-function checkPdfBanner(){
-  var base=localStorage.getItem('mcha_pdf_base')||'';
-  var banner=document.getElementById('pdf-banner');
-  if(!banner)return;
-  // Mostrar solo si hay rutas PDF en el CSV pero no hay base configurada
-  if(!base&&_hasPdfLinks){banner.style.display='flex';}
-  else{banner.style.display='none';}
-}
-function savePdfBase(){
-  var v=document.getElementById('pdf-banner-input').value.trim();
-  if(!v){alert('Introduce la ruta de la carpeta de PDFs.');return;}
-  localStorage.setItem('mcha_pdf_base',v);
-  document.getElementById('cfg-pdf-base').value=v;
-  document.getElementById('pdf-banner').style.display='none';
-  // Recargar datos para que los PDFs aparezcan
-  syncNow();
 }
 
 // ── PROD CHARTS ──
