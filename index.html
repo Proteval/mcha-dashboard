@@ -442,12 +442,7 @@ function parseData(csvL,csvOF,csvS){
   // Stock
   var stock=[];
   if(csvS){var sr=parseCSV(csvS);if(sr.length>1){var sh=sr[0];
-    var iSM=0,iSD=1,iSMn=2,iSA=4;
-    var _t;
-    _t=findCol(sh,'Material');    if(_t>=0) iSM=_t;
-    _t=findCol(sh,'Dimensiones'); if(_t>=0) iSD=_t;
-    _t=findCol(sh,'actual');      if(_t>=0) iSA=_t;
-    _t=findCol(sh,'nimo');        if(_t>=0) iSMn=_t;
+    var iSM=findCol(sh,'Material'),iSD=findCol(sh,'Dimensiones'),iSMn=findCol(sh,'minimo'),iSA=findCol(sh,'actual');
     for(var i=1;i<sr.length;i++){var s=sr[i];if(!s[iSM])continue;
       var sa=parseFloat((s[iSA]||'0').replace(',','.'))||0,sm=parseFloat((s[iSMn]||'0').replace(',','.'))||0;
       stock.push({material:s[iSM],dimensiones:iSD>=0?s[iSD]||'':'',stock_min:sm,stock_actual:sa,necesita:sa<=sm});}}}
